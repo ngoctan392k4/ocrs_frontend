@@ -1,11 +1,12 @@
 import MenuList from "./MenuList";
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import '../../styles/Menu.css';
 
 export default function MenuItem({ item }) {
 
   const [displayCurrentChildren, setDisplayCurrentChildren] = useState({});
+  const navigate = useNavigate();
 
   function handleToggleChildren(currentLabel) {
     setDisplayCurrentChildren({
@@ -14,13 +15,17 @@ export default function MenuItem({ item }) {
     });
   }
 
+  function handleClick() {
+    hasChildren ? handleToggleChildren(item.label) : navigate(item.to)
+  }
+
   const hasChildren = item && item.children && item.children.length > 0;
 
   return (
     <li>
       <div
         className={`menu-item ${hasChildren ? 'has-children' : ''}`}
-        onClick={hasChildren ? () => handleToggleChildren(item.label) : <Navigate to={item.to} replace/>}
+        onClick={handleClick}
       >
         <p>{item.label}</p>
       </div>
