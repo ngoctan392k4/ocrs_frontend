@@ -1,0 +1,92 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+
+.tree-view-container {
+  width: 220px;
+  padding: 20px;
+  padding-top: 40px;
+  background-color: var(--color-gray-200);
+  min-height: 92vh;
+  margin: 0;
+}
+
+
+.menu-list-container {
+  list-style: none;
+  padding: 0;
+  margin-top: 0;
+}
+
+.menu-list-container li {
+    padding: 0;
+    margin: 0;
+}
+
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  margin-bottom: 10px;
+  background-color: var(--color-greengray-400);
+  border: 0.5px solid var(--color-blue-900);
+  border-radius: 25px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.menu-item p {
+  margin: 0;
+  font-weight: 500;
+  color: #333;
+}
+
+/*
+  CSS for menu containing sub options
+*/
+.menu-item {
+  cursor: pointer;
+}
+
+.menu-item.has-children:hover {
+  background-color: var(--color-greengray-600);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+/*
+  CSS for sub options
+*/
+.menu-item:not(.has-children):hover p {
+  color: var(--color-red);
+}
+
+li .menu-item:not(.has-children):hover {
+  border: 1px solid;
+  border-color: var(--color-red);
+}
+
+
+
+/*
+  CSS for toggle
+*/
+.child-list-container {
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out;
+}
+
+.child-list-container .menu-list-container {
+  padding-left: 20px;
+}
+
+.child-list-container .menu-item {
+  background-color: #fafafa;
+  border: none;
+  border-radius: 10px;
+  box-shadow: none;
+  padding: 10px 15px;
+}
+
