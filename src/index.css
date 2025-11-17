@@ -1,0 +1,37 @@
+:root {
+  /* Bộ màu thiên blue */
+  --color-blue-900: #1E3957;
+  --color-blue-800: #244469;
+  --color-blue-600: #2D5582;
+  --color-blue-500: #3A6EA8;
+  --color-blue-400: #4A8CD6;
+
+  /* Bộ màu thên gray */
+  --color-gray-700: #374151;
+  --color-gray-600: #4B5563;
+  --color-gray-400: #9CA3AF;
+  --color-gray-300: #D1D5DB;
+  --color-gray-200: #E0E4EB;
+
+  /* Basic color */
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+  --color-red: #BD161D;
+  --color-green: #14662C;
+
+  /* Bộ màu thiên green */
+  --color-greengray-600: #416774;
+  --color-greengray-400: #4C7887;
+  --color-greengray-700: #849493;
+  --color-greengray-400: #96ABA4;
+  --color-greengray-200: #ABB7B3;
+
+
+  --font-sans: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+#root {
+  margin: 0 auto;
+  padding: 0;
+  background-color: #ECF1F7;
+}
