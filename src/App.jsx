@@ -1,12 +1,17 @@
 import { useState } from 'react'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomeAdmin from './components/admin/Home/Home';
+import HomeInstructor from './components/instructor/Home/Home';
+import HomeStudent from './components/student/Home/Home';
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-
+      {/* <HomeAdmin></HomeAdmin> */}
+      {/* <HomeStudent></HomeStudent> */}
+      {/* <HomeInstructor></HomeInstructor> */}
     </>
   )
 }
