@@ -44,6 +44,7 @@ function LoginForm() {
       setUser(data);
     } catch (error) {
       console.log(error);
+      setNoti("Lost connection. Try again later");
     }
   };
 
