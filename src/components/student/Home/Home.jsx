@@ -8,7 +8,7 @@ export default function Home() {
       <Menu menus={menu_student} />
 
       <div className="home-content">
-        <h1 className="home-title">Admin Homepage</h1>
+        <h1 className="home-title">Student Homepage</h1>
         <p className="home-desc">
           The system allows management of schedule, study transcripts, payment and supports course registration. <br/>
           Use the left menu to access the functions.
