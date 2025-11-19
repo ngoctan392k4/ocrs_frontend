@@ -4,6 +4,7 @@ body {
 
 
 .tree-view-container {
+  position: fixed;
   width: 220px;
   padding: 20px;
   padding-top: 40px;
