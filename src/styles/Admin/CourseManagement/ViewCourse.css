@@ -4,9 +4,10 @@
 }
 
 .view-course-content {
+  
   flex-grow: 1;
   padding: 30px;
-  margin-left: 20px;
+  margin-left: 260px;
   line-height: 1.6;
   font-family: var(--font-sans);
   color: var(--color-blue-900);
