@@ -18,7 +18,7 @@ function App() {
         path="/homepageAdmin"
         element={
           <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={"admin"}>
+            <RoleBasedAuthorization allowRole={["admin"]}>
               <HomeAdmin />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
@@ -28,7 +28,7 @@ function App() {
       <Route
         path="/courseManagement" element={
           <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={"admin"}>
+            <RoleBasedAuthorization allowRole={["admin"]}>
               <ViewCourse />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
@@ -39,7 +39,7 @@ function App() {
         path="/homepageStudent"
         element={
           <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={"student"}>
+            <RoleBasedAuthorization allowRole={["student"]}>
               <HomeStudent />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
@@ -50,7 +50,7 @@ function App() {
         path="/homepageInstructor"
         element={
           <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={"instructor"}>
+            <RoleBasedAuthorization allowRole={["instructor"]}>
               <HomeInstructor />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>

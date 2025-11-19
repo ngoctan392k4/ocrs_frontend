@@ -7,6 +7,7 @@ import "../../../styles/Admin/CourseManagement/ViewCourse.css";
 export default function ViewCourse() {
   const navigate = useNavigate();
 
+  const [creditTypes, setCreditTypes] = useState([]);
   const [searched, setSearched] = useState("");
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -21,6 +22,17 @@ export default function ViewCourse() {
       const data = await response.json();
       console.log("Fetched courses:", data);
       setCourses(data);
+
+      const firstCourse = data[0] || {};
+      const newType = [];
+      for (const key in firstCourse) {
+        if (key.toLowerCase().startsWith("credit_")) {
+          const keyLabel = key.replace("credit_", "").toUpperCase();
+          newType.push({ keyLabel, key });
+        }
+      }
+
+      setCreditTypes(newType);
     } catch (e) {
       console.log(e.message);
       setError("Lost connection to the database");
@@ -99,18 +111,6 @@ export default function ViewCourse() {
                       </span>
                     </div>
                     <div className="detail-row">
-                      <span className="course-info-label">Credits: </span>
-                      <span className="course-info-text">
-                        {course.num_of_study_unit}
-                      </span>
-                    </div>
-                    <div className="detail-row">
-                      <span className="course-info-label">Course Type: </span>
-                      <span className="course-info-text">
-                        {course.lec_or_lab}
-                      </span>
-                    </div>
-                    <div className="detail-row">
                       <span className="course-info-label">Prerequisite: </span>
                       <span className="course-info-text">
                         {course.prerequisite || "null"}
@@ -130,7 +130,24 @@ export default function ViewCourse() {
                         {course.description}
                       </span>
                     </div>
+                    <div className="detail-row">
+                      <span className="course-info-label">Credit: </span>
 
+                      <span className="course-info-text">
+                        {creditTypes
+                          .filter((credit) => course[credit.key] > 0)
+                          .map((credit) => (
+                            <div key={credit.key} className="credit-detail-row">
+                              <span className="credit-info-label">
+                                {credit.keyLabel}:{" "}
+                              </span>
+                              <span className="credit-info-text">
+                                {course[credit.key]}
+                              </span>
+                            </div>
+                          ))}
+                      </span>
+                    </div>
                     <div className="course-action">
                       <button className="edit-btn">Edit</button>
                     </div>
