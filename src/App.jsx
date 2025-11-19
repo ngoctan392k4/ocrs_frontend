@@ -3,11 +3,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomeAdmin from "./components/admin/Home/Home";
 import HomeInstructor from "./components/instructor/Home/Home";
 import HomeStudent from "./components/student/Home/Home";
+import ViewCourse from "./components/admin/CourseManagement/ViewCourse";
 import HomeLogin from "./components/auth/HomeLogin";
 import EnsureLoggedToRoutes from "./components/auth/EnsureLoggedToRoutes";
 import RoleBasedAuthorization from "./components/auth/RoleBasedAuthorization";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
+
 
 function App() {
   const [count, setCount] = useState(0);
@@ -29,6 +31,16 @@ function App() {
         }
       />
 
+      <Route
+        path="/courseManagement" element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <ViewCourse />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+ 
       <Route
         path="/homepageStudent"
         element={
