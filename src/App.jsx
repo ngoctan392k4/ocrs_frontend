@@ -7,7 +7,7 @@ import ViewCourse from "./components/admin/CourseManagement/ViewCourse";
 import HomeLogin from "./components/auth/HomeLogin";
 import EnsureLoggedToRoutes from "./components/auth/EnsureLoggedToRoutes";
 import RoleBasedAuthorization from "./components/auth/RoleBasedAuthorization";
-import AddCourse from "./components/admin/CourseManagement/AddCourse";
+
 
 function App() {
   const [count, setCount] = useState(0);
