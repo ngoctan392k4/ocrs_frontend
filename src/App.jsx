@@ -46,7 +46,7 @@ function App() {
         }
       />
 
-      <Route
+      {/* <Route
         path="/courseManagement" element={
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
@@ -54,7 +54,7 @@ function App() {
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
-      />
+      /> */}
  
       <Route
         path="/homepageStudent"
