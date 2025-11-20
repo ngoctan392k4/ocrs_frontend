@@ -1,9 +1,8 @@
-/* ========== VIEW COURSE LAYOUT ========== */
 .view-course-container {
   display: flex;
   min-height: 100vh;
   font-family: var(--font-sans);
-  background: #f4f4f4;
+  background: var(--color-white-100);
 }
 
 .view-course-content {
@@ -30,7 +29,6 @@
   margin-bottom: 20px;
 }
 
-/* ========== COURSE LIST ========== */
 .course-list {
   display: flex;
   flex-direction: column;
@@ -57,10 +55,9 @@
   font-size: 17px;
 }
 
-/* ========== COURSE DETAIL ========== */
 .course-detail {
   border: 1px solid var(--color-gray-300);
-  background: var(--color-white);
+  background: var(--color-white-000);
   border-radius: 12px;
   padding: 18px 22px;
   width: 95%;
@@ -89,14 +86,13 @@
   flex: 1;
 }
 
-/* ========== BUTTONS ========== */
 .course-delete-btn {
   width: 24px;
   height: 24px;
   border-radius: 50%;
   border: none;
   background: var(--color-gray-400);
-  color: #fff;
+  color: var(--color-white-000);
   font-size: 14px;
   cursor: pointer;
 }
@@ -114,7 +110,7 @@
   height: 56px;
   border-radius: 50%;
   background: var(--color-blue-500);
-  color: #fff;
+  color: var(--color-white-000);
   border: none;
   font-size: 32px;
   cursor: pointer;
@@ -128,7 +124,7 @@
 .edit-btn {
   border: none;
   background: var(--color-blue-500);
-  color: #fff;
+  color: var(--color-white-000);
   padding: 6px 12px;
   border-radius: 6px;
   cursor: pointer;
@@ -142,7 +138,6 @@
   transform: translateY(-2px);
 }
 
-/* ========== DELETE DIALOG (COPY TỪ DELETECLASS.CSS) ========== */
 .dialog-backdrop {
   position: fixed;
   inset: 0;
@@ -156,7 +151,7 @@
 
 .dialog-box {
   width: 380px;
-  background: #ffffff;
+  background: var(--color-white-000);
   padding: 35px 25px;
   border-radius: 18px;
   text-align: center;
@@ -168,7 +163,7 @@
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 35px;
-  color: #333;
+  color: var(--color-gray-700);
 }
 
 .dialog-actions {
@@ -185,18 +180,18 @@
   border-radius: 14px;
   border: none;
   cursor: pointer;
-  background: #e6e6e6;
+  background: var(--color-white-300);
   transition: 0.2s;
 }
 
 .dialog-btn:hover {
-  background: #d2d2d2;
+  background: var(--color-white-400);
 }
 
 .dialog-btn.no:hover {
-  background: #d8d8d8;
+  background: var(--color-white-200);
 }
 
 .dialog-btn.yes:hover {
-  background: #cfcfcf;
+  background: var(--color-gray-300);
 }
