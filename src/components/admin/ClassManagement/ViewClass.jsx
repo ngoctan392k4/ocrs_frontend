@@ -139,10 +139,10 @@ export default function ViewClass() {
 
                   <div className="detail-row">
                     <span className="class-info-label">
-                      Available Course ID:{" "}
+                      Course ID:{" "}
                     </span>
                     <span className="class-info-text">
-                      {cls.availablecourseid}
+                      {cls.courseid}
                     </span>
                   </div>
 
