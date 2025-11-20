@@ -1,0 +1,171 @@
+.addAccount-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.addAccount-content {
+  flex-grow: 1;
+  padding: 30px;
+  margin-left: 260px;
+  line-height: 1.6;
+  font-family: var(--font-sans);
+  color: var(--color-blue-900);
+}
+
+.course-detail {
+    border: 1px solid var(--color-gray-300);
+    background: var(--color-white);
+    border-radius: 12px;
+    padding: 18px 22px;
+    width: 95%;
+    margin-left: 15px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+.addAccount-title {
+  font-size: 24px;
+  margin-bottom: 40px;
+  font-weight: 600;
+  color: var(--color-blue-900);
+}
+
+/* --- Form Fields */
+.attributes {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: 1px solid var(--color-gray-300);
+    background: var(--color-white);
+    border-radius: 12px;
+    padding: 18px 22px;
+    width: 95%;
+}
+
+
+.attribute {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Label on the left */
+.attribute span,
+.attribute .label {
+  width: 180px;
+  font-size: 16px;
+  color: var(--color-black);
+}
+
+/* Input on the right */
+.attribute input,
+.attribute select {
+  flex: 1;
+  height: 40px;
+  padding: 0 15px;
+  border: 1px solid var(--color-blue-800);
+  border-radius: 20px;
+  font-size: 15px;
+  outline: none;
+  background-color: var(--color-white-000);
+}
+
+.attribute input:focus,
+.attribute select:focus {
+  border-color: var(--color-black);
+}
+
+/* Notification for input errors */
+.notification {
+  margin-left: 180px;
+  margin-top: -15px;
+  margin-bottom: 15px;
+  color: var(--color-red);
+  font-size: 15px;
+}
+
+/* Button cancel and Add --- */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+}
+
+.button-container button {
+  min-width: 120px;
+  height: 45px;
+  background-color: var(--color-blue-500);
+  border: 1px solid #333;
+  border-radius: 25px;
+  font-size: 16px;
+  color: var(--color-black);
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-right: 10px;
+}
+
+.button-container button:hover {
+  transform: scale(1.1);
+  transition: 0.3s;
+}
+
+/* Popup notification --- */
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3); /* Blur background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: var(--color-white-000);
+  width: 400px;
+  padding: 30px 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.popup-content p {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--color-gray-600);
+  margin: 0;
+}
+
+/* Button in popup */
+.popup-content button {
+  padding: 10px 30px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--color-blue-600);
+  color: var(--color-black);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.popup-content button:hover {
+  background-color: var(--color-white-200);
+}
+
+
+.popup-content > div {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
