@@ -52,6 +52,14 @@ export default function ViewAccount() {
     );
   };
 
+  const handleEdit = (accountid) => {
+    navigate(`/accountManagement/edit/${accountid}`);
+  };
+
+  const handleDelete = (accountid) => {
+    navigate(`/accountManagement/delete/${accountid}`);
+  };
+
   return (
     <div className="view-account-container">
       <Menu menus={menu_admin} />
@@ -90,7 +98,7 @@ export default function ViewAccount() {
                 onClick={() => toggleAccount(account.accountid)}
               >
                 <div className="account-header">
-                  <div className="account-sequential">{account.username}</div>
+                  <div className="account-sequential">{account.accountid}</div>
                 </div>
                 {selectedAccounts.includes(account.accountid) && (
                   <div className="account-detail">
@@ -101,9 +109,9 @@ export default function ViewAccount() {
                       </span>
                     </div>
                     <div className="detail-row">
-                      <span className="account-info-label">Username: </span>
+                      <span className="account-info-label">Name: </span>
                       <span className="account-info-text">
-                        {account.username}
+                        {account.full_name}
                       </span>
                     </div>
                     <div className="detail-row">
@@ -122,11 +130,29 @@ export default function ViewAccount() {
                       <span className="account-info-label">Role: </span>
                       <span className="account-info-text">{account.role}</span>
                     </div>
+                    <div className="detail-row">
+                      <span className="account-info-label">Username: </span>
+                      <span className="account-info-text">
+                        {account.username}
+                      </span>
+                    </div>
                     <div className="account-action">
-                      <button className="edit-btn account-edit-btn">
+                      <button
+                        className="edit-btn account-edit-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEdit(account.accountid);
+                        }}
+                      >
                         Edit
                       </button>
-                      <button className="delete-btn account-delete-btn">
+                      <button
+                        className="delete-btn account-delete-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(account.accountid);
+                        }}
+                      >
                         Delete
                       </button>
                     </div>
