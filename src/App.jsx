@@ -7,6 +7,7 @@ import ViewCourse from "./components/admin/CourseManagement/ViewCourse";
 import HomeLogin from "./components/auth/HomeLogin";
 import EnsureLoggedToRoutes from "./components/auth/EnsureLoggedToRoutes";
 import RoleBasedAuthorization from "./components/auth/RoleBasedAuthorization";
+import AddCourse from "./components/admin/CourseManagement/AddCourse";
 
 
 function App() {
@@ -31,6 +32,16 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
               <ViewCourse />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+       <Route
+        path="/courseManagement/addCourse" element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <AddCourse />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }

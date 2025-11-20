@@ -1,0 +1,283 @@
+.add-course-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.add-course-content {
+  flex-grow: 1;
+  padding: 30px;
+  margin-left: 260px;
+  line-height: 1.6;
+  font-family: var(--font-sans);
+  color: var(--color-blue-900);
+}
+
+.add-course-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* form */
+.add-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.attribute {
+  margin-bottom: 20px; 
+}
+
+.attribute span {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--color-gray-600);
+}
+
+.attribute input {
+  width: 100%;
+  padding: 8px 12px;
+  margin-top: 8px;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.attribute input:focus {
+  outline: none;
+  border-color: var(--color-blue-500);
+}
+
+.readOnly {
+  background-color: var(--color-gray-300);
+}
+/* extra course for para + pre */
+.pre-container, .para-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pre, .para {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-gray-200); 
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.pre button, .para button {
+  margin-left: 8px;
+  background: none;
+  border: none;
+  color: var(--color-red);
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.add-pre, .add-para {
+  background-color: var(--color-blue-500);
+  color: var(--color-white);
+  border: none;
+  padding: 5px 12px;
+  margin-left: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.add-pre:hover, .add-para:hover {
+  background-color: var(--color-blue-400);
+}
+
+.attribute select {
+  width: 100%;
+  padding: 8px 12px;
+  margin-top: 8px;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: var(--color-white);
+  color: var(--color-gray-700);
+  transition: border-color 0.3s ease;
+  
+}
+
+.attribute select:focus {
+  outline: none;
+  border-color: var(--color-blue-500);
+}
+
+.attribute select option {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: var(--color-gray-700);
+  background-color: var(--color-white);
+  border: none;
+  
+}
+
+.attribute select option:hover {
+  background-color: var(--color-gray-100);
+}
+
+.attribute select:focus {
+  border-color: var(--color-blue-500);
+}
+
+/* Select input for credit types */
+.attribute-credit select {
+  width: 100%;
+  max-width: 200px;
+  padding: 8px 12px; 
+  border: 1px solid var(--color-gray-300);
+  border-radius: 4px;
+  font-size: 14px; 
+  margin-bottom: 12px; 
+  background-color: var(--color-white);
+  color: var(--color-gray-700);
+  transition: border-color 0.3s ease;
+}
+
+
+.attribute-credit select:focus {
+  outline: none;
+  border-color: var(--color-blue-500); 
+}
+
+
+.credit-list {
+  display: grid;
+  grid-template-columns: 160px 70px 30px; 
+  row-gap: 12px;
+  align-items: center;
+}
+
+.credit-item {
+  display: contents;
+}
+
+.credit-item span {
+  font-weight: 600;
+  color: var(--color-gray-700);
+}
+
+.credit-item input {
+  width: 60px;
+  padding: 6px;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 4px;
+}
+
+.remove-credit {
+  background: none;
+  border: none;
+  color: var(--color-red);
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.remove-credit:disabled {
+  background: none;
+  border: none;
+  color: var(--color-gray-300);
+  cursor: not-allowed;
+  font-size: 18px;
+}
+
+.cancel-button, .save-button {
+  background-color: var(--color-gray-200);
+  border: 1px solid var(--color-gray-300);
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.cancel-button:hover, .save-button:hover {
+  background-color: var(--color-gray-300);
+}
+
+
+.save-button {
+  background-color: var(--color-blue-500);
+  color: var(--color-white);
+}
+
+.save-button:hover {
+  background-color: var(--color-blue-400);
+}
+
+.form-action {
+  display: flex;
+  justify-content: space-between; 
+  margin-top: 20px;
+}
+
+/* cancel */
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25); /* darker dim for clarity */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  backdrop-filter: blur(4px); /* blur the content behind */
+}
+
+/* Dialog box styling */
+.dialog-box {
+  width: 380px;
+  background: #ffffff;
+  padding: 35px 25px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  font-family: var(--font-sans);
+}
+
+/* Message inside dialog */
+.dialog-message {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 35px;
+  color: #333;
+}
+
+/* Buttons container */
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Buttons styling */
+.dialog-btn {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  background: #e6e6e6;
+  transition: 0.2s;
+}
+
+.dialog-btn:hover {
+  background: #d2d2d2;
+}
+
+.dialog-btn.no:hover {
+  background: #d8d8d8;
+}
+
+.dialog-btn.yes:hover {
+  background: #cfcfcf;
+}
+
+
