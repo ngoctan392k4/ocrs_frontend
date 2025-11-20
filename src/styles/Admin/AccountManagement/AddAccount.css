@@ -113,6 +113,17 @@
   transition: 0.3s;
 }
 
+/* Not allowed to save if form is invalid */
+.button-container button.valid{
+  opacity: 1;
+  cursor: pointer;
+}
+
+.button-container button.invalid{
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 /* Popup notification --- */
 .popup-container {
   position: fixed;

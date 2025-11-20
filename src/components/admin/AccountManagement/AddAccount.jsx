@@ -22,6 +22,9 @@ function AddAccount() {
   const [popupNoti, setPopupNoti] = useState("");
   const [showPopup, setShowPopup] = useState(false);
 
+  const [popupNotiError, setPopupNotiError] = useState("");
+  const [showPopupError, setShowPopupError] = useState(false);
+
   const [popupNotiCancel, setPopupNotiCancel] = useState("");
   const [showPopupCancel, setShowPopupCancel] = useState(false);
 
@@ -86,14 +89,19 @@ function AddAccount() {
       const data = await response.json();
 
       if (!response.ok) {
-        setPopupNoti("An error occurred, please try again");
-        setShowPopup(true);
+        if (data.message === "Email exists") {
+          setPopupNotiError("Email or username is already existed");
+          setShowPopupError(true);
+        } else {
+          setPopupNotiError("An error occurred, please try again");
+          setShowPopupError(true);
+        }
       } else {
         setPopupNoti("Successfully add new account");
         setShowPopup(true);
       }
     } catch (error) {
-      setPopupNoti("An error occurred, please try again.");
+      setPopupNoti("An error occurred, please try again later");
       setShowPopup(true);
     }
   };
@@ -101,6 +109,10 @@ function AddAccount() {
   const handleClose = async () => {
     setShowPopup(false);
     navigate("/accountManagement");
+  };
+
+  const handleCloseError = async () => {
+    setShowPopupError(false);
   };
 
   const handleCancel = async () => {
@@ -118,6 +130,18 @@ function AddAccount() {
   const handleNoCancel = async () => {
     setShowPopupCancel(false);
   };
+
+  const isEmailValid = validateEmail(mail);
+  const isPhoneValid = validatePhone(phone);
+  const isCommonFilled =
+    name !== "" && dob !== "" && mail !== "" && phone !== "";
+
+  let isRoleValid = true;
+  if (selectedRole === "Student" && major === "") isRoleValid = false;
+  if (selectedRole === "Instructor" && department === "") isRoleValid = false;
+
+  const isFormValid =
+    isCommonFilled && isEmailValid && isPhoneValid && isRoleValid;
 
   return (
     <div className="addAccount-container">
@@ -228,7 +252,13 @@ function AddAccount() {
         {/* Button cancel and add */}
         <div className="button-container">
           <button onClick={handleCancel}>Cancel</button>
-          <button onClick={handleAdd}>Add</button>
+          <button
+            onClick={handleAdd}
+            disabled={!isFormValid}
+            className={isFormValid ? "valid" : "invalid"}
+          >
+            Add
+          </button>
         </div>
 
         {/* Popup after clicking add button */}
@@ -237,6 +267,16 @@ function AddAccount() {
             <div className="popup-content">
               <p>{popupNoti}</p>
               <button onClick={handleClose}>Close</button>
+            </div>
+          </div>
+        )}
+
+        {/* If error */}
+        {showPopupError && (
+          <div className="popup-container">
+            <div className="popup-content">
+              <p>{popupNotiError}</p>
+              <button onClick={handleCloseError}>Close</button>
             </div>
           </div>
         )}
@@ -253,7 +293,6 @@ function AddAccount() {
             </div>
           </div>
         )}
-        
       </div>
     </div>
   );
