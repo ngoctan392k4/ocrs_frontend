@@ -7,6 +7,8 @@ import ViewCourse from "./components/admin/CourseManagement/ViewCourse";
 import HomeLogin from "./components/auth/HomeLogin";
 import EnsureLoggedToRoutes from "./components/auth/EnsureLoggedToRoutes";
 import RoleBasedAuthorization from "./components/auth/RoleBasedAuthorization";
+import ForgotPassword from "./components/auth/ForgotPassword";
+import ResetPassword from "./components/auth/ResetPassword";
 
 
 function App() {
@@ -15,6 +17,9 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomeLogin />} />
+      <Route path="/forgotPassword" element={<ForgotPassword />} />
+      <Route path="/resetPassword" element={<ResetPassword />} />
+      
       <Route
         path="/homepageAdmin"
         element={

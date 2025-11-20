@@ -63,6 +63,22 @@
   background-color: #ddd;
 }
 
+/* On Off password */
+.pwd-container {
+  position: relative;
+}
+
+.toggle-icon {
+  position: absolute;
+  right: 15px;
+  top: 40%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* login button */
 .loginCard button {
   width: 100%;
@@ -83,4 +99,13 @@
 
 .notification {
   color: var(--color-red)
+}
+
+
+.forgot {
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: var(--color-blue-500);
+  padding-left: 6.5rem;
 }

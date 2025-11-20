@@ -3,12 +3,16 @@ import logoLogin from "../../assets/logo/logoLogin.gif";
 import "../../styles/auth/LoginForm.css";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "./AuthSession";
+import { Link } from "react-router-dom";
+
+import closed_eye from "../../assets/icon/closed_eye.svg";
+import opened_eye from "../../assets/icon/opened_eye.svg";
 
 function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState(false);
   const [noti, setNoti] = useState(null);
-
+  const [openEye, setOpenEye] = useState(false);
   const { loggedIn, setLoggedIn, user, setUser } = useContext(AuthContext);
 
   const handleLogin = async (username, password) => {
@@ -64,13 +68,25 @@ function LoginForm() {
           onChange={(e) => setUsername(e.target.value)}
         />
         <p>Password</p>
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="pwd-container">
+          <input
+            type={openEye ? "text" : "password"}
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <span className="toggle-icon" onClick={() => setOpenEye(!openEye)}>
+            {openEye ? (
+              <img src={opened_eye} alt="Show" width="20" />
+            ) : (
+              <img src={closed_eye} alt="Hide" width="20" />
+            )}
+          </span>
+        </div>
         {noti && <p className="notification">{noti}</p>}
         <button onClick={() => handleLogin(username, password)}>Log in</button>
+        <Link to={"/forgotPassword"} className="forgot">
+          Forgot Password?
+        </Link>
       </div>
     </div>
   );
