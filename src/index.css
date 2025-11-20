@@ -14,7 +14,13 @@
   --color-gray-200: #E0E4EB;
 
   /* Basic color */
-  --color-white: #FFFFFF;
+  --color-white-000: #FFFFFF;
+  --color-white-100: #f8f8f8;
+  --color-white-200: #d9d9d9;
+  --color-white-300: #e5e5e5;
+  --color-white-400: #ddd;
+
+
   --color-black: #000000;
   --color-red: #BD161D;
   --color-green: #14662C;
