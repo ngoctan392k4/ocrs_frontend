@@ -4,6 +4,7 @@ import HomeAdmin from "./components/admin/Home/Home";
 import HomeInstructor from "./components/instructor/Home/Home";
 import HomeStudent from "./components/student/Home/Home";
 import ViewCourse from "./components/admin/CourseManagement/ViewCourse";
+import ViewAccount from "./components/admin/AccountManagement/ViewAccount";
 import HomeLogin from "./components/auth/HomeLogin";
 import EnsureLoggedToRoutes from "./components/auth/EnsureLoggedToRoutes";
 import RoleBasedAuthorization from "./components/auth/RoleBasedAuthorization";
@@ -11,6 +12,7 @@ import AddCourse from "./components/admin/CourseManagement/AddCourse";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
 
+import AddAccount from "./components/admin/AccountManagement/AddAccount";
 
 
 function App() {
@@ -18,16 +20,30 @@ function App() {
 
   return (
     <Routes>
+
+      {/* Common Routes */}
       <Route path="/" element={<HomeLogin />} />
       <Route path="/forgotPassword" element={<ForgotPassword />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
-      
+
+      {/* Admin Routes */}
       <Route
         path="/homepageAdmin"
         element={
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
               <HomeAdmin />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="/accountManagement/addAccount"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <AddAccount />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
@@ -48,11 +64,24 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
               <AddCourse />
+             </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+
+      <Route
+        path="/accountManagement"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <ViewAccount />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
       />
- 
+
+      {/* Student Routes */}
       <Route
         path="/homepageStudent"
         element={
@@ -64,6 +93,7 @@ function App() {
         }
       />
 
+      {/* Instructor Routes */}
       <Route
         path="/homepageInstructor"
         element={
