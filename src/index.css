@@ -1,43 +1,43 @@
 :root {
   /* Bộ màu thiên blue */
-  --color-blue-900: #1E3957;
+  --color-blue-900: #1e3957;
   --color-blue-800: #244469;
-  --color-blue-600: #2D5582;
-  --color-blue-500: #3A6EA8;
-  --color-blue-400: #4A8CD6;
+  --color-blue-600: #2d5582;
+  --color-blue-500: #3a6ea8;
+  --color-blue-400: #4a8cd6;
 
   /* Bộ màu thên gray */
   --color-gray-700: #374151;
-  --color-gray-600: #4B5563;
-  --color-gray-400: #9CA3AF;
-  --color-gray-300: #D1D5DB;
-  --color-gray-200: #E0E4EB;
+  --color-gray-600: #4b5563;
+  --color-gray-400: #9ca3af;
+  --color-gray-300: #d1d5db;
+  --color-gray-200: #e0e4eb;
 
   /* Basic color */
-  --color-white-000: #FFFFFF;
+  --color-white-000: #ffffff;
   --color-white-100: #f8f8f8;
   --color-white-200: #d9d9d9;
   --color-white-300: #e5e5e5;
   --color-white-400: #ddd;
 
-
   --color-black: #000000;
-  --color-red: #BD161D;
-  --color-green: #14662C;
+  --color-red: #bd161d;
+  --color-green: #14662c;
 
   /* Bộ màu thiên green */
   --color-greengray-600: #416774;
-  --color-greengray-400: #4C7887;
+  --color-greengray-400: #4c7887;
   --color-greengray-700: #849493;
-  --color-greengray-400: #96ABA4;
-  --color-greengray-200: #ABB7B3;
+  --color-greengray-400: #96aba4;
+  --color-greengray-200: #abb7b3;
 
+  --color-red-500: #ef4444;
 
-  --font-sans: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-sans: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 #root {
   margin: 0 auto;
   padding: 0;
-  background-color: #ECF1F7;
+  background-color: #ecf1f7;
 }

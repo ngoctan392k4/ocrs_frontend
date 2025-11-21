@@ -4,6 +4,7 @@ import HomeAdmin from "./components/admin/Home/Home";
 import HomeInstructor from "./components/instructor/Home/Home";
 import HomeStudent from "./components/student/Home/Home";
 import ViewCourse from "./components/admin/CourseManagement/ViewCourse";
+import ViewAccount from "./components/admin/AccountManagement/ViewAccount";
 import HomeLogin from "./components/auth/HomeLogin";
 import EnsureLoggedToRoutes from "./components/auth/EnsureLoggedToRoutes";
 import RoleBasedAuthorization from "./components/auth/RoleBasedAuthorization";
@@ -61,6 +62,17 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
               <AddCourse />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="/accountManagement"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <ViewAccount />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
