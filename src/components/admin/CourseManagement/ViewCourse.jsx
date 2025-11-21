@@ -162,7 +162,7 @@ export default function ViewCourse() {
                     <div className="detail-row">
                       <span className="course-info-label">Description: </span>
                       <span className="course-info-text">
-                        {course.description}
+                        {course.description || "null"}
                       </span>
                     </div>
                     <div className="detail-row">
