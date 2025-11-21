@@ -107,7 +107,7 @@
 
 .account-delete-btn {
   border: none;
-  background: #ef4444;
+  background: var(--color-red-500);
   color: var(--color-white);
   padding: 6px 12px;
   border-radius: 6px;
