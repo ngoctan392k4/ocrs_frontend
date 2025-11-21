@@ -4,6 +4,7 @@ import menu_admin from "../../../assets/dataMenu/MenuAdminData";
 import { useNavigate } from "react-router-dom";
 import "../../../styles/Admin/AccountManagement/ViewAccount.css";
 import { useEffect, useState } from "react";
+import DeleteAccount from "./DeleteAccount";
 
 export default function ViewAccount() {
   const navigate = useNavigate();
@@ -14,6 +15,12 @@ export default function ViewAccount() {
   const [loading, setLoading] = useState(true);
   const [selectedAccounts, setSelectedAccounts] = useState([]);
   const [searchMode, setSearchMode] = useState("accountid");
+
+  // State for deleting account
+  const [showDialog, setShowDialog] = useState(false);
+  // const [errorDialog, setErrorDialog] = useState(false);
+  const [contentDialog, setContentDialog] = useState("");
+  const [deleteAccountId, setDeleteAccountId] = useState(null);
 
   async function fetchAccounts() {
     try {
@@ -56,8 +63,44 @@ export default function ViewAccount() {
     navigate(`/accountManagement/edit/${accountid}`);
   };
 
-  const handleDelete = (accountid) => {
-    navigate(`/accountManagement/delete/${accountid}`);
+  // Process deleting account via accountID
+  const handleDeleteClick = (accountid) => {
+    setDeleteAccountId(accountid);
+    setContentDialog(`Ensure your deleting on ${accountid} will delete all related users`)
+    setShowDialog(true);
+  };
+
+  // Perform when click Yes for deleting
+  const handleYesDelete = async () => {
+    if (!deleteAccountId) return;
+    try {
+      const response = await fetch(`http://localhost:3001/api/admin/accountManagement/${deleteAccountId}`,{
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      const data = await response.json();
+
+      if(!response.ok){
+        setContentDialog("An error occurred. Please try again later.");
+        // setErrorDialog(true);
+      } else {
+        setAccounts(prev => prev.filter(c => c.accountid !== deleteAccountId));
+        setSelectedAccounts(prev => prev.filter(id => id !== deleteAccountId));
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setShowDialog(false);
+      setDeleteAccountId(null);
+      // setErrorDialog(false);
+    }
+  };
+
+  // Perform when click Yes for deleting
+  const handleNoDelete = () => {
+    setShowDialog(false);
+    setDeleteAccountId(null);
   };
 
   return (
@@ -98,7 +141,9 @@ export default function ViewAccount() {
                 onClick={() => toggleAccount(account.accountid)}
               >
                 <div className="account-header">
-                  <div className="account-sequential">{account.full_name} - Role: {account.role}</div>
+                  <div className="account-sequential">
+                    {account.full_name} - Role: {account.role}
+                  </div>
                 </div>
                 {selectedAccounts.includes(account.accountid) && (
                   <div className="account-detail">
@@ -150,7 +195,7 @@ export default function ViewAccount() {
                         className="delete-btn account-delete-btn"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleDelete(account.accountid);
+                          handleDeleteClick(account.accountid);
                         }}
                       >
                         Delete
@@ -169,6 +214,15 @@ export default function ViewAccount() {
           +
         </button>
       </div>
+
+      {showDialog && (
+        <DeleteAccount
+          accountId={deleteAccountId}
+          onYes={handleYesDelete}
+          onNo={handleNoDelete}
+          content={contentDialog}
+        />
+      )}
     </div>
   );
 }
