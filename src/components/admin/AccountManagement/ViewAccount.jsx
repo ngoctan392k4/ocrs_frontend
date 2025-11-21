@@ -98,7 +98,7 @@ export default function ViewAccount() {
                 onClick={() => toggleAccount(account.accountid)}
               >
                 <div className="account-header">
-                  <div className="account-sequential">{account.name} - Role: {account.role}</div>
+                  <div className="account-sequential">{account.full_name} - Role: {account.role}</div>
                 </div>
                 {selectedAccounts.includes(account.accountid) && (
                   <div className="account-detail">
