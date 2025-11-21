@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Menu from "../../menu/Menu";
 import menu_admin from "../../../assets/dataMenu/MenuAdminData";
 import { useNavigate } from "react-router-dom";
+import DeleteCourse from "./DeleteCourse";
 import "../../../styles/Admin/CourseManagement/ViewCourse.css";
 
 export default function ViewCourse() {
@@ -13,6 +14,8 @@ export default function ViewCourse() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showDialog, setShowDialog] = useState(false);
+  const [deleteCourseId, setDeleteCourseId] = useState(null);
 
   async function fetchCourses() {
     try {
@@ -55,6 +58,32 @@ export default function ViewCourse() {
         : [...otherCourses, id]
     );
   };
+  const handleDeleteClick = (id) => {
+    setDeleteCourseId(id);
+    setShowDialog(true);
+  };
+  const handleConfirmDelete = async () => {
+    if (!deleteCourseId) return;
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/admin/CourseManagement/${deleteCourseId}`,
+        { method: "DELETE" }
+      );
+      if (response.ok) {
+        setCourses(prev => prev.filter(c => c.courseid !== deleteCourseId));
+        setSelectedCourses(prev => prev.filter(id => id !== deleteCourseId));
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setShowDialog(false);
+      setDeleteCourseId(null);
+    }
+  };
+  const handleCancelDelete = () => {
+    setShowDialog(false);
+    setDeleteCourseId(null);
+  };
 
   return (
     <div className="view-course-container">
@@ -86,7 +115,13 @@ export default function ViewCourse() {
                 <div className="course-header">
                   <div className="course-name">{course.coursename}</div>
 
-                  <button className="delete-btn course-delete-btn">x</button>
+                  <button
+                    className="delete-btn course-delete-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteClick(course.courseid);
+                    }}
+                  >x</button>
                 </div>
                 {selectedCourses.includes(course.courseid) && (
                   <div className="course-detail">
@@ -164,6 +199,13 @@ export default function ViewCourse() {
           +
         </button>
       </div>
+      {showDialog && (
+        <DeleteCourse
+          courseId={deleteCourseId}
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+        />
+      )}
     </div>
   );
 }
