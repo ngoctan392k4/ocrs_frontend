@@ -62,7 +62,7 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
               <AddCourse />
-            </RoleBasedAuthorization>
+             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
       />
