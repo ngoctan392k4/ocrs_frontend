@@ -10,7 +10,6 @@ import RoleBasedAuthorization from "./components/auth/RoleBasedAuthorization";
 import AddCourse from "./components/admin/CourseManagement/AddCourse";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
-
 import AddAccount from "./components/admin/AccountManagement/AddAccount";
 
 
