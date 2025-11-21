@@ -209,77 +209,55 @@ export default function AddCourse() {
       <div className="add-course-content">
         <h1 className="add-course-title">Add Course</h1>
         <form className="add-form">
-          <div className="attribute">
-            <span>Course Name:{"(*)"} </span>
-            <input
-              type="text"
-              value={courseName}
-              onChange={(e) => setCourseName(e.target.value)}
-            />
+          {/* Course name + code + id */}
 
-            <span>Course ID:{"(*)"} </span>
-            <input
-              type="text"
-              value={courseID}
-              onChange={autoAssignCourseCode}
-            />
-            <div>
-              {errorDialog && (
-                <div className="dialog-backdrop">
-                  <div className="dialog-box">
-                    <div className="dialog-message">{error}</div>
-                    <div className="dialog-actions">
-                      <button
-                        className="dialog-btn yes"
-                        onClick={() => setErrorDialog(false)}
-                      >
-                        OK
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-              {successDialog && (
-                <div className="dialog-backdrop">
-                  <div className="dialog-box success">
-                    <div className="dialog-message">{successMessage}</div>
-                    <div className="dialog-actions">
-                      <button
-                        className="dialog-btn yes"
-                        onClick={() => setSuccessDialog(false)}
-                      >
-                        OK
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
+          <div className="row-3col">
+            <div className="field-group">
+              <span>Course Name: (*)</span>
+              <input
+                type="text"
+                value={courseName}
+                onChange={(e) => setCourseName(e.target.value)}
+              />
             </div>
-            <span>Course Code: </span>
-            <input
-              className="readOnly"
-              type="text"
-              value={courseCode}
-              disabled
-            />
+
+            <div className="field-group">
+              <span>Course ID: (*)</span>
+              <input
+                type="text"
+                value={courseID}
+                onChange={autoAssignCourseCode}
+              />
+            </div>
+
+            <div className="field-group">
+              <span>Course Code:</span>
+              <input
+                type="text"
+                className="readOnly"
+                value={courseCode}
+                disabled
+              />
+            </div>
           </div>
 
-          <div className="attribute">
-            <span>Prerequisite(s): </span>
+          <div className="row-2col">
+            {/* PREREQUISITE */}
 
-            <div>
+            <div className="field-group">
+              <span>Prerequisite(s):</span>
               <input
                 type="text"
                 value={preInput}
                 onChange={(e) => setPreInput(e.target.value)}
                 placeholder="Prerequisite(s)"
               />
-
               {preInput && (
-                <div>
+                <div className="dropdown">
                   {searchCourse(preInput).map((course) => (
                     <div
                       key={course.courseid}
+                      className="dropdown-item"
                       onClick={() => {
                         if (!pre.includes(course.courseid)) {
                           setPre([...pre, course.courseid]);
@@ -292,34 +270,32 @@ export default function AddCourse() {
                   ))}
                 </div>
               )}
+              <div className="pre-container">
+                {pre.map((course) => (
+                  <span className="pre" key={course}>
+                    {course}
+                    <button onClick={(e) => delPre(e, course)}>x</button>
+                  </span>
+                ))}
+              </div>
             </div>
 
-            <div className="pre-container">
-              {pre.map((course) => (
-                <span className="pre" key={course}>
-                  {course}
-                  <button onClick={(e) => delPre(e, course)}>x</button>
-                </span>
-              ))}
-            </div>
-          </div>
+            {/* PARALLEL */}
 
-          <div className="attribute">
-            <span>Parallel Course(s): </span>
-
-            <div>
+            <div className="field-group">
+              <span>Parallel Course(s):</span>
               <input
                 type="text"
                 value={paraInput}
                 onChange={(e) => setParaInput(e.target.value)}
                 placeholder="Parallel Course(s)"
               />
-
               {paraInput && (
-                <div>
+                <div className="dropdown">
                   {searchCourse(paraInput).map((course) => (
                     <div
                       key={course.courseid}
+                      className="dropdown-item"
                       onClick={() => {
                         if (!para.includes(course.courseid)) {
                           setPara([...para, course.courseid]);
@@ -332,81 +308,86 @@ export default function AddCourse() {
                   ))}
                 </div>
               )}
-            </div>
-
-            <div className="para-container">
-              {para.map((course) => (
-                <span className="para" key={course}>
-                  {course}
-                  <button onClick={(e) => delPara(e, course)}>x</button>
-                </span>
-              ))}
+              <div className="para-container">
+                {para.map((course) => (
+                  <span className="para" key={course}>
+                    {course}
+                    <button onClick={(e) => delPara(e, course)}>x</button>
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
+          <div className="row-1col">
+            <div className="field-group">
+              {/* Description */}
 
-          <div className="attribute">
-            <span>Description: </span>
-            <input
-              type="text"
-              value={des}
-              onChange={(e) => setDes(e.target.value)}
-            ></input>
+              <span>Description: </span>
+              <input
+                type="text"
+                value={des}
+                onChange={(e) => setDes(e.target.value)}
+              ></input>
+            </div>
           </div>
-          <div className="attribute">
-            <span>Type of study unit: </span>
-            <input
-              className="readOnly"
-              type="text"
-              value={" Tín chỉ"}
-              disabled
-            ></input>
-          </div>
+          <div className="row-2col credit-type-row">
+            {/* Credit Section */}
 
-          <div className="attribute-credit">
-            <div className="attribute">
-              <span>
-                {" "}
-                Credit{"(s)"}:{"(*)"}{" "}
-              </span>
-              <select
-                onChange={(e) => {
-                  const type = e.target.value;
-                  if (type !== "") addCreditType(type);
-                  e.target.value = "";
-                }}
-              >
-                <option> Select Credit Type </option>
-                {creditTypes
-                  .filter((type) => !selectedCredit.includes(type))
-                  .map((type) => (
-                    <option value={type} key={type}>
-                      {type}
-                    </option>
-                  ))}
-              </select>
+            <div className="attribute-credit credit-column ">
+              <div className="field-group">
+                <span>Credit(s): (*)</span>
+                <select
+                  onChange={(e) => {
+                    const type = e.target.value;
+                    if (type !== "") addCreditType(type);
+                    e.target.value = "";
+                  }}
+                >
+                  <option>Select Credit Type</option>
+                  {creditTypes
+                    .filter((type) => !selectedCredit.includes(type))
+                    .map((type) => (
+                      <option value={type} key={type}>
+                        {type}
+                      </option>
+                    ))}
+                </select>
+              </div>
+
+              <div className="credit-list">
+                {selectedCredit.map((type) => (
+                  <div className="credit-item" key={type}>
+                    <span className="credit-label">{type}: </span>
+                    <input
+                      type="number"
+                      min={0}
+                      max={6}
+                      value={credits[type]}
+                      onChange={(e) => handleCredits(type, e.target.value)}
+                    />
+                    <button
+                      type="button"
+                      className="remove-credit"
+                      disabled={credits[type] !== 0}
+                      onClick={() => delCreditType(type)}
+                    >
+                      x
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="credit-list">
-              {selectedCredit.map((type) => (
-                <div className="credit-item" key={type}>
-                  <span>{type}: </span>
-                  <input
-                    type="number"
-                    min={0}
-                    max={6}
-                    value={credits[type]}
-                    onChange={(e) => handleCredits(type, e.target.value)}
-                  />
-                  <button
-                    type="button"
-                    className="remove-credit"
-                    disabled={credits[type] !== 0}
-                    onClick={() => delCreditType(type)}
-                  >
-                    x
-                  </button>
-                </div>
-              ))}
+            {/* Type of Study Unit */}
+
+            <div className="field-group type-of-study-unit">
+              <span>Type of study unit:</span>
+              <input
+                type="text"
+                className="readOnly"
+                value={"Tín chỉ"}
+                disabled
+              />
             </div>
           </div>
         </form>
@@ -420,6 +401,38 @@ export default function AddCourse() {
           <button className="save-button" onClick={saveCourse}>
             Save
           </button>
+        </div>
+        <div>
+          {errorDialog && (
+            <div className="dialog-backdrop">
+              <div className="dialog-box">
+                <div className="dialog-message">{error}</div>
+                <div className="dialog-actions">
+                  <button
+                    className="dialog-btn yes"
+                    onClick={() => setErrorDialog(false)}
+                  >
+                    OK
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+          {successDialog && (
+            <div className="dialog-backdrop">
+              <div className="dialog-box success">
+                <div className="dialog-message">{successMessage}</div>
+                <div className="dialog-actions">
+                  <button
+                    className="dialog-btn yes"
+                    onClick={() => setSuccessDialog(false)}
+                  >
+                    OK
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         {cancelDialog && (
           <div className="dialog-backdrop">
