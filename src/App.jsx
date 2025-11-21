@@ -37,8 +37,6 @@ function App() {
       />
 
       <Route
-        path="/courseManagement"
-        element={
         path="/accountManagement/addAccount"
         element={
           <EnsureLoggedToRoutes>
