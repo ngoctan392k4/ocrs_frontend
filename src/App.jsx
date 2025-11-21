@@ -8,13 +8,23 @@ import ViewAccount from "./components/admin/AccountManagement/ViewAccount";
 import HomeLogin from "./components/auth/HomeLogin";
 import EnsureLoggedToRoutes from "./components/auth/EnsureLoggedToRoutes";
 import RoleBasedAuthorization from "./components/auth/RoleBasedAuthorization";
+import ForgotPassword from "./components/auth/ForgotPassword";
+import ResetPassword from "./components/auth/ResetPassword";
+
+import AddAccount from "./components/admin/AccountManagement/AddAccount";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <Routes>
+
+      {/* Common Routes */}
       <Route path="/" element={<HomeLogin />} />
+      <Route path="/forgotPassword" element={<ForgotPassword />} />
+      <Route path="/resetPassword" element={<ResetPassword />} />
+
+      {/* Admin Routes */}
       <Route
         path="/homepageAdmin"
         element={
@@ -29,6 +39,18 @@ function App() {
       <Route
         path="/courseManagement"
         element={
+        path="/accountManagement/addAccount"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <AddAccount />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="/courseManagement" element={
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
               <ViewCourse />
@@ -48,6 +70,7 @@ function App() {
         }
       />
 
+      {/* Student Routes */}
       <Route
         path="/homepageStudent"
         element={
@@ -59,6 +82,7 @@ function App() {
         }
       />
 
+      {/* Instructor Routes */}
       <Route
         path="/homepageInstructor"
         element={

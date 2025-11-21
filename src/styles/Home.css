@@ -6,7 +6,7 @@
 .home-content {
   flex-grow: 1;
   padding: 30px;
-  margin-left: 20px;
+  margin-left: 260px;
   line-height: 1.6;
   color: var(--color-blue-900);
   animation: fadeIn 0.4s ease;
