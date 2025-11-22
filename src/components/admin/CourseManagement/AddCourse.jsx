@@ -178,25 +178,12 @@ export default function AddCourse() {
     const newCourseCode = newCourseID.split(" ")[0];
     setCourseCode(newCourseCode);
   };
-
-  const addPre = (courseID) => {
-    if (!pre.includes(courseID)) {
-      setPre((prev) => [...prev, courseID]);
-    }
-    setPreInput("");
-  };
+  
   const delPre = (e, delItem) => {
     e.preventDefault();
     setPre(pre.filter((item) => item !== delItem));
   };
 
-  const addPara = (e) => {
-    e.preventDefault();
-    if (paraInput.trim() !== " ".trim() && !para.includes(paraInput.trim())) {
-      setPara([...para, paraInput.trim()]);
-      setParaInput(" ");
-    }
-  };
   const delPara = (e, delItem) => {
     e.preventDefault();
     setPara(para.filter((item) => item !== delItem));
