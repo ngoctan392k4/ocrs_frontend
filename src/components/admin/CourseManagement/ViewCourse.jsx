@@ -126,9 +126,9 @@ export default function ViewCourse() {
                 {selectedCourses.includes(course.courseid) && (
                   <div className="course-detail">
                     <div className="detail-row">
-                      <span className="course-info-label">Course Code: </span>
+                      <span className="course-info-label">Course ID: </span>
                       <span className="course-info-text">
-                        {course.coursecode}
+                        {course.courseid}
                       </span>
                     </div>
                     <div className="detail-row">
@@ -162,7 +162,7 @@ export default function ViewCourse() {
                     <div className="detail-row">
                       <span className="course-info-label">Description: </span>
                       <span className="course-info-text">
-                        {course.description}
+                        {course.description || "null"}
                       </span>
                     </div>
                     <div className="detail-row">
