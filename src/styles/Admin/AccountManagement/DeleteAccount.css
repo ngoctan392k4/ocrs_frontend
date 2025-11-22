@@ -1,0 +1,56 @@
+/* dialog notification --- */
+.dialog-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3); /* Blur background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.dialog-content {
+  background-color: var(--color-white-000);
+  width: 400px;
+  padding: 30px 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dialog-content p {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--color-gray-600);
+  margin: 0;
+}
+
+/* Button in dialog */
+.dialog-content button {
+  padding: 10px 30px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--color-blue-600);
+  color: var(--color-black);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.dialog-content button:hover {
+  background-color: var(--color-white-200);
+}
+
+
+.dialog-content > div {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
