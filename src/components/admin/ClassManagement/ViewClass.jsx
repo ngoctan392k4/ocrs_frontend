@@ -121,11 +121,15 @@ export default function ViewClass() {
                   </div>
                   <div className="detail-row">
                     <span className="class-info-label">Instructor: </span>
-                    <span className="class-info-text">{cls.instructorid}</span>
+                    <span className="class-info-text">
+                      {cls.instructorid} - {cls.instructor_name}
+                    </span>
                   </div>
                   <div className="detail-row">
                     <span className="class-info-label">Semester: </span>
-                    <span className="class-info-text">{cls.semid}</span>
+                    <span className="class-info-text">
+                      {cls.semester_name} - SY - {cls.school_year}
+                    </span>
                   </div>
                   <div className="detail-row">
                     <span className="class-info-label">Schedule: </span>
@@ -154,7 +158,8 @@ export default function ViewClass() {
           <div className="dialog-backdrop">
             <div className="dialog-box">
               <div className="dialog-message">
-                Delete Class {deleteClassId}?
+                Delete Class{" "}
+                {classes.find((cls) => cls.clsid === deleteClassId)?.classcode}?
               </div>
               <div className="dialog-actions">
                 <button className="dialog-btn no" onClick={handleCancel}>

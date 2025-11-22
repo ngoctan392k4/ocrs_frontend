@@ -1,7 +1,7 @@
 .view-container {
   display: flex;
   min-height: 100vh;
-  background: #f4f4f4;
+  background: var(--color-white-100);
   font-family: var(--font-sans);
 }
 
@@ -43,8 +43,8 @@
 
 /* Ô class giống prototype */
 .class-item {
-  background: #9fb5ae;
-  border-radius: 18px;
+  background: var(--color-greengray-400);
+  border-radius: 15px;
   padding: 16px 20px;
   border: 1px solid var(--color-gray-300);
   cursor: pointer;
@@ -59,6 +59,7 @@
 
 .class-header {
   display: flex;
+  padding: 10px 20px;
   justify-content: space-between;
   align-items: center;
 }
@@ -84,10 +85,10 @@
 .class-detail {
   margin-top: 12px;
   padding-top: 14px;
-  border-top: 1px solid var(--color-gray-300);
+  border-top: 5px solid var(--color-gray-300);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap:5px;
 }
 
 .detail-row {
@@ -158,7 +159,7 @@
 /* Hộp dialog giống prototype */
 .dialog-box {
   width: 380px;
-  background: #ffffff;
+  background: var(--color-white-000);
   padding: 35px 25px;
   border-radius: 18px; /* bo góc lớn */
   text-align: center;
@@ -171,7 +172,7 @@
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 35px;
-  color: #333;
+  color: var(--color-gray-700);
 }
 
 /* Khung nút dưới */
@@ -190,19 +191,37 @@
   border-radius: 14px;
   border: none;
   cursor: pointer;
-  background: #e6e6e6; /* xám nhạt giống prototype */
+  background: var(--color-white-300); /* xám nhạt giống prototype */
   transition: 0.2s;
 }
 
 .dialog-btn:hover {
-  background: #d2d2d2;
+  background: var(--color-white-100);
 }
 
 .dialog-btn.no:hover {
-  background: #d8d8d8;
+  background: var(--color-white-200);
 }
 
 .dialog-btn.yes:hover {
-  background: #cfcfcf;
+  background: var(--color-white-500);
 }
+
+.class-item {
+  background: var(--color-white-000);
+  border-radius: 18px;
+  padding: 16px 20px;
+  border: 1px solid var(--color-gray-300);
+  cursor: pointer;
+  transition: 0.2s;
+}
+.class-header {
+  display: flex;
+  width: 1100px;
+  border-radius: 15px;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-greengray-300); 
+}
+
 
