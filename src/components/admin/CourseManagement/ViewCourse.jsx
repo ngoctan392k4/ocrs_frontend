@@ -184,7 +184,7 @@ export default function ViewCourse() {
                       </span>
                     </div>
                     <div className="course-action">
-                      <button className="edit-btn">Edit</button>
+                      <button className="edit-btn" onClick={()=> navigate(`/courseManagement/editCourse/${course.courseid}`)}>Edit</button>
                     </div>
                   </div>
                 )}
