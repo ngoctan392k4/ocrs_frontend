@@ -12,6 +12,7 @@
   --color-gray-400: #9ca3af;
   --color-gray-300: #d1d5db;
   --color-gray-200: #e0e4eb;
+  --color-gray-100: #ffe5e5;
 
   /* Basic color */
   --color-white-000: #ffffff;
@@ -19,6 +20,7 @@
   --color-white-200: #d9d9d9;
   --color-white-300: #e5e5e5;
   --color-white-400: #ddd;
+  --color-white-500: #cfcfcf;
 
   --color-black: #000000;
   --color-red: #bd161d;
@@ -30,6 +32,7 @@
   --color-greengray-700: #849493;
   --color-greengray-400: #96aba4;
   --color-greengray-200: #abb7b3;
+  --color-greengray-300: #9fb5ae;
 
   --color-red-500: #ef4444;
 
