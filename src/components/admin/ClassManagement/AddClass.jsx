@@ -48,7 +48,7 @@ export default function AddClass() {
           const sem = data.semesterlat[0];
           setSemester(sem);
 
-          const semFormat = `${sem.semester_name} - SY - ${sem.school_year}`;
+          const semFormat = `${sem.id}`;
           setFormData((prev) => ({ ...prev, semid: semFormat }));
         }
       } catch (err) {
@@ -78,13 +78,13 @@ export default function AddClass() {
 
     if (name === "instructorid") {
       const selectedInstructor = instructors.find(
-        (i) => `${i.instructorid} — ${i.name}` === value
+        (i) => i.instructorid === value
       );
+
       setFormData((prev) => ({
         ...prev,
-        instructorid: selectedInstructor
-          ? `${selectedInstructor.instructorid} — ${selectedInstructor.name}`
-          : "",
+        instructorid: value, // luôn lưu instructorid vào DB
+        instructorName: selectedInstructor?.name || "", // nếu bạn muốn lưu thêm
       }));
       return;
     }
@@ -145,7 +145,7 @@ export default function AddClass() {
       return;
     }
 
-    const semFormat = `${semester.semester_name} - SY - ${semester.school_year}`;
+    const semFormat = semester.semid;
 
     // Nếu schedule rỗng, gán mặc định
     const schedulePayload =
@@ -268,10 +268,7 @@ export default function AddClass() {
           >
             <option value="">Select Instructor</option>
             {instructors.map((i) => (
-              <option
-                key={i.instructorid}
-                value={`${i.instructorid} — ${i.name}`}
-              >
+              <option key={i.instructorid} value={i.instructorid}>
                 {i.instructorid} — {i.name}
               </option>
             ))}
