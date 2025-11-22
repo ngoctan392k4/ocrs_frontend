@@ -98,7 +98,9 @@ export default function ViewAccount() {
                 onClick={() => toggleAccount(account.accountid)}
               >
                 <div className="account-header">
-                  <div className="account-sequential">{account.full_name} - Role: {account.role}</div>
+                  <div className="account-sequential">
+                    {account.full_name} - Role: {account.role}
+                  </div>
                 </div>
                 {selectedAccounts.includes(account.accountid) && (
                   <div className="account-detail">
@@ -130,6 +132,26 @@ export default function ViewAccount() {
                       <span className="account-info-label">Role: </span>
                       <span className="account-info-text">{account.role}</span>
                     </div>
+                    {account.role === "instructor" ? (
+                      <div className="detail-row">
+                        <span className="account-info-label">Department: </span>
+                        <span className="account-info-text">
+                          {account.department}
+                        </span>
+                      </div>
+                    ) : (
+                      <div></div>
+                    )}
+                    {account.role === "student" ? (
+                      <div className="detail-row">
+                        <span className="account-info-label">Major: </span>
+                        <span className="account-info-text">
+                          {account.major}
+                        </span>
+                      </div>
+                    ) : (
+                      <div></div>
+                    )}
                     <div className="detail-row">
                       <span className="account-info-label">Username: </span>
                       <span className="account-info-text">
