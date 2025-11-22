@@ -4,6 +4,8 @@ import HomeAdmin from "./components/admin/Home/Home";
 import HomeInstructor from "./components/instructor/Home/Home";
 import HomeStudent from "./components/student/Home/Home";
 import ViewClass from "./components/admin/ClassManagement/ViewClass";
+import ViewCourse from "./components/admin/CourseManagement/ViewCourse";
+import AddClass from "./components/admin/ClassManagement/AddClass";
 import Menu from "./components/menu/Menu";
 import menu_admin from "./assets/dataMenu/MenuAdminData";
 import HomeLogin from "./components/auth/HomeLogin";
@@ -32,6 +34,16 @@ function App() {
           </EnsureLoggedToRoutes>
         }
       />
+      <Route
+        path="/classManagement/addClass"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <AddClass />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
       <Route path="/forgotPassword" element={<ForgotPassword />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
       
@@ -46,7 +58,7 @@ function App() {
         }
       />
 
-      {/* <Route
+      <Route
         path="/courseManagement" element={
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
@@ -54,7 +66,7 @@ function App() {
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
-      /> */}
+      />
  
       <Route
         path="/homepageStudent"
