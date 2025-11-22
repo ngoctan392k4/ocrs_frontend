@@ -42,6 +42,13 @@ function LoginForm() {
         ) {
           setNoti("Username or Password is incorrect");
         }
+
+        // Inactive account
+        if (
+          data.message === "Inactive account"
+        ) {
+          setNoti("Your account is inactivated. Please contact to academic affairs office for assistance.");
+        }
       }
 
       setLoggedIn(true);
