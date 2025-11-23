@@ -242,10 +242,8 @@ export default function EditCourse() {
             <div className="field-group">
               <span>Course Name: (*)</span>
               <input
-                className="readOnly"
                 type="text"
                 value={courseName}
-                disabled
                 onChange={(e) => setCourseName(e.target.value)}
               />
             </div>
