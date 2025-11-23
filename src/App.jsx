@@ -90,6 +90,17 @@ function App() {
         }
       />
 
+      {/* <Route
+        path="/accountManagement/edit/:accountid"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <EditAccount />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      /> */}
+
       {/* Student Routes */}
       <Route
         path="/homepageStudent"
