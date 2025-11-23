@@ -13,6 +13,7 @@ import EnsureLoggedToRoutes from "./components/auth/EnsureLoggedToRoutes";
 import RoleBasedAuthorization from "./components/auth/RoleBasedAuthorization";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
+import AddClass from "./components/admin/ClassManagement/AddClass";
 
 import AddAccount from "./components/admin/AccountManagement/AddAccount";
 
@@ -32,6 +33,17 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
               <ViewClass />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="/classManagement/addClass"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <AddClass />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }

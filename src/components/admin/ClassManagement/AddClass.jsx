@@ -35,7 +35,7 @@ export default function AddClass() {
     const fetchData = async () => {
       try {
         const res = await fetch(
-          "http://localhost:3001/api/admin/CourseManagement"
+          "http://localhost:3001/api/admin/ClassManagement/addClass"
         );
         const data = await res.json();
 
@@ -48,8 +48,7 @@ export default function AddClass() {
           const sem = data.semesterlat[0];
           setSemester(sem);
 
-          const semFormat = `${sem.id}`;
-          setFormData((prev) => ({ ...prev, semid: semFormat }));
+          setFormData((prev) => ({ ...prev, semid: sem.semid }));
         }
       } catch (err) {
         console.error("Fetch error:", err.message);
@@ -165,7 +164,7 @@ export default function AddClass() {
       courseid: formData.courseid,
       classcode: formData.classcode,
       classname: formData.classname,
-      semid: semFormat,
+      semid: formData.semid,
       instructorid: formData.instructorid,
       capacity: formData.capacity,
       schedule: schedulePayload,
