@@ -460,7 +460,7 @@ export default function EditCourse() {
           <div className="dialog-backdrop">
             <div className="dialog-box">
               <div className="dialog-message">
-                Cancel course adding process?
+                Cancel course editing process?
               </div>
               <div className="dialog-actions">
                 <button
