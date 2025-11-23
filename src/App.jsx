@@ -5,7 +5,6 @@ import HomeInstructor from "./components/instructor/Home/Home";
 import HomeStudent from "./components/student/Home/Home";
 import ViewClass from "./components/admin/ClassManagement/ViewClass";
 import ViewCourse from "./components/admin/CourseManagement/ViewCourse";
-import AddClass from "./components/admin/ClassManagement/AddClass";
 import Menu from "./components/menu/Menu";
 import menu_admin from "./assets/dataMenu/MenuAdminData";
 import ViewAccount from "./components/admin/AccountManagement/ViewAccount";
@@ -23,7 +22,6 @@ function App() {
 
   return (
     <Routes>
-
       {/* Common Routes */}
       <Route path="/" element={<HomeLogin />} />
 
@@ -38,16 +36,7 @@ function App() {
           </EnsureLoggedToRoutes>
         }
       />
-      <Route
-        path="/classManagement/addClass"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["admin"]}>
-              <AddClass />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+
       <Route path="/forgotPassword" element={<ForgotPassword />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
 
@@ -75,7 +64,8 @@ function App() {
       />
 
       <Route
-        path="/courseManagement" element={
+        path="/courseManagement"
+        element={
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
               <ViewCourse />
@@ -94,6 +84,17 @@ function App() {
           </EnsureLoggedToRoutes>
         }
       />
+
+      {/* <Route
+        path="/accountManagement/edit/:accountid"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <EditAccount />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      /> */}
 
       {/* Student Routes */}
       <Route
