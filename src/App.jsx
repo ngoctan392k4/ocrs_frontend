@@ -69,7 +69,7 @@ function App() {
         }
       />
 
-      <Route
+      {/* <Route
         path="/accountManagement/edit/:accountid"
         element={
           <EnsureLoggedToRoutes>
@@ -78,7 +78,7 @@ function App() {
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
-      />
+      /> */}
 
       {/* Student Routes */}
       <Route

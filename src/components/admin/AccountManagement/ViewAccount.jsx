@@ -132,6 +132,7 @@ export default function ViewAccount() {
                       <span className="account-info-label">Role: </span>
                       <span className="account-info-text">{account.role}</span>
                     </div>
+                    {/* Personalize additional row for Instructor and Students */}
                     {account.role === "instructor" && (
                       <div className="detail-row">
                         <span className="account-info-label">Department</span>
