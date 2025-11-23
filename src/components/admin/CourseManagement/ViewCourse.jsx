@@ -148,7 +148,7 @@ export default function ViewCourse() {
                     <div className="detail-row">
                       <span className="course-info-label">Prerequisite: </span>
                       <span className="course-info-text">
-                        {course.prerequisite || "null"}
+                        {course.prerequisite || "No prerequisite"}
                       </span>
                     </div>
                     <div className="detail-row">
@@ -156,13 +156,13 @@ export default function ViewCourse() {
                         Parallel Course: <br />
                       </span>
                       <span className="course-info-text">
-                        {course.parallel_course || "null"}
+                        {course.parallel_course || "No parallel courses"}
                       </span>
                     </div>
                     <div className="detail-row">
                       <span className="course-info-label">Description: </span>
                       <span className="course-info-text">
-                        {course.description || "null"}
+                        {course.description || "No description"}
                       </span>
                     </div>
                     <div className="detail-row">

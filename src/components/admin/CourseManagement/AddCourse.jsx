@@ -54,6 +54,20 @@ export default function AddCourse() {
     Workshop: 0,
   });
 
+const validateCredits = () => {
+  const hasZero = selectedCredit.some(
+    (type) => Number(credits[type]) === 0
+  );
+
+  if (hasZero) {
+    setError("Selected credit values must not include 0.");
+    setErrorDialog(true);
+    return false;
+  }
+
+  return true;
+};
+
   const searchCourse = (text) => {
     return courses.filter((course) =>
       course.coursecode?.toLowerCase().includes(text.toLowerCase())
@@ -79,6 +93,7 @@ export default function AddCourse() {
 
   const saveCourse = async () => {
     const tosu = "Tín chỉ";
+
     const course = {
       courseID,
       courseCode,
@@ -145,11 +160,9 @@ export default function AddCourse() {
   };
 
   const delCreditType = (type) => {
-    if (credits[type] === 0) {
-      setSelectedCredit((otherTypes) =>
-        otherTypes.filter((credit) => credit !== type)
-      );
-    }
+    setSelectedCredit((otherTypes) =>
+      otherTypes.filter((credit) => credit !== type)
+    );
   };
 
   const handleCredits = (key, value) => {
@@ -178,7 +191,7 @@ export default function AddCourse() {
     const newCourseCode = newCourseID.split(" ")[0];
     setCourseCode(newCourseCode);
   };
-  
+
   const delPre = (e, delItem) => {
     e.preventDefault();
     setPre(pre.filter((item) => item !== delItem));
@@ -355,8 +368,13 @@ export default function AddCourse() {
                     <button
                       type="button"
                       className="remove-credit"
-                      disabled={credits[type] !== 0}
-                      onClick={() => delCreditType(type)}
+                      onClick={() => {
+                        delCreditType(type);
+                        setCredits((prev) => ({
+                          ...prev,
+                          [type]: 0,
+                        }));
+                      }}
                     >
                       x
                     </button>
@@ -385,7 +403,12 @@ export default function AddCourse() {
           >
             Cancel
           </button>
-          <button className="save-button" onClick={saveCourse}>
+          <button
+            className="save-button"
+            onClick={() => {
+              if (validateCredits()) saveCourse();
+            }}
+          >
             Save
           </button>
         </div>

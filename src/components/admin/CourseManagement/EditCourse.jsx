@@ -55,6 +55,20 @@ export default function EditCourse() {
     Workshop: 0,
   });
 
+  const validateCredits = () => {
+  const hasZero = selectedCredit.some(
+    (type) => Number(credits[type]) === 0
+  );
+
+  if (hasZero) {
+    setError("Selected credit values must not include 0.");
+    setErrorDialog(true);
+    return false;
+  }
+
+  return true;
+};
+
   const searchCourse = (text) => {
     return courses.filter((course) =>
       course.courseid?.toLowerCase().includes(text.toLowerCase())
@@ -173,11 +187,9 @@ export default function EditCourse() {
   };
 
   const delCreditType = (type) => {
-    if (credits[type] === 0) {
-      setSelectedCredit((otherTypes) =>
-        otherTypes.filter((credit) => credit !== type)
-      );
-    }
+    setSelectedCredit((otherTypes) =>
+      otherTypes.filter((credit) => credit !== type)
+    );
   };
 
   const handleCredits = (key, value) => {
@@ -230,8 +242,10 @@ export default function EditCourse() {
             <div className="field-group">
               <span>Course Name: (*)</span>
               <input
+                className="readOnly"
                 type="text"
                 value={courseName}
+                disabled
                 onChange={(e) => setCourseName(e.target.value)}
               />
             </div>
@@ -385,8 +399,13 @@ export default function EditCourse() {
                     <button
                       type="button"
                       className="remove-credit"
-                      disabled={credits[type] !== 0}
-                      onClick={() => delCreditType(type)}
+                      onClick={() => {
+                        delCreditType(type);
+                        setCredits((prev) => ({
+                          ...prev,
+                          [type]: 0,
+                        }));
+                      }}
                     >
                       x
                     </button>
@@ -415,7 +434,12 @@ export default function EditCourse() {
           >
             Cancel
           </button>
-          <button className="save-button" onClick={saveCourse}>
+          <button
+            className="save-button"
+            onClick={() => {
+              if (validateCredits()) saveCourse();
+            }}
+          >
             Update
           </button>
         </div>
