@@ -12,7 +12,6 @@ import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
 
 import AddAccount from "./components/admin/AccountManagement/AddAccount";
-import EditAccount from "./components/admin/AccountManagement/EditAccount";
 
 function App() {
   const [count, setCount] = useState(0);
