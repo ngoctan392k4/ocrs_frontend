@@ -48,7 +48,7 @@ export default function ViewCourse() {
   }, []);
 
   const searchCourse = courses.filter((course) =>
-    course.coursecode?.toLowerCase().includes(searched.toLowerCase())
+    course.courseid?.toLowerCase().includes(searched.toLowerCase())
   );
 
   const toggleCourse = (id) => {
