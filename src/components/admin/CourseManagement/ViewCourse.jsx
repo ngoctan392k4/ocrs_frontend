@@ -48,7 +48,7 @@ export default function ViewCourse() {
   }, []);
 
   const searchCourse = courses.filter((course) =>
-    course.coursecode?.toLowerCase().includes(searched.toLowerCase())
+    course.courseid?.toLowerCase().includes(searched.toLowerCase())
   );
 
   const toggleCourse = (id) => {
@@ -126,9 +126,9 @@ export default function ViewCourse() {
                 {selectedCourses.includes(course.courseid) && (
                   <div className="course-detail">
                     <div className="detail-row">
-                      <span className="course-info-label">Course Code: </span>
+                      <span className="course-info-label">Course ID: </span>
                       <span className="course-info-text">
-                        {course.coursecode}
+                        {course.courseid}
                       </span>
                     </div>
                     <div className="detail-row">
@@ -148,7 +148,7 @@ export default function ViewCourse() {
                     <div className="detail-row">
                       <span className="course-info-label">Prerequisite: </span>
                       <span className="course-info-text">
-                        {course.prerequisite || "null"}
+                        {course.prerequisite || "No prerequisite"}
                       </span>
                     </div>
                     <div className="detail-row">
@@ -156,13 +156,13 @@ export default function ViewCourse() {
                         Parallel Course: <br />
                       </span>
                       <span className="course-info-text">
-                        {course.parallel_course || "null"}
+                        {course.parallel_course || "No parallel courses"}
                       </span>
                     </div>
                     <div className="detail-row">
                       <span className="course-info-label">Description: </span>
                       <span className="course-info-text">
-                        {course.description}
+                        {course.description || "No description"}
                       </span>
                     </div>
                     <div className="detail-row">
@@ -184,7 +184,7 @@ export default function ViewCourse() {
                       </span>
                     </div>
                     <div className="course-action">
-                      <button className="edit-btn">Edit</button>
+                      <button className="edit-btn" onClick={()=> navigate(`/courseManagement/editCourse/${course.courseid}`)}>Edit</button>
                     </div>
                   </div>
                 )}
