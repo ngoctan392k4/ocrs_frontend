@@ -3,7 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomeAdmin from "./components/admin/Home/Home";
 import HomeInstructor from "./components/instructor/Home/Home";
 import HomeStudent from "./components/student/Home/Home";
+import ViewClass from "./components/admin/ClassManagement/ViewClass";
 import ViewCourse from "./components/admin/CourseManagement/ViewCourse";
+import Menu from "./components/menu/Menu";
+import menu_admin from "./assets/dataMenu/MenuAdminData";
 import ViewAccount from "./components/admin/AccountManagement/ViewAccount";
 import HomeLogin from "./components/auth/HomeLogin";
 import EnsureLoggedToRoutes from "./components/auth/EnsureLoggedToRoutes";
@@ -13,6 +16,7 @@ import ResetPassword from "./components/auth/ResetPassword";
 
 import AddAccount from "./components/admin/AccountManagement/AddAccount";
 
+
 function App() {
   const [count, setCount] = useState(0);
 
@@ -20,6 +24,19 @@ function App() {
     <Routes>
       {/* Common Routes */}
       <Route path="/" element={<HomeLogin />} />
+
+
+      <Route
+        path="/classManagement"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <ViewClass />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
       <Route path="/forgotPassword" element={<ForgotPassword />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
 
