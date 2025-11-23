@@ -18,7 +18,6 @@ function App() {
 
   return (
     <Routes>
-
       {/* Common Routes */}
       <Route path="/" element={<HomeLogin />} />
       <Route path="/forgotPassword" element={<ForgotPassword />} />
@@ -48,7 +47,8 @@ function App() {
       />
 
       <Route
-        path="/courseManagement" element={
+        path="/courseManagement"
+        element={
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
               <ViewCourse />
@@ -67,6 +67,17 @@ function App() {
           </EnsureLoggedToRoutes>
         }
       />
+
+      {/* <Route
+        path="/accountManagement/edit/:accountid"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <EditAccount />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      /> */}
 
       {/* Student Routes */}
       <Route
