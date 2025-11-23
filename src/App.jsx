@@ -69,6 +69,17 @@ function App() {
       />
 
       <Route
+        path="/courseManagement/editCourse/:courseid"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <EditCourse />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
         path="/accountManagement"
         element={
           <EnsureLoggedToRoutes>
