@@ -132,25 +132,21 @@ export default function ViewAccount() {
                       <span className="account-info-label">Role: </span>
                       <span className="account-info-text">{account.role}</span>
                     </div>
-                    {account.role === "instructor" ? (
+                    {account.role === "instructor" && (
                       <div className="detail-row">
-                        <span className="account-info-label">Department: </span>
+                        <span className="account-info-label">Department</span>
                         <span className="account-info-text">
-                          {account.department}
+                          {account.role}
                         </span>
                       </div>
-                    ) : (
-                      <div></div>
                     )}
-                    {account.role === "student" ? (
+                    {account.role === "student" && (
                       <div className="detail-row">
-                        <span className="account-info-label">Major: </span>
+                        <span className="account-info-label">Major</span>
                         <span className="account-info-text">
-                          {account.major}
+                          {account.role}
                         </span>
                       </div>
-                    ) : (
-                      <div></div>
                     )}
                     <div className="detail-row">
                       <span className="account-info-label">Username: </span>

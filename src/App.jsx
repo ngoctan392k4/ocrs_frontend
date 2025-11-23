@@ -12,13 +12,13 @@ import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
 
 import AddAccount from "./components/admin/AccountManagement/AddAccount";
+import EditAccount from "./components/admin/AccountManagement/EditAccount";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <Routes>
-
       {/* Common Routes */}
       <Route path="/" element={<HomeLogin />} />
       <Route path="/forgotPassword" element={<ForgotPassword />} />
@@ -48,7 +48,8 @@ function App() {
       />
 
       <Route
-        path="/courseManagement" element={
+        path="/courseManagement"
+        element={
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
               <ViewCourse />
@@ -63,6 +64,17 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
               <ViewAccount />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="/accountManagement/edit/:accountid"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <EditAccount />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
