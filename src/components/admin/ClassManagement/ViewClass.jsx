@@ -146,7 +146,16 @@ export default function ViewClass() {
                     <span className="class-info-text">{cls.capacity}</span>
                   </div>
                   <div className="class-action">
-                    <button className="edit-btn">Edit</button>
+                    <button
+                      className="edit-btn"
+                      onClick={() =>
+                        navigate(
+                          `/ClassManagement/editClass?clsid=${cls.clsid}`
+                        )
+                      }
+                    >
+                      Edit
+                    </button>
                   </div>
                 </div>
               )}
