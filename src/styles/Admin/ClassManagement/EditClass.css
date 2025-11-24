@@ -1,0 +1,135 @@
+.edit-container {
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-white-100);
+  font-family: var(--font-sans);
+}
+
+.edit-content {
+  flex-grow: 1;
+  padding: 30px;
+  margin-left: 260px;
+  line-height: 1.6;
+  color: var(--color-white-900);
+}
+
+.edit-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.edit-form {
+  display: grid;
+  grid-template-columns: 150px auto;
+  row-gap: 20px;
+}
+
+.edit-form .label {
+  font-weight: 600;
+}
+
+.edit-form input,
+.edit-form select {
+  width: 1125px;
+  height: 17px;
+  padding: 10px 10px;
+  border: 1.3px solid var(--color-gray-300);
+  border-radius: 4px; 
+  font-size: 16px;
+  font-family: Segoe UI;
+  background: var(--color-white-000);
+}
+
+.input-wide {
+  width: 260px;
+}
+
+.readOnly:disabled {
+  background-color: var(--color-gray-300);
+  color: var(--color-gray-700); 
+  cursor: not-allowed; 
+  width: 1125px;   
+}
+
+.schedule-add-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--color-black);
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.schedule-box select {
+  width: 260px;  
+  border-radius: 8px;
+  padding: 7px 10px;
+  border: 1px solid var(--color-white-500);
+  background: var(--color-white-000);
+  height: 40px;                 /* giữ chiều cao đều */
+  display: flex;
+  align-items: center;
+}
+
+.schedule-box {
+  grid-column: span 2;
+  margin-top: 10px;
+  background: var(--color-white-300);
+  padding: 16px;
+  border-radius: 14px;
+
+  /* chỉnh lại layout để label/select không bị lệch */
+  display: grid;
+  grid-template-columns: 50px 400px 50px 200px; /* chỉnh rộng cột */
+  align-items: center; /* căn giữa theo chiều dọc */
+  row-gap: 16px;
+  column-gap: 18px;
+}
+
+.schedule-label {
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.schedule-remove {
+  font-size: 20px;
+  color: var(--color-red-500);
+  text-align: center;
+  cursor: pointer;
+}
+
+.edit-buttons {
+  grid-column: span 2;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.btn-save,
+.btn-cancel {
+  padding: 10px 28px;
+  border-radius: 14px;
+  border: 2px solid var(--color-black);
+  cursor: pointer;
+}
+
+.editclass-delete-btn {
+  width: 130px;
+  border: none;
+  border-radius: 10px;
+  background: var(--color-blue-500);
+  color: var(--color-white-000);
+  font-size: 15px;
+  cursor: pointer;
+
+  grid-column: 1 / -1; /* Trải dài toàn bộ grid */
+  justify-self: start;  /* Căn trái */
+  margin-bottom: 10px; /* Khoảng cách xuống các field */
+}
