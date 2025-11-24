@@ -16,7 +16,7 @@ import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
 import AddAccount from "./components/admin/AccountManagement/AddAccount";
 import EditCourse from "./components/admin/CourseManagement/EditCourse";
-
+import ViewProfile from "./components/admin/ViewProfile/ViewProfile";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -26,6 +26,10 @@ function App() {
       {/* Common Routes */}
       <Route path="/" element={<HomeLogin />} />
 
+      <Route path="/forgotPassword" element={<ForgotPassword />} />
+      <Route path="/resetPassword" element={<ResetPassword />} />
+
+      {/* Admin Routes */}
 
       <Route
         path="/classManagement"
@@ -37,11 +41,17 @@ function App() {
           </EnsureLoggedToRoutes>
         }
       />
+      <Route
+        path="/Profile/:accountid"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <ViewProfile />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
 
-      <Route path="/forgotPassword" element={<ForgotPassword />} />
-      <Route path="/resetPassword" element={<ResetPassword />} />
-
-      {/* Admin Routes */}
       <Route
         path="/homepageAdmin"
         element={

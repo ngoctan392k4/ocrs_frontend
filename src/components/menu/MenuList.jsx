@@ -1,11 +1,11 @@
 import MenuItem from "./MenuItem";
 import '../../styles/Menu.css';
 
-export default function MenuList({list = []}) {
+export default function MenuList({list = [], currentUser}) {
     return <ul className="menu-list-container">
         {
             list && list.length ?
-            list.map((listItem) => <MenuItem key={listItem.label} item={listItem}/>)
+            list.map((listItem) => <MenuItem key={listItem.label} item={listItem} currentUser ={currentUser}/>)
             : null
         }
     </ul>

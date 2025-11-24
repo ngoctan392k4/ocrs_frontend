@@ -10,6 +10,20 @@ export const menu_admin = [
     ]
   },
   {
+    label: "Profile",
+    to: "/",
+    children: [
+      {
+        label: "View Profile",
+        to: "/Profile"
+      },
+      {
+        label: "Logout"
+      }
+    ]
+
+  },
+  {
     label: "Course Management",
     to: "/",
     children: [
