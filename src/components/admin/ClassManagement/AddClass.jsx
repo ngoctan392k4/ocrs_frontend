@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
+import Select from "react-select";
+import { useNavigate } from "react-router-dom";
 import Menu from "../../menu/Menu";
 import menu_admin from "../../../assets/dataMenu/MenuAdminData";
 import "../../../styles/admin/ClassManagement/AddClass.css";
 
 export default function AddClass() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     classcode: "",
+    classcodeSuffix: "",
     courseid: "",
     instructorid: "",
     classname: "",
@@ -25,11 +29,14 @@ export default function AddClass() {
   const [courses, setCourses] = useState([]);
   const [instructors, setInstructors] = useState([]);
   const [semester, setSemester] = useState(null);
+
   const [scheduleList, setScheduleList] = useState([]);
+  const [scheduleErrors, setScheduleErrors] = useState([]);
+
   const [loading, setLoading] = useState(false);
 
   /* ------------------------------
-      FETCH COURSES, INSTRUCTORS, SEMESTER
+      FETCH DATA
   ------------------------------ */
   useEffect(() => {
     const fetchData = async () => {
@@ -39,15 +46,12 @@ export default function AddClass() {
         );
         const data = await res.json();
 
-        // set courses và instructors
         setCourses(data.courses || []);
         setInstructors(data.instructors || []);
 
-        // set semester mặc định nếu có
         if (data.semesterlat?.length > 0) {
           const sem = data.semesterlat[0];
           setSemester(sem);
-
           setFormData((prev) => ({ ...prev, semid: sem.semid }));
         }
       } catch (err) {
@@ -59,31 +63,44 @@ export default function AddClass() {
   }, []);
 
   /* ------------------------------
-      HANDLE CHANGE
+      HANDLE INPUT CHANGE
   ------------------------------ */
   const handleChange = (e) => {
     const { name, value } = e.target;
 
+    if (name === "capacity") {
+      if (value < 10 || value > 200) {
+        setErrors((prev) => ({
+          ...prev,
+          capacity: "Capacity available 10-200",
+        }));
+      } else {
+        setErrors((prev) => ({ ...prev, capacity: "" }));
+      }
+    }
+
     if (name === "courseid") {
       const selectedCourse = courses.find((c) => c.courseid === value);
+
       setFormData((prev) => ({
         ...prev,
         courseid: value,
-        classcode: value ? value + " - " : "",
         classname: selectedCourse ? selectedCourse.coursename : "",
+        classcode:
+          value && prev.classcodeSuffix
+            ? `${value}-${prev.classcodeSuffix}`
+            : value
+            ? `${value}-`
+            : "",
       }));
+
       return;
     }
 
     if (name === "instructorid") {
-      const selectedInstructor = instructors.find(
-        (i) => i.instructorid === value
-      );
-
       setFormData((prev) => ({
         ...prev,
-        instructorid: value, // luôn lưu instructorid vào DB
-        instructorName: selectedInstructor?.name || "", // nếu bạn muốn lưu thêm
+        instructorid: value,
       }));
       return;
     }
@@ -92,20 +109,60 @@ export default function AddClass() {
   };
 
   /* ------------------------------
-      SCHEDULE CHANGE
+      SCHEDULE CHANGE + VALIDATION
   ------------------------------ */
   const handleScheduleChange = (index, field, value) => {
     const updated = [...scheduleList];
     updated[index][field] = value;
+
     setScheduleList(updated);
     setFormData((prev) => ({ ...prev, schedule: updated }));
+
+    const { day, start, end, location } = updated[index];
+
+    if (!day || !start || !end || !location) {
+      setScheduleErrors((prev) => {
+        const newErrors = [...prev];
+        newErrors[index] = "Please complete all schedule fields.";
+        return newErrors;
+      });
+      return;
+    }
+
+    if (start >= end) {
+      setScheduleErrors((prev) => {
+        const newErrors = [...prev];
+        newErrors[index] = "End time must be later than start time.";
+        return newErrors;
+      });
+      return;
+    }
+
+    setScheduleErrors((prev) => {
+      const newErrors = [...prev];
+      newErrors[index] = "";
+      return newErrors;
+    });
   };
 
+  /* ------------------------------
+      ADD SCHEDULE ROW
+  ------------------------------ */
   const addScheduleRow = () => {
     setScheduleList((prev) => [
       ...prev,
       { day: "", start: "", end: "", location: "" },
     ]);
+
+    setScheduleErrors((prev) => [
+      ...prev,
+      "Please complete all schedule fields.",
+    ]);
+  };
+  const removeSchedule = (index) => {
+    const updated = scheduleList.filter((_, i) => i !== index);
+    setScheduleList(updated);
+    setFormData((prev) => ({ ...prev, schedule: updated }));
   };
 
   /* ------------------------------
@@ -117,21 +174,30 @@ export default function AddClass() {
 
     let validationErrors = {};
 
-    // Kiểm tra các trường bắt buộc
-    const requiredFields = [
-      "courseid",
-      "classcode",
-      "classname",
-      "instructorid",
-      "capacity",
-    ];
-    for (let field of requiredFields) {
-      if (!formData[field] || formData[field].toString().trim() === "") {
-        validationErrors[field] = "This field is required";
-      }
+    if (!formData.courseid)
+      validationErrors.courseid = "This field is required";
+    if (!formData.classcodeSuffix.trim())
+      validationErrors.classcode = "This field is required";
+    if (!formData.classname)
+      validationErrors.classname = "This field is required";
+    if (!formData.instructorid)
+      validationErrors.instructorid = "This field is required";
+    if (!formData.capacity)
+      validationErrors.capacity = "This field is required";
+
+    if (formData.capacity < 10 || formData.capacity > 200) {
+      validationErrors.capacity = "Capacity available 10-200";
     }
 
-    // Nếu có lỗi, set state lỗi và dừng
+    // Schedule validation
+    const foundError = scheduleErrors.some((err) => err !== "");
+
+    if (foundError) {
+      alert("Please fix schedule errors before submitting.");
+      setLoading(false);
+      return;
+    }
+
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       setLoading(false);
@@ -144,9 +210,6 @@ export default function AddClass() {
       return;
     }
 
-    const semFormat = semester.semid;
-
-    // Nếu schedule rỗng, gán mặc định
     const schedulePayload =
       scheduleList.length === 0
         ? [
@@ -184,16 +247,7 @@ export default function AddClass() {
 
       if (response.ok) {
         alert("Class added successfully!");
-
-        setFormData({
-          classcode: "",
-          courseid: "",
-          instructorid: "",
-          classname: "",
-          capacity: "",
-          schedule: [],
-        });
-        setScheduleList([]);
+        navigate("/classManagement");
       } else {
         alert(result.message);
       }
@@ -203,6 +257,16 @@ export default function AddClass() {
 
     setLoading(false);
   };
+
+  const courseOptions = courses.map((c) => ({
+    value: c.courseid,
+    label: `${c.courseid} — ${c.coursename}`,
+  }));
+
+  const instructorOptions = instructors.map((i) => ({
+    value: i.instructorid,
+    label: `${i.instructorid} — ${i.name}`,
+  }));
 
   return (
     <div className="add-container">
@@ -217,30 +281,51 @@ export default function AddClass() {
         <form className="add-form" onSubmit={handleSubmit}>
           {/* COURSE */}
           <div className="label">Course:</div>
-          <select
+          <Select
             name="courseid"
-            value={formData.courseid}
-            onChange={handleChange}
-          >
-            <option value="">Select Course</option>
-            {courses.map((c) => (
-              <option key={c.courseid} value={c.courseid}>
-                {c.courseid} — {c.coursename}
-              </option>
-            ))}
-          </select>
+            value={
+              courseOptions.find((o) => o.value === formData.courseid) || null
+            }
+            options={courseOptions}
+            isClearable
+            placeholder="Select Course"
+            onChange={(selectedOption) => {
+              handleChange({
+                target: {
+                  name: "courseid",
+                  value: selectedOption?.value || "",
+                },
+              });
+            }}
+          />
+
           {errors.courseid && (
             <div className="error-message">{errors.courseid}</div>
           )}
 
           {/* CLASS CODE */}
           <div className="label">Class Code:</div>
-          <input
-            type="text"
-            name="classcode"
-            value={formData.classcode}
-            onChange={handleChange}
-          />
+          <div className="classcode-row">
+            <span className="classcode-prefix">
+              {formData.courseid ? formData.courseid + "-" : ""}
+            </span>
+            <input
+              type="text"
+              name="classcodeSuffix"
+              value={formData.classcodeSuffix}
+              onChange={(e) => {
+                const suffix = e.target.value.replace(/\s/g, "");
+                setFormData((prev) => ({
+                  ...prev,
+                  classcodeSuffix: suffix,
+                  classcode: prev.courseid
+                    ? `${prev.courseid}-${suffix}`
+                    : suffix,
+                }));
+              }}
+            />
+          </div>
+
           {errors.classcode && (
             <div className="error-message">{errors.classcode}</div>
           )}
@@ -248,11 +333,10 @@ export default function AddClass() {
           {/* CLASS NAME */}
           <div className="label">Class Name:</div>
           <input
-            type="text"
+            className="readOnly"
             name="classname"
-            className="input-wide"
             value={formData.classname}
-            onChange={handleChange}
+            disabled
           />
           {errors.classname && (
             <div className="error-message">{errors.classname}</div>
@@ -260,18 +344,26 @@ export default function AddClass() {
 
           {/* INSTRUCTOR */}
           <div className="label">Instructor:</div>
-          <select
+          <Select
             name="instructorid"
-            value={formData.instructorid}
-            onChange={handleChange}
-          >
-            <option value="">Select Instructor</option>
-            {instructors.map((i) => (
-              <option key={i.instructorid} value={i.instructorid}>
-                {i.instructorid} — {i.name}
-              </option>
-            ))}
-          </select>
+            value={
+              instructorOptions.find(
+                (o) => o.value === formData.instructorid
+              ) || null
+            }
+            options={instructorOptions}
+            isClearable
+            placeholder="Select Instructor"
+            onChange={(selectedOption) => {
+              handleChange({
+                target: {
+                  name: "instructorid",
+                  value: selectedOption?.value || "",
+                },
+              });
+            }}
+          />
+
           {errors.instructorid && (
             <div className="error-message">{errors.instructorid}</div>
           )}
@@ -298,6 +390,13 @@ export default function AddClass() {
 
           {scheduleList.map((sch, index) => (
             <div key={index} className="schedule-box">
+              <button
+                type="button"
+                className="addclass-delete-btn"
+                onClick={() => removeSchedule(index)}
+              >
+                Cancel Schedule
+              </button>
               <div className="schedule-label">Days:</div>
               <select
                 value={sch.day}
@@ -370,6 +469,13 @@ export default function AddClass() {
                 <option value="19:30">19:30</option>
                 <option value="21:00">21:00</option>
               </select>
+
+              {/* SCHEDULE ERROR */}
+              {scheduleErrors[index] && (
+                <div className="error-message" style={{ marginTop: "6px" }}>
+                  {scheduleErrors[index]}
+                </div>
+              )}
             </div>
           ))}
 
