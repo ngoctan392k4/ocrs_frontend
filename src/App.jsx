@@ -16,7 +16,7 @@ import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
 import AddAccount from "./components/admin/AccountManagement/AddAccount";
 import EditCourse from "./components/admin/CourseManagement/EditCourse";
-
+import EditAccount from "./components/admin/AccountManagement/EditAccount";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -25,7 +25,6 @@ function App() {
     <Routes>
       {/* Common Routes */}
       <Route path="/" element={<HomeLogin />} />
-
 
       <Route
         path="/classManagement"
@@ -107,7 +106,7 @@ function App() {
         }
       />
 
-      {/* <Route
+      <Route
         path="/accountManagement/edit/:accountid"
         element={
           <EnsureLoggedToRoutes>
@@ -116,7 +115,7 @@ function App() {
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
-      /> */}
+      />
 
       {/* Student Routes */}
       <Route
