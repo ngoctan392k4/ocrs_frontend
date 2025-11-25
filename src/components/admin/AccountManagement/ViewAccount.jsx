@@ -66,7 +66,9 @@ export default function ViewAccount() {
   // Process deleting account via accountID
   const handleDeleteClick = (accountid) => {
     setDeleteAccountId(accountid);
-    setContentDialog(`Ensure your deleting on ${accountid} will delete all related users`)
+    setContentDialog(
+      `Ensure your deleting on ${accountid} will delete all related users`
+    );
     setShowDialog(true);
   };
 
@@ -74,19 +76,26 @@ export default function ViewAccount() {
   const handleYesDelete = async () => {
     if (!deleteAccountId) return;
     try {
-      const response = await fetch(`http://localhost:3001/api/admin/accountManagement/${deleteAccountId}`,{
-        method: "DELETE",
-        credentials: "include",
-      });
+      const response = await fetch(
+        `http://localhost:3001/api/admin/accountManagement/${deleteAccountId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
 
       const data = await response.json();
 
-      if(!response.ok){
+      if (!response.ok) {
         setContentDialog("An error occurred. Please try again later.");
         // setErrorDialog(true);
       } else {
-        setAccounts(prev => prev.filter(c => c.accountid !== deleteAccountId));
-        setSelectedAccounts(prev => prev.filter(id => id !== deleteAccountId));
+        setAccounts((prev) =>
+          prev.filter((c) => c.accountid !== deleteAccountId)
+        );
+        setSelectedAccounts((prev) =>
+          prev.filter((id) => id !== deleteAccountId)
+        );
       }
     } catch (err) {
       console.error(err);
@@ -163,6 +172,12 @@ export default function ViewAccount() {
                       <span className="account-info-label">Email: </span>
                       <span className="account-info-text">
                         {account.email || "null"}
+                      </span>
+                    </div>
+                    <div className="detail-row">
+                      <span className="account-info-label">Date of birth:</span>
+                      <span className="account-info-text">
+                        {account.dob || "null"}
                       </span>
                     </div>
                     <div className="detail-row">
