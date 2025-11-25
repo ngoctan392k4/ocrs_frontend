@@ -204,25 +204,25 @@ export default function EditClass() {
   }));
 
   return (
-    <div className="edit-container">
+    <div className="editclass-container">
       <Menu menus={menu_admin} />
-      <div className="edit-content">
-        <h1 className="edit-title">Edit Class — {formData.classcode}</h1>
-        <form className="edit-form" onSubmit={handleSubmit}>
+      <div className="editclass-content">
+        <h1 className="editclass-title">Edit Class — {formData.classcode}</h1>
+        <form className="editclass-form" onSubmit={handleSubmit}>
           {/* COURSE */}
-          <div className="label">Course:</div>
-          <input className="readOnly" value={formData.courseid} disabled />
+          <div className="editclasslabel">Course:</div>
+          <input className="editclassreadOnly" value={formData.courseid} disabled />
 
           {/* CLASS CODE */}
-          <div className="label">Class Code:</div>
-          <input className="readOnly" value={formData.classcode} disabled />
+          <div className="editclasslabel">Class Code:</div>
+          <input className="editclassreadOnly" value={formData.classcode} disabled />
 
           {/* CLASS NAME */}
-          <div className="label">Class Name:</div>
-          <input className="readOnly" value={formData.classname} disabled />
+          <div className="editclasslabel">Class Name:</div>
+          <input className="editclassreadOnly" value={formData.classname} disabled />
 
           {/* INSTRUCTOR */}
-          <div className="label">Instructor:</div>
+          <div className="editclasslabel">Instructor:</div>
           <Select
             name="instructorid"
             value={
@@ -242,11 +242,11 @@ export default function EditClass() {
             }}
           />
           {errors.instructorid && (
-            <div className="error-message">{errors.instructorid}</div>
+            <div className="editclasserror-message">{errors.instructorid}</div>
           )}
 
           {/* CAPACITY */}
-          <div className="label">Capacity:</div>
+          <div className="editclasslabel">Capacity:</div>
           <input
             type="number"
             name="capacity"
@@ -260,11 +260,11 @@ export default function EditClass() {
           {/* SCHEDULE */}
           <div className="label">Schedule:</div>
           {/* <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}> */}
-            <div className="schedule-add-btn" onClick={addScheduleRow}>+</div>
+            <div className="editclassschedule-add-btn" onClick={addScheduleRow}>+</div>
           {/* </div> */}
 
           {scheduleList.map((sch, index) => (
-            <div key={index} className="schedule-box">
+            <div key={index} className="editclassschedule-box">
               <button
                 type="button"
                 className="editclass-delete-btn"
@@ -273,7 +273,7 @@ export default function EditClass() {
                 Cancel Schedule
               </button>
 
-              <div className="schedule-label">Day:</div>
+              <div className="editclassschedule-label">Day:</div>
               <select
                 value={sch.day || ""}
                 onChange={(e) =>
@@ -290,7 +290,7 @@ export default function EditClass() {
                 <option>Sunday</option>
               </select>
 
-              <div className="schedule-label">Location:</div>
+              <div className="editclassschedule-label">Location:</div>
               <select
                 value={sch.location || ""}
                 onChange={(e) =>
@@ -308,7 +308,7 @@ export default function EditClass() {
                 )}
               </select>
 
-              <div className="schedule-label">Start:</div>
+              <div className="editclassschedule-label">Start:</div>
               <select
                 value={sch.start || ""}
                 onChange={(e) =>
@@ -324,7 +324,7 @@ export default function EditClass() {
                 <option>17:45</option>
               </select>
 
-              <div className="schedule-label">End:</div>
+              <div className="editclassschedule-label">End:</div>
               <select
                 value={sch.end || ""}
                 onChange={(e) =>
@@ -343,16 +343,16 @@ export default function EditClass() {
               </select>
 
               {errors[`schedule-${index}`] && (
-                <div className="error-message">{errors[`schedule-${index}`]}</div>
+                <div className="editclasserror-message">{errors[`schedule-${index}`]}</div>
               )}
             </div>
           ))}
 
-          <div className="edit-buttons">
-            <button type="button" className="btn-cancel" onClick={() => navigate(-1)}>
+          <div className="editclass-buttons">
+            <button type="button" className="editclassbtn-cancel" onClick={() => navigate(-1)}>
               Cancel
             </button>
-            <button type="submit" className="btn-save" disabled={loading}>
+            <button type="submit" className="editclassbtn-save" disabled={loading}>
               {loading ? "Saving..." : "Update Class"}
             </button>
           </div>

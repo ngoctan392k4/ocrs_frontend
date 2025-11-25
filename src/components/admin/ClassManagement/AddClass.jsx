@@ -7,6 +7,7 @@ import "../../../styles/admin/ClassManagement/AddClass.css";
 
 export default function AddClass() {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     classcode: "",
     classcodeSuffix: "",
@@ -18,14 +19,7 @@ export default function AddClass() {
     schedule: [],
   });
 
-  const [errors, setErrors] = useState({
-    courseid: "",
-    classcode: "",
-    classname: "",
-    instructorid: "",
-    capacity: "",
-  });
-
+  const [errors, setErrors] = useState({});
   const [courses, setCourses] = useState([]);
   const [instructors, setInstructors] = useState([]);
   const [semester, setSemester] = useState(null);
@@ -63,25 +57,23 @@ export default function AddClass() {
   }, []);
 
   /* ------------------------------
-      HANDLE INPUT CHANGE
+      HANDLE INPUTS
   ------------------------------ */
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     if (name === "capacity") {
-      if (value < 10 || value > 200) {
-        setErrors((prev) => ({
-          ...prev,
-          capacity: "Capacity available 10-200",
-        }));
-      } else {
-        setErrors((prev) => ({ ...prev, capacity: "" }));
-      }
+      const val = Number(value);
+      setErrors((prev) => ({
+        ...prev,
+        capacity: val < 10 || val > 200 ? "Capacity available 10-200" : "",
+      }));
+      setFormData((prev) => ({ ...prev, capacity: value }));
+      return;
     }
 
     if (name === "courseid") {
       const selectedCourse = courses.find((c) => c.courseid === value);
-
       setFormData((prev) => ({
         ...prev,
         courseid: value,
@@ -93,15 +85,11 @@ export default function AddClass() {
             ? `${value}-`
             : "",
       }));
-
       return;
     }
 
     if (name === "instructorid") {
-      setFormData((prev) => ({
-        ...prev,
-        instructorid: value,
-      }));
+      setFormData((prev) => ({ ...prev, instructorid: value }));
       return;
     }
 
@@ -109,7 +97,7 @@ export default function AddClass() {
   };
 
   /* ------------------------------
-      SCHEDULE CHANGE + VALIDATION
+      SCHEDULE CHANGE
   ------------------------------ */
   const handleScheduleChange = (index, field, value) => {
     const updated = [...scheduleList];
@@ -120,49 +108,38 @@ export default function AddClass() {
 
     const { day, start, end, location } = updated[index];
 
+    let errorMsg = "";
     if (!day || !start || !end || !location) {
-      setScheduleErrors((prev) => {
-        const newErrors = [...prev];
-        newErrors[index] = "Please complete all schedule fields.";
-        return newErrors;
-      });
-      return;
-    }
-
-    if (start >= end) {
-      setScheduleErrors((prev) => {
-        const newErrors = [...prev];
-        newErrors[index] = "End time must be later than start time.";
-        return newErrors;
-      });
-      return;
+      errorMsg = "Please complete all schedule fields.";
+    } else if (start >= end) {
+      errorMsg = "End time must be later than start time.";
     }
 
     setScheduleErrors((prev) => {
-      const newErrors = [...prev];
-      newErrors[index] = "";
-      return newErrors;
+      const errList = [...prev];
+      errList[index] = errorMsg;
+      return errList;
     });
   };
 
-  /* ------------------------------
-      ADD SCHEDULE ROW
-  ------------------------------ */
   const addScheduleRow = () => {
     setScheduleList((prev) => [
       ...prev,
       { day: "", start: "", end: "", location: "" },
     ]);
-
     setScheduleErrors((prev) => [
       ...prev,
       "Please complete all schedule fields.",
     ]);
   };
+
   const removeSchedule = (index) => {
     const updated = scheduleList.filter((_, i) => i !== index);
     setScheduleList(updated);
     setFormData((prev) => ({ ...prev, schedule: updated }));
+
+    const errUpdated = scheduleErrors.filter((_, i) => i !== index);
+    setScheduleErrors(errUpdated);
   };
 
   /* ------------------------------
@@ -185,14 +162,11 @@ export default function AddClass() {
     if (!formData.capacity)
       validationErrors.capacity = "This field is required";
 
-    if (formData.capacity < 10 || formData.capacity > 200) {
+    const cap = Number(formData.capacity);
+    if (cap < 10 || cap > 200)
       validationErrors.capacity = "Capacity available 10-200";
-    }
 
-    // Schedule validation
-    const foundError = scheduleErrors.some((err) => err !== "");
-
-    if (foundError) {
+    if (scheduleErrors.some((e) => e && e !== "")) {
       alert("Please fix schedule errors before submitting.");
       setLoading(false);
       return;
@@ -200,12 +174,6 @@ export default function AddClass() {
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      setLoading(false);
-      return;
-    }
-
-    if (!semester) {
-      alert("Semester data not loaded yet.");
       setLoading(false);
       return;
     }
@@ -245,11 +213,12 @@ export default function AddClass() {
 
       const result = await response.json();
 
-      if (response.ok) {
-        alert("Class added successfully!");
-        navigate("/classManagement");
-      } else {
-        alert(result.message);
+      if (!response.ok) {
+        if (result.field) {
+          setErrors((prev) => ({ ...prev, [result.field]: result.message }));
+        } else {
+          alert(result.message || "Error adding class.");
+        }
       }
     } catch (error) {
       alert("Error connecting to server.");
@@ -258,6 +227,9 @@ export default function AddClass() {
     setLoading(false);
   };
 
+  /* ------------------------------
+      OPTIONS SELECT
+  ------------------------------ */
   const courseOptions = courses.map((c) => ({
     value: c.courseid,
     label: `${c.courseid} — ${c.coursename}`,
@@ -268,19 +240,22 @@ export default function AddClass() {
     label: `${i.instructorid} — ${i.name}`,
   }));
 
+  /* ------------------------------
+      UI
+  ------------------------------ */
   return (
-    <div className="add-container">
+    <div className="addclass-container">
       <Menu menus={menu_admin} />
-      <div className="add-content">
-        <h1 className="add-title">
-          Add Class
+      <div className="addclass-content">
+        <h1 className="addclass-title">
+          Add Class{" "}
           {semester &&
             ` - ${semester.semester_name} - School Year ${semester.school_year}`}
         </h1>
 
-        <form className="add-form" onSubmit={handleSubmit}>
+        <form className="addclass-form" onSubmit={handleSubmit}>
           {/* COURSE */}
-          <div className="label">Course:</div>
+          <div className="addclasslabel">Course:</div>
           <Select
             name="courseid"
             value={
@@ -289,24 +264,20 @@ export default function AddClass() {
             options={courseOptions}
             isClearable
             placeholder="Select Course"
-            onChange={(selectedOption) => {
+            onChange={(selected) =>
               handleChange({
-                target: {
-                  name: "courseid",
-                  value: selectedOption?.value || "",
-                },
-              });
-            }}
+                target: { name: "courseid", value: selected?.value || "" },
+              })
+            }
           />
-
           {errors.courseid && (
-            <div className="error-message">{errors.courseid}</div>
+            <div className="addclasserror-message">{errors.courseid}</div>
           )}
 
           {/* CLASS CODE */}
-          <div className="label">Class Code:</div>
-          <div className="classcode-row">
-            <span className="classcode-prefix">
+          <div className="addclasslabel">Class Code:</div>
+          <div className="addclasscode-row">
+            <span className="addclasscode-prefix">
               {formData.courseid ? formData.courseid + "-" : ""}
             </span>
             <input
@@ -325,25 +296,24 @@ export default function AddClass() {
               }}
             />
           </div>
-
           {errors.classcode && (
-            <div className="error-message">{errors.classcode}</div>
+            <div className="addclasserror-message">{errors.classcode}</div>
           )}
 
           {/* CLASS NAME */}
-          <div className="label">Class Name:</div>
+          <div className="addclasslabel">Class Name:</div>
           <input
-            className="readOnly"
+            className="addclassreadOnly"
             name="classname"
             value={formData.classname}
             disabled
           />
           {errors.classname && (
-            <div className="error-message">{errors.classname}</div>
+            <div className="addclasserror-message">{errors.classname}</div>
           )}
 
           {/* INSTRUCTOR */}
-          <div className="label">Instructor:</div>
+          <div className="addclasslabel">Instructor:</div>
           <Select
             name="instructorid"
             value={
@@ -354,22 +324,18 @@ export default function AddClass() {
             options={instructorOptions}
             isClearable
             placeholder="Select Instructor"
-            onChange={(selectedOption) => {
+            onChange={(selected) =>
               handleChange({
-                target: {
-                  name: "instructorid",
-                  value: selectedOption?.value || "",
-                },
-              });
-            }}
+                target: { name: "instructorid", value: selected?.value || "" },
+              })
+            }
           />
-
           {errors.instructorid && (
-            <div className="error-message">{errors.instructorid}</div>
+            <div className="addclasserror-message">{errors.instructorid}</div>
           )}
 
           {/* CAPACITY */}
-          <div className="label">Capacity:</div>
+          <div className="addclasslabel">Capacity:</div>
           <input
             type="number"
             name="capacity"
@@ -377,19 +343,19 @@ export default function AddClass() {
             onChange={handleChange}
           />
           {errors.capacity && (
-            <div className="error-message">{errors.capacity}</div>
+            <div className="addclasserror-message">{errors.capacity}</div>
           )}
 
           {/* SCHEDULE */}
-          <div className="label">Schedule:</div>
+          <div className="addclasslabel">Schedule:</div>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <div className="schedule-add-btn" onClick={addScheduleRow}>
+            <div className="addclassschedule-add-btn" onClick={addScheduleRow}>
               +
             </div>
           </div>
 
           {scheduleList.map((sch, index) => (
-            <div key={index} className="schedule-box">
+            <div key={index} className="addclassschedule-box">
               <button
                 type="button"
                 className="addclass-delete-btn"
@@ -397,7 +363,8 @@ export default function AddClass() {
               >
                 Cancel Schedule
               </button>
-              <div className="schedule-label">Days:</div>
+
+              <div className="addclassschedule-label">Days:</div>
               <select
                 value={sch.day}
                 onChange={(e) =>
@@ -405,16 +372,22 @@ export default function AddClass() {
                 }
               >
                 <option value="">Select</option>
-                <option value="Monday">Monday</option>
-                <option value="Tuesday">Tuesday</option>
-                <option value="Wednesday">Wednesday</option>
-                <option value="Thursday">Thursday</option>
-                <option value="Friday">Friday</option>
-                <option value="Saturday">Saturday</option>
-                <option value="Sunday">Sunday</option>
+                {[
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                  "Sunday",
+                ].map((d) => (
+                  <option key={d} value={d}>
+                    {d}
+                  </option>
+                ))}
               </select>
 
-              <div className="schedule-label">Location:</div>
+              <div className="addclassschedule-label">Location:</div>
               <select
                 value={sch.location}
                 onChange={(e) =>
@@ -436,7 +409,7 @@ export default function AddClass() {
                 )}
               </select>
 
-              <div className="schedule-label">Start:</div>
+              <div className="addclassschedule-label">Start:</div>
               <select
                 value={sch.start}
                 onChange={(e) =>
@@ -444,15 +417,16 @@ export default function AddClass() {
                 }
               >
                 <option value="">Select</option>
-                <option value="07:00">07:00</option>
-                <option value="09:15">09:15</option>
-                <option value="13:00">13:00</option>
-                <option value="15:15">15:15</option>
-                <option value="17:30">17:30</option>
-                <option value="17:45">17:45</option>
+                {["07:00", "09:15", "13:00", "15:15", "17:30", "17:45"].map(
+                  (t) => (
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
+                  )
+                )}
               </select>
 
-              <div className="schedule-label">End:</div>
+              <div className="addclassschedule-label">End:</div>
               <select
                 value={sch.end}
                 onChange={(e) =>
@@ -460,27 +434,36 @@ export default function AddClass() {
                 }
               >
                 <option value="">Select</option>
-                <option value="09:00">09:00</option>
-                <option value="10:15">10:15</option>
-                <option value="11:15">11:15</option>
-                <option value="15:00">15:00</option>
-                <option value="16:15">16:15</option>
-                <option value="17:15">17:15</option>
-                <option value="19:30">19:30</option>
-                <option value="21:00">21:00</option>
+                {[
+                  "09:00",
+                  "10:15",
+                  "11:15",
+                  "15:00",
+                  "16:15",
+                  "17:15",
+                  "19:30",
+                  "21:00",
+                ].map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
               </select>
 
-              {/* SCHEDULE ERROR */}
               {scheduleErrors[index] && (
-                <div className="error-message" style={{ marginTop: "6px" }}>
+                <div className="addclasserror-message" style={{ marginTop: 6 }}>
                   {scheduleErrors[index]}
                 </div>
               )}
             </div>
           ))}
 
-          <div className="add-buttons">
-            <button type="submit" className="btn-save" disabled={loading}>
+          <div className="addclass-buttons">
+            <button
+              type="submit"
+              className="addclassbtn-save"
+              disabled={loading}
+            >
               {loading ? "Saving..." : "Add Class"}
             </button>
           </div>

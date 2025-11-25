@@ -76,29 +76,29 @@ export default function ViewClass() {
   };
 
   return (
-    <div className="view-container">
+    <div className="viewclass-container">
       <Menu menus={menu_admin} />
-      <div className="view-content">
-        <h1 className="view-title">View Class</h1>
+      <div className="viewclass-content">
+        <h1 className="viewclass-title">View Class</h1>
         <input
-          className="search-bar"
+          className="viewclasssearch-bar"
           type="text"
           placeholder="Search Class"
           value={searched}
           onChange={(e) => setSearched(e.target.value)}
         />
 
-        <div className="class-list">
+        <div className="viewclass-list">
           {searchClass.map((cls) => (
             <div
               key={cls.clsid}
-              className="class-item"
+              className="viewclass-item"
               onClick={() => toggleClass(cls.clsid)}
             >
-              <div className="class-header">
-                <div className="class-name">{cls.classname}</div>
+              <div className="viewclass-header">
+                <div className="viewclass-name">{cls.classname}</div>
                 <button
-                  className="delete-btn class-delete-btn"
+                  className="delete-btn viewclass-delete-btn"
                   onClick={() => handleDeleteClick(cls.clsid)}
                 >
                   x
@@ -106,48 +106,48 @@ export default function ViewClass() {
               </div>
 
               {selectedClasses.includes(cls.clsid) && (
-                <div className="class-detail">
-                  <div className="detail-row">
-                    <span className="class-info-label">Class Code: </span>
-                    <span className="class-info-text">{cls.classcode}</span>
+                <div className="viewclass-detail">
+                  <div className="viewclassdetail-row">
+                    <span className="viewclass-info-label">Class Code: </span>
+                    <span className="viewclass-info-text">{cls.classcode}</span>
                   </div>
-                  <div className="detail-row">
-                    <span className="class-info-label">Course ID: </span>
-                    <span className="class-info-text">{cls.courseid}</span>
+                  <div className="viewclassdetail-row">
+                    <span className="viewclass-info-label">Course ID: </span>
+                    <span className="viewclass-info-text">{cls.courseid}</span>
                   </div>
-                  <div className="detail-row">
-                    <span className="class-info-label">Class Name: </span>
-                    <span className="class-info-text">{cls.classname}</span>
+                  <div className="viewclassdetail-row">
+                    <span className="viewclass-info-label">Class Name: </span>
+                    <span className="viewclass-info-text">{cls.classname}</span>
                   </div>
-                  <div className="detail-row">
-                    <span className="class-info-label">Instructor: </span>
-                    <span className="class-info-text">
+                  <div className="viewclassdetail-row">
+                    <span className="viewclass-info-label">Instructor: </span>
+                    <span className="viewclass-info-text">
                       {cls.instructorid} - {cls.instructor_name}
                     </span>
                   </div>
-                  <div className="detail-row">
-                    <span className="class-info-label">Semester: </span>
-                    <span className="class-info-text">
+                  <div className="viewclassdetail-row">
+                    <span className="viewclass-info-label">Semester: </span>
+                    <span className="viewclass-info-text">
                       {cls.semester_name} - SY - {cls.school_year}
                     </span>
                   </div>
-                  <div className="detail-row">
-                    <span className="class-info-label">Schedule: </span>
-                    <span className="class-info-text">{cls.schedule}</span>
+                  <div className="viewclassdetail-row">
+                    <span className="viewclass-info-label">Schedule: </span>
+                    <span className="viewclass-info-text">{cls.schedule}</span>
                   </div>
-                  <div className="detail-row">
-                    <span className="class-info-label">Class Location: </span>
-                    <span className="class-info-text">
+                  <div className="viewclassdetail-row">
+                    <span className="viewclass-info-label">Class Location: </span>
+                    <span className="viewclass-info-text">
                       {cls.classlocation || "null"}
                     </span>
                   </div>
                   <div className="detail-row">
-                    <span className="class-info-label">Capacity: </span>
-                    <span className="class-info-text">{cls.capacity}</span>
+                    <span className="viewclass-info-label">Capacity: </span>
+                    <span className="viewclass-info-text">{cls.capacity}</span>
                   </div>
-                  <div className="class-action">
+                  <div className="viewclass-action">
                     <button
-                      className="edit-btn"
+                      className="viewclassedit-btn"
                       onClick={() =>
                         navigate(
                           `/ClassManagement/editClass/${cls.clsid}`
@@ -164,18 +164,18 @@ export default function ViewClass() {
         </div>
 
         {showDialog && (
-          <div className="dialog-backdrop">
-            <div className="dialog-box">
-              <div className="dialog-message">
+          <div className="viewclassdialog-backdrop">
+            <div className="viewclassdialog-box">
+              <div className="viewclassdialog-message">
                 Delete Class{" "}
                 {classes.find((cls) => cls.clsid === deleteClassId)?.classcode}?
               </div>
-              <div className="dialog-actions">
-                <button className="dialog-btn no" onClick={handleCancel}>
+              <div className="viewclassdialog-actions">
+                <button className="viewclassdialog-btn no" onClick={handleCancel}>
                   No
                 </button>
                 <button
-                  className="dialog-btn yes"
+                  className="viewclassdialog-btn yes"
                   onClick={handleConfirmDelete}
                 >
                   Yes
@@ -185,7 +185,7 @@ export default function ViewClass() {
           </div>
         )}
         <button
-          className="add-class-btn"
+          className="viewclassadd-class-btn"
           onClick={async () => {
             try {
               // Gọi API tạo kỳ học tiếp theo
