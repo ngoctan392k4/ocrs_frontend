@@ -219,6 +219,10 @@ export default function AddClass() {
         } else {
           alert(result.message || "Error adding class.");
         }
+      } else {
+        // <-- Thêm phần này
+        alert("Class added successfully!");
+        navigate("/classManagement");
       }
     } catch (error) {
       alert("Error connecting to server.");
