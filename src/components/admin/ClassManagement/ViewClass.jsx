@@ -150,7 +150,7 @@ export default function ViewClass() {
                       className="edit-btn"
                       onClick={() =>
                         navigate(
-                          `/ClassManagement/editClass?clsid=${cls.clsid}`
+                          `/ClassManagement/editClass/${cls.clsid}`
                         )
                       }
                     >
