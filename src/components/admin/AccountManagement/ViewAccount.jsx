@@ -129,6 +129,12 @@ export default function ViewAccount() {
                       </span>
                     </div>
                     <div className="detail-row">
+                      <span className="account-info-label">Date of birth:</span>
+                      <span className="account-info-text">
+                        {account.dob || "null"}
+                      </span>
+                    </div>
+                    <div className="detail-row">
                       <span className="account-info-label">Status: </span>
                       <span className="account-info-text">
                         {account.status}
