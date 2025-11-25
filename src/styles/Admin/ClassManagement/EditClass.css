@@ -70,7 +70,7 @@
   padding: 7px 10px;
   border: 1px solid var(--color-white-500);
   background: var(--color-white-000);
-  height: 40px;                 /* giữ chiều cao đều */
+  height: 40px;                 
   display: flex;
   align-items: center;
 }
@@ -82,10 +82,9 @@
   padding: 16px;
   border-radius: 14px;
 
-  /* chỉnh lại layout để label/select không bị lệch */
   display: grid;
-  grid-template-columns: 50px 400px 50px 200px; /* chỉnh rộng cột */
-  align-items: center; /* căn giữa theo chiều dọc */
+  grid-template-columns: 50px 400px 50px 200px;
+  align-items: center;
   row-gap: 16px;
   column-gap: 18px;
 }
@@ -138,7 +137,20 @@
   font-size: 15px;
   cursor: pointer;
 
-  grid-column: 1 / -1; /* Trải dài toàn bộ grid */
-  justify-self: start;  /* Căn trái */
-  margin-bottom: 10px; /* Khoảng cách xuống các field */
+  grid-column: 1 / -1; 
+  justify-self: start;  
+  margin-bottom: 10px; 
+}
+
+input.error,
+select.error {
+  border-color: var(--color-red);       
+  background-color: var(--color-gray-100); 
+}
+
+.editclasserror-message {
+  color: var(--color-red);
+  font-size: 12px;
+  margin-top: 5px;
+  grid-column: 2 / span 1;
 }

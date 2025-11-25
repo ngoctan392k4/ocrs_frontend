@@ -225,10 +225,8 @@ export default function EditClass() {
           <div className="editclasslabel">Instructor:</div>
           <Select
             name="instructorid"
-            value={
-              instructorOptions.find((o) => o.value === formData.instructorid) ||
-              null
-            }
+            className={errors.instructorid ? "error-select" : ""}
+            value={instructorOptions.find((o) => o.value === formData.instructorid) || null}
             options={instructorOptions}
             isClearable
             placeholder="Select Instructor"
@@ -241,9 +239,7 @@ export default function EditClass() {
               });
             }}
           />
-          {errors.instructorid && (
-            <div className="editclasserror-message">{errors.instructorid}</div>
-          )}
+          {errors.instructorid && <div className="editclasserror-message">{errors.instructorid}</div>}
 
           {/* CAPACITY */}
           <div className="editclasslabel">Capacity:</div>
@@ -252,16 +248,13 @@ export default function EditClass() {
             name="capacity"
             value={formData.capacity}
             onChange={handleChange}
+            className={errors.capacity ? "error" : ""}
           />
-          {errors.capacity && (
-            <div className="error-message">{errors.capacity}</div>
-          )}
+          {errors.capacity && <div className="editclasserror-message">{errors.capacity}</div>}
 
           {/* SCHEDULE */}
           <div className="label">Schedule:</div>
-          {/* <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}> */}
-            <div className="editclassschedule-add-btn" onClick={addScheduleRow}>+</div>
-          {/* </div> */}
+          <div className="editclassschedule-add-btn" onClick={addScheduleRow}>+</div>
 
           {scheduleList.map((sch, index) => (
             <div key={index} className="editclassschedule-box">
@@ -276,9 +269,7 @@ export default function EditClass() {
               <div className="editclassschedule-label">Day:</div>
               <select
                 value={sch.day || ""}
-                onChange={(e) =>
-                  handleScheduleChange(index, "day", e.target.value)
-                }
+                onChange={(e) => handleScheduleChange(index, "day", e.target.value)}
               >
                 <option value="">Select</option>
                 <option>Monday</option>
@@ -293,16 +284,12 @@ export default function EditClass() {
               <div className="editclassschedule-label">Location:</div>
               <select
                 value={sch.location || ""}
-                onChange={(e) =>
-                  handleScheduleChange(index, "location", e.target.value)
-                }
+                onChange={(e) => handleScheduleChange(index, "location", e.target.value)}
               >
                 <option value="">Select</option>
                 {[...Array(8)].map((_, floor) =>
                   [...Array(10)].map((_, room) => {
-                    const val = `ROOM ${floor + 1}${(room + 1)
-                      .toString()
-                      .padStart(2, "0")}`;
+                    const val = `ROOM ${floor + 1}${(room + 1).toString().padStart(2, "0")}`;
                     return <option key={val} value={val}>{val}</option>;
                   })
                 )}
@@ -311,9 +298,7 @@ export default function EditClass() {
               <div className="editclassschedule-label">Start:</div>
               <select
                 value={sch.start || ""}
-                onChange={(e) =>
-                  handleScheduleChange(index, "start", e.target.value)
-                }
+                onChange={(e) => handleScheduleChange(index, "start", e.target.value)}
               >
                 <option value="">Select</option>
                 <option>07:00</option>
@@ -327,9 +312,7 @@ export default function EditClass() {
               <div className="editclassschedule-label">End:</div>
               <select
                 value={sch.end || ""}
-                onChange={(e) =>
-                  handleScheduleChange(index, "end", e.target.value)
-                }
+                onChange={(e) => handleScheduleChange(index, "end", e.target.value)}
               >
                 <option value="">Select</option>
                 <option>09:00</option>
