@@ -188,7 +188,6 @@ export default function ViewClass() {
           className="viewclassadd-class-btn"
           onClick={async () => {
             try {
-              // Gọi API tạo kỳ học tiếp theo
               const response = await fetch(
                 "http://localhost:3001/api/admin/semester/next",
                 {
@@ -201,7 +200,6 @@ export default function ViewClass() {
                 throw new Error(err);
               }
 
-              // Chuyển sang trang Add Class
               navigate("/ClassManagement/addClass");
             } catch (err) {
               console.error("Failed to create next semester:", err);
