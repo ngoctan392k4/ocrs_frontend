@@ -25,7 +25,9 @@ export default function EditClass() {
   const [scheduleList, setScheduleList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // ============================ LOAD DATA ============================
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -69,9 +71,18 @@ export default function EditClass() {
     if (clsid) fetchData();
   }, [clsid]);
 
-  // ============================ INPUT CHANGE ============================
+  const handleBlur = () => {
+    let val = Number(formData.capacity);
+    if (val < 10) {
+      setFormData((prev) => ({ ...prev, capacity: 10 }));
+    } else if (val > 200) {
+      setFormData((prev) => ({ ...prev, capacity: 200 }));
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setHasChanges(true); 
 
     if (name === "courseid") {
       const selectedCourse = courses.find((c) => c.courseid === value);
@@ -85,27 +96,36 @@ export default function EditClass() {
     }
 
     if (name === "capacity") {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-      if (value < 10 || value > 200) {
-        setErrors((prev) => ({
-          ...prev,
-          capacity: "Capacity must be between 10 and 200",
-        }));
-      } else {
-        setErrors((prev) => ({ ...prev, capacity: "" }));
-      }
+      setFormData((prev) => ({ ...prev, capacity: value }));
       return;
     }
 
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ============================ SCHEDULE CHANGE ============================
+  const handleCancel = () => {
+    if (hasChanges) {
+      setShowCancelDialog(true); 
+    } else {
+      navigate(-1); 
+    }
+  };
+
+  const handleConfirmCancel = () => {
+    setShowCancelDialog(false);
+    navigate(-1); 
+  };
+
+  const handleCancelDialogClose = () => {
+    setShowCancelDialog(false); 
+  };
+
   const handleScheduleChange = (index, field, value) => {
     const updated = [...scheduleList];
     updated[index] = { ...updated[index], [field]: value };
     setScheduleList(updated);
     setFormData((prev) => ({ ...prev, schedule: updated }));
+    setHasChanges(true); 
   };
 
   const addScheduleRow = () =>
@@ -120,7 +140,6 @@ export default function EditClass() {
     setFormData((prev) => ({ ...prev, schedule: updated }));
   };
 
-  // ============================ SUBMIT ============================
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -135,24 +154,16 @@ export default function EditClass() {
 
     let validationErrors = {};
 
-    // Kiểm tra required
     requiredFields.forEach((field) => {
       if (!formData[field] || formData[field].toString().trim() === "") {
         validationErrors[field] = "This field is required";
       }
     });
 
-    // Kiểm tra capacity
-    if (formData.capacity && (formData.capacity < 10 || formData.capacity > 200)) {
-      validationErrors.capacity = "Capacity must be between 10 and 200";
-    }
-
-    // Kiểm tra schedule đầy đủ
     scheduleList.forEach((sch, i) => {
       if (!sch.day || !sch.location || !sch.start || !sch.end) {
         validationErrors[`schedule-${i}`] = "Please fill full schedule information!";
       } else {
-        // Kiểm tra start < end
         const [sh, sm] = sch.start.split(":").map(Number);
         const [eh, em] = sch.end.split(":").map(Number);
         if (sh > eh || (sh === eh && sm >= em)) {
@@ -197,7 +208,6 @@ export default function EditClass() {
     setLoading(false);
   };
 
-  // ============================ RENDER ============================
   const instructorOptions = instructors.map((i) => ({
     value: i.instructorid,
     label: `${i.instructorid} — ${i.name}`,
@@ -248,6 +258,7 @@ export default function EditClass() {
             name="capacity"
             value={formData.capacity}
             onChange={handleChange}
+            onBlur={handleBlur} 
             className={errors.capacity ? "error" : ""}
           />
           {errors.capacity && <div className="editclasserror-message">{errors.capacity}</div>}
@@ -332,7 +343,7 @@ export default function EditClass() {
           ))}
 
           <div className="editclass-buttons">
-            <button type="button" className="editclassbtn-cancel" onClick={() => navigate(-1)}>
+            <button type="button" className="editclassbtn-cancel" onClick={handleCancel}>
               Cancel
             </button>
             <button type="submit" className="editclassbtn-save" disabled={loading}>
@@ -341,6 +352,25 @@ export default function EditClass() {
           </div>
         </form>
       </div>
+
+      {/* Cancel Confirmation Dialog */}
+      {showCancelDialog && (
+        <div className="editclasscancel-dialog-backdrop">
+          <div className="editclasscancel-dialog-box">
+            <div className="editclasscancel-dialog-message">
+              You have unsaved changes. Do you really want to cancel?
+            </div>
+            <div className="editclasscancel-dialog-actions">
+              <button className="editclasscancel-dialog-btn no" onClick={handleCancelDialogClose}>
+                No
+              </button>
+              <button className="editclasscancel-dialog-btn yes" onClick={handleConfirmCancel}>
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -132,7 +132,6 @@
 }
 
 
-/* ======= BUTTON ROW ======= */
 .addclass-buttons {
   grid-column: span 2;
   display: flex;
@@ -141,7 +140,7 @@
   gap: 15px;
 }
 
-/* .addclassbtn-cancel, */
+.addclassbtn-cancel,
 .addclassbtn-save {
   width: 120px;
   height: 35px;
@@ -246,9 +245,63 @@ input[type="text"] {
 }
 
 .addclassinput-error {
-  border: 1px solid red;
+  border: 1px solid var(--color-red);
 }
 
-.error__control { /* react-select input lỗi */
-  border: 1px solid red !important;
+.error__control { 
+  border: 1px solid var(--color-red) !important;
+}
+
+.addclasscancel-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--color-black)(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  backdrop-filter: blur(1px);
+}
+
+.addclasscancel-dialog-box {
+  width: 380px;
+  background: var(--color-white-000);
+  padding: 35px 25px;
+  border-radius: 18px; 
+  text-align: center;
+  box-shadow: 0 6px 18px var(--color-black)(0, 0, 0, 0.25);
+  font-family: var(--font-sans);
+}
+
+.addclasscancel-dialog-message {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 35px;
+  color: var(--color-gray-700);
+}
+
+.addclasscancel-dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.addclasscancel-dialog-btn {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  background: var(--color-white-300); 
+  transition: 0.2s;
+}
+
+.addclasscancel-dialog-btn.no {
+  background: var(--color-white-100);
+}
+
+.addclasscancel-dialog-btn.yes {
+  background: var(--color-white-200);
 }

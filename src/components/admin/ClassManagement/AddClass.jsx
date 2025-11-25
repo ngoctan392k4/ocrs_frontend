@@ -29,6 +29,9 @@ export default function AddClass() {
 
   const [loading, setLoading] = useState(false);
 
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
+
   /* ------------------------------
       FETCH DATA
   ------------------------------ */
@@ -56,18 +59,20 @@ export default function AddClass() {
     fetchData();
   }, []);
 
-  /* ------------------------------
-      HANDLE INPUTS
-  ------------------------------ */
+  const handleBlur = () => {
+    let val = Number(formData.capacity);
+    if (val < 10) {
+      setFormData((prev) => ({ ...prev, capacity: 10 }));
+    } else if (val > 200) {
+      setFormData((prev) => ({ ...prev, capacity: 200 }));
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setHasChanges(true); 
 
     if (name === "capacity") {
-      const val = Number(value);
-      setErrors((prev) => ({
-        ...prev,
-        capacity: val < 10 || val > 200 ? "Capacity available 10-200" : "",
-      }));
       setFormData((prev) => ({ ...prev, capacity: value }));
       return;
     }
@@ -96,9 +101,23 @@ export default function AddClass() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  /* ------------------------------
-      SCHEDULE CHANGE
-  ------------------------------ */
+  const handleCancel = () => {
+    if (hasChanges) {
+      setShowCancelDialog(true); 
+    } else {
+      navigate(-1); 
+    }
+  };
+
+  const handleConfirmCancel = () => {
+    setShowCancelDialog(false);
+    navigate(-1); 
+  };
+
+  const handleCancelDialogClose = () => {
+    setShowCancelDialog(false); 
+  };
+
   const handleScheduleChange = (index, field, value) => {
     const updated = [...scheduleList];
     updated[index][field] = value;
@@ -142,9 +161,6 @@ export default function AddClass() {
     setScheduleErrors(errUpdated);
   };
 
-  /* ------------------------------
-      SUBMIT
-  ------------------------------ */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -161,10 +177,6 @@ export default function AddClass() {
       validationErrors.instructorid = "This field is required";
     if (!formData.capacity)
       validationErrors.capacity = "This field is required";
-
-    const cap = Number(formData.capacity);
-    if (cap < 10 || cap > 200)
-      validationErrors.capacity = "Capacity available 10-200";
 
     if (scheduleErrors.some((e) => e && e !== "")) {
       alert("Please fix schedule errors before submitting.");
@@ -220,7 +232,6 @@ export default function AddClass() {
           alert(result.message || "Error adding class.");
         }
       } else {
-        // <-- Thêm phần này
         alert("Class added successfully!");
         navigate("/classManagement");
       }
@@ -231,9 +242,6 @@ export default function AddClass() {
     setLoading(false);
   };
 
-  /* ------------------------------
-      OPTIONS SELECT
-  ------------------------------ */
   const courseOptions = courses.map((c) => ({
     value: c.courseid,
     label: `${c.courseid} — ${c.coursename}`,
@@ -244,9 +252,6 @@ export default function AddClass() {
     label: `${i.instructorid} — ${i.name}`,
   }));
 
-  /* ------------------------------
-      UI
-  ------------------------------ */
   return (
     <div className="addclass-container">
       <Menu menus={menu_admin} />
@@ -345,6 +350,7 @@ export default function AddClass() {
             name="capacity"
             value={formData.capacity}
             onChange={handleChange}
+            onBlur={handleBlur} 
           />
           {errors.capacity && (
             <div className="addclasserror-message">{errors.capacity}</div>
@@ -461,18 +467,34 @@ export default function AddClass() {
               )}
             </div>
           ))}
-
-          <div className="addclass-buttons">
-            <button
-              type="submit"
-              className="addclassbtn-save"
-              disabled={loading}
-            >
-              {loading ? "Saving..." : "Add Class"}
+      <div className="addclass-buttons">
+            <button type="button" className="addclassbtn-cancel" onClick={handleCancel}>
+              Cancel
+            </button>
+            <button type="submit" className="addclassbtn-save" disabled={loading}>
+              {loading ? "Saving..." : "Update Class"}
             </button>
           </div>
         </form>
       </div>
+
+      {showCancelDialog && (
+        <div className="addclasscancel-dialog-backdrop">
+          <div className="addclasscancel-dialog-box">
+            <div className="addclasscancel-dialog-message">
+              You have unsaved changes. Do you really want to cancel?
+            </div>
+            <div className="addclasscancel-dialog-actions">
+              <button className="addclasscancel-dialog-btn no" onClick={handleCancelDialogClose}>
+                No
+              </button>
+              <button className="addclasscancel-dialog-btn yes" onClick={handleConfirmCancel}>
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
