@@ -1,5 +1,5 @@
 
-.add-container {
+.addclass-container {
   display: flex;
   min-height: 100vh;
   background: var(--color-white-100);
@@ -8,7 +8,7 @@
 
 /* ============= CONTENT ============= */
 
-.add-content {
+.addclass-content {
   flex-grow: 1;
   padding: 30px;
   margin-left: 260px;
@@ -18,14 +18,14 @@
 }
 
 
-.add-title {
+.addclass-title {
   font-size: 26px;
   font-weight: 700;
   margin-bottom: 20px;
 }
 
 /* ======= BLACK HEADER BAR ======= */
-.add-header {
+.addclass-header {
   background: var( --color-black);
   color: var(--color-white-000);
   padding: 14px 25px;
@@ -36,7 +36,7 @@
 }
 
 /* ======= GRID FORM ======= */
-.add-form {
+.addclass-form {
   display: grid;
   grid-template-columns: 150px auto;
   align-items: center;
@@ -44,36 +44,44 @@
 }
 
 /* ======= LABELS ======= */
-.add-form .label {
-  font-weight: 600;
-  font-size: 15px;
+.addclass-form .addclasslabel {
+  font-weight: 500;
+  font-size: 16px;
 }
 
 /* ======= INPUTS ======= */
-.add-form input,
-.add-form select {
-  width: 260px;
-  padding: 8px 0px;
-  border: 2px solid var(--color-gray-300);
-  border-radius: 10px; 
-  font-size: 14px;
+.addclass-form input,
+.addclass-form select {
+  width: 1013px;
+  height: 17px;
+  padding: 10px 10px;
+  border: 1.3px solid var(--color-gray-300);
+  border-radius: 4px; 
+  font-size: 16px;
+  font-family: Segoe UI;
   background: var(--color-white-000);
+  
 } 
 
-
+.addclassreadOnly:disabled {
+  background-color: var(--color-gray-300);
+  color: var(--color-gray-700); 
+  cursor: not-allowed;    
+  width: 1013px;      
+}
 
 /* Class dropdown rộng hơn */
-.select-wide {
+.addclassselect-wide {
   width: 260px;
 }
 
 /* Class Name rộng hơn một chút */
-.input-wide {
+.addclassinput-wide {
   width: 260px;
 }
 
 /* ======= "+" ADD SCHEDULE BUTTON ======= */
-.schedule-add-btn {
+.addclassschedule-add-btn {
   width: 32px;
   height: 32px;
   background: var(--color-white-000);
@@ -88,7 +96,7 @@
 }
 
 /* ======= SCHEDULE BOX ======= */
-.schedule-box {
+.addclassschedule-box {
   grid-column: span 2;
   margin-top: 10px;
   background: var(--color-white-300);
@@ -103,7 +111,7 @@
   column-gap: 18px;
 }
 
-.schedule-label {
+.addclassschedule-label {
   font-size: 14px;
   font-weight: 600;
   display: flex;
@@ -111,8 +119,9 @@
 }
 
 /* Input + Select của schedule */
-.schedule-box select,
-.schedule-box input {
+.addclassschedule-box select,
+.addclassschedule-box input {
+  width: 260px;
   border-radius: 8px;
   padding: 7px 10px;
   border: 1px solid var(--color-white-500);
@@ -122,8 +131,9 @@
   align-items: center;
 }
 
+
 /* ======= BUTTON ROW ======= */
-.add-buttons {
+.addclass-buttons {
   grid-column: span 2;
   display: flex;
   justify-content: flex-end;
@@ -131,19 +141,23 @@
   gap: 15px;
 }
 
-.btn-cancel,
-.btn-save {
-  padding: 10px 28px;
-  font-size: 15px;
+/* .addclassbtn-cancel, */
+.addclassbtn-save {
+  width: 120px;
+  height: 35px;
   border-radius: 14px;
-  border: 2px solid var( --color-black);
-  background: var(--color-white-000);
+  border: 2px;
   cursor: pointer;
-  transition: 0.2s ease;
+  grid-column: 1 / -1; 
+  justify-self: end;  
+  margin-top: 10px;
+  font-size: 16px;
+  background: var(--color-blue-500);
+  color: var(--color-white-000);
 }
 
-.btn-cancel:hover,
-.btn-save:hover {
+.addclassbtn-cancel:hover,
+.addclassbtn-save:hover {
   background: var(--color-white-500);
 }
 
@@ -156,7 +170,7 @@ select.error {
 
 
 /* ===== ERROR TEXT SÁT DƯỚI INPUT ===== */
-.error-message {
+.addclasserror-message {
   color: var(--color-red);
   font-size: 10px;
   margin-top: -14px; /* kéo chữ lên sát box */
@@ -164,7 +178,77 @@ select.error {
   grid-column: 2 / 3; /* đảm bảo nằm dưới input */
 }
 
-.schedule-error {
+.addclassschedule-error {
   grid-column: span 4;
   margin-top: -8px;
+}
+
+.addclass-name-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.addclassinput-with-prefix {
+  display: flex;
+  align-items: center;
+}
+
+.addclassprefix {
+  padding: 8px 12px;
+  background-color: var(--color-white-100);
+  border: 1px solid var(--color-white-400);
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+}
+
+.addclassinput-with-prefix input {
+  padding: 8px 12px;
+  border: 1px solid var(--color-white-400);
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  flex-grow: 1;
+}
+
+
+.addclasscode-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 10px;
+  width: 50px; 
+  white-space: nowrap; 
+}
+
+.addclasscode-prefix {
+  margin-right: 5px; 
+}
+
+input[type="text"] {
+  flex-grow: 1; 
+  white-space: nowrap;
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+}
+
+.addclass-delete-btn {
+  width: 130px;
+  border: none;
+  border-radius: 10px;
+  background: var(--color-blue-500);
+  color: var(--color-white-000);
+  font-size: 15px;
+  cursor: pointer;
+
+  grid-column: 1 / -1;
+  justify-self: start; 
+  margin-bottom: 10px;
+}
+
+.addclassinput-error {
+  border: 1px solid red;
+}
+
+.error__control { /* react-select input lỗi */
+  border: 1px solid red !important;
 }
