@@ -113,7 +113,7 @@ export default function EditAccount() {
           setShowPopupError(true);
         }
       } else {
-        setSuccessMessage("Successfully add new account");
+        setSuccessMessage("Successfully edited the account");
         setSuccessDialog(true);
       }
     } catch (e) {
