@@ -498,7 +498,7 @@ export default function AddClass() {
               className="addclassbtn-save"
               disabled={loading}
             >
-              {loading ? "Saving..." : "Update Class"}
+              {loading ? "Saving..." : "Add Class"}
             </button>
           </div>
         </form>
