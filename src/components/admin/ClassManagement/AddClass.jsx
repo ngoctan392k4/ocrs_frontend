@@ -174,90 +174,92 @@ export default function AddClass() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  e.preventDefault();
+  setLoading(true);
 
-    let validationErrors = {};
+  let validationErrors = {};
 
-    if (!formData.courseid)
-      validationErrors.courseid = "This field is required";
-    if (!formData.classcodeSuffix.trim())
-      validationErrors.classcode = "This field is required";
-    if (!formData.classname)
-      validationErrors.classname = "This field is required";
-    if (!formData.instructorid)
-      validationErrors.instructorid = "This field is required";
-    if (!formData.capacity)
-      validationErrors.capacity = "This field is required";
+  if (!formData.courseid)
+    validationErrors.courseid = "This field is required";
+  if (!formData.classcodeSuffix.trim())
+    validationErrors.classcode = "This field is required";
+  if (!formData.classname)
+    validationErrors.classname = "This field is required";
+  if (!formData.instructorid)
+    validationErrors.instructorid = "This field is required";
+  if (!formData.capacity)
+    validationErrors.capacity = "This field is required";
 
-    if (formData.capacity 
-      && (formData.capacity < 10 || formData.capacity > 200)) { 
-        validationErrors.capacity = "Capacity must be between 10 and 200"; 
-      }
+  if (formData.capacity && (formData.capacity < 10 || formData.capacity > 200)) {
+    validationErrors.capacity = "Capacity must be between 10 and 200";
+  }
 
-    if (scheduleErrors.some((e) => e && e !== "")) {
-      alert("Please fix schedule errors before submitting.");
-      setLoading(false);
-      return;
-    }
-
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      setLoading(false);
-      return;
-    }
-
-    const schedulePayload =
-      scheduleList.length === 0
-        ? [
-            {
-              day: null,
-              start: null,
-              end: null,
-              location: "This class has no schedule yet!",
-              note: "This class has no schedule yet!",
-            },
-          ]
-        : scheduleList;
-
-    const payload = {
-      courseid: formData.courseid,
-      classcode: formData.classcode,
-      classname: formData.classname,
-      semid: formData.semid,
-      instructorid: formData.instructorid,
-      capacity: formData.capacity,
-      schedule: schedulePayload,
-    };
-
-    try {
-      const response = await fetch(
-        "http://localhost:3001/api/admin/ClassManagement/addClass",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        if (result.field) {
-          setErrors((prev) => ({ ...prev, [result.field]: result.message }));
-        } else {
-          alert(result.message || "Error adding class.");
-        }
-      } else {
-        alert("Class added successfully!");
-        navigate("/classManagement");
-      }
-    } catch (error) {
-      alert("Error connecting to server.");
-    }
-
+  if (scheduleErrors.some((e) => e && e !== "")) {
+    alert("Please fix schedule errors before submitting.");
     setLoading(false);
+    return;
+  }
+
+  if (Object.keys(validationErrors).length > 0) {
+    setErrors(validationErrors);
+    setLoading(false);
+    return;
+  }
+
+  const schedulePayload =
+    scheduleList.length === 0
+      ? [
+          {
+            day: null,
+            start: null,
+            end: null,
+            location: "This class has no schedule yet!",
+            note: "This class has no schedule yet!",
+          },
+        ]
+      : scheduleList;
+
+  const payload = {
+    courseid: formData.courseid,
+    classcode: formData.classcode,
+    classname: formData.classname,
+    semid: formData.semid,
+    instructorid: formData.instructorid,
+    capacity: formData.capacity,
+    schedule: schedulePayload,
   };
+
+  try {
+    const response = await fetch(
+      "http://localhost:3001/api/admin/ClassManagement/addClass",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      if (result.code === "SCHEDULE_OVERLAP") {
+        alert("Schedule overlap! Please adjust your schedule.");
+      } else if (result.field) {
+        setErrors((prev) => ({ ...prev, [result.field]: result.message }));
+      } else {
+        alert(result.message || "Error adding class.");
+      }
+    } else {
+      alert("Class added successfully!");
+      navigate("/classManagement");
+    }
+  } catch (error) {
+    alert("Error connecting to server.");
+  }
+
+  setLoading(false);
+};
+
 
   const courseOptions = courses.map((c) => ({
     value: c.courseid,
@@ -387,7 +389,11 @@ export default function AddClass() {
               <button
                 type="button"
                 className="addclass-delete-btn"
-                onClick={() => removeSchedule(index)}
+                onClick={() => {
+                    removeSchedule(index)
+                    setHasChanges(true)
+                  }
+                }
               >
                 Cancel Schedule
               </button>

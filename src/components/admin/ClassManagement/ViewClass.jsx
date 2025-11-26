@@ -102,7 +102,6 @@ export default function ViewClass() {
           onChange={(e) => setSearched(e.target.value)}
         />
 
-        {/* --- LIST VIEW GROUPED BY semid --- */}
         <div className="viewclass-list">
           {sortedSemesters.map((semid) => (
             <div key={semid} className="viewclass-semester-group">
