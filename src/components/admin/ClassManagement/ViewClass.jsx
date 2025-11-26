@@ -33,13 +33,26 @@ export default function ViewClass() {
     fetchClasses();
   }, []);
 
-  const searchClass = classes.filter((cls) => {
+  // --- SEARCH ---
+  const filteredClasses = classes.filter((cls) => {
     const keyword = searched.toLowerCase();
     return (
       cls.clsid?.toLowerCase().includes(keyword) ||
       cls.classname?.toLowerCase().includes(keyword)
     );
   });
+
+  // --- GROUP BY semid ---
+  const groupedBySemester = filteredClasses.reduce((acc, cls) => {
+    if (!acc[cls.semid]) acc[cls.semid] = [];
+    acc[cls.semid].push(cls);
+    return acc;
+  }, {});
+
+  // Sort semid tăng dần
+  const sortedSemesters = Object.keys(groupedBySemester).sort(
+    (a, b) => a - b
+  );
 
   const toggleClass = (id) => {
     setSelectedClasses((otherClasses) =>
@@ -80,6 +93,7 @@ export default function ViewClass() {
       <Menu menus={menu_admin} />
       <div className="viewclass-content">
         <h1 className="viewclass-title">View Class</h1>
+
         <input
           className="viewclasssearch-bar"
           type="text"
@@ -88,81 +102,89 @@ export default function ViewClass() {
           onChange={(e) => setSearched(e.target.value)}
         />
 
+        {/* --- LIST VIEW GROUPED BY semid --- */}
         <div className="viewclass-list">
-          {searchClass.map((cls) => (
-            <div
-              key={cls.clsid}
-              className="viewclass-item"
-              onClick={() => toggleClass(cls.clsid)}
-            >
-              <div className="viewclass-header">
-                <div className="viewclass-name">{cls.classname}</div>
-                <button
-                  className="delete-btn viewclass-delete-btn"
-                  onClick={() => handleDeleteClick(cls.clsid)}
-                >
-                  x
-                </button>
-              </div>
+          {sortedSemesters.map((semid) => (
+            <div key={semid} className="viewclass-semester-group">
+              <h2 className="semester-title">{semid}</h2>
 
-              {selectedClasses.includes(cls.clsid) && (
-                <div className="viewclass-detail">
-                  <div className="viewclassdetail-row">
-                    <span className="viewclass-info-label">Class Code: </span>
-                    <span className="viewclass-info-text">{cls.classcode}</span>
-                  </div>
-                  <div className="viewclassdetail-row">
-                    <span className="viewclass-info-label">Course ID: </span>
-                    <span className="viewclass-info-text">{cls.courseid}</span>
-                  </div>
-                  <div className="viewclassdetail-row">
-                    <span className="viewclass-info-label">Class Name: </span>
-                    <span className="viewclass-info-text">{cls.classname}</span>
-                  </div>
-                  <div className="viewclassdetail-row">
-                    <span className="viewclass-info-label">Instructor: </span>
-                    <span className="viewclass-info-text">
-                      {cls.instructorid} - {cls.instructor_name}
-                    </span>
-                  </div>
-                  <div className="viewclassdetail-row">
-                    <span className="viewclass-info-label">Semester: </span>
-                    <span className="viewclass-info-text">
-                      {cls.semester_name} - SY - {cls.school_year}
-                    </span>
-                  </div>
-                  <div className="viewclassdetail-row">
-                    <span className="viewclass-info-label">Schedule: </span>
-                    <span className="viewclass-info-text">{cls.schedule}</span>
-                  </div>
-                  <div className="viewclassdetail-row">
-                    <span className="viewclass-info-label">Class Location: </span>
-                    <span className="viewclass-info-text">
-                      {cls.classlocation || "null"}
-                    </span>
-                  </div>
-                  <div className="detail-row">
-                    <span className="viewclass-info-label">Capacity: </span>
-                    <span className="viewclass-info-text">{cls.capacity}</span>
-                  </div>
-                  <div className="viewclass-action">
+              {groupedBySemester[semid].map((cls) => (
+                <div
+                  key={cls.clsid}
+                  className="viewclass-item"
+                  onClick={() => toggleClass(cls.clsid)}
+                >
+                  <div className="viewclass-header">
+                    <div className="viewclass-name">
+                      {cls.classname} - {cls.classcode?.split("-")[1]}
+                    </div>
                     <button
-                      className="viewclassedit-btn"
-                      onClick={() =>
-                        navigate(
-                          `/ClassManagement/editClass/${cls.clsid}`
-                        )
-                      }
+                      className="delete-btn viewclass-delete-btn"
+                      onClick={() => handleDeleteClick(cls.clsid)}
                     >
-                      Edit
+                      x
                     </button>
                   </div>
+
+                  {selectedClasses.includes(cls.clsid) && (
+                    <div className="viewclass-detail">
+                      <div className="viewclassdetail-row">
+                        <span className="viewclass-info-label">Class Code: </span>
+                        <span className="viewclass-info-text">{cls.classcode}</span>
+                      </div>
+                      <div className="viewclassdetail-row">
+                        <span className="viewclass-info-label">Course ID: </span>
+                        <span className="viewclass-info-text">{cls.courseid}</span>
+                      </div>
+                      <div className="viewclassdetail-row">
+                        <span className="viewclass-info-label">Class Name: </span>
+                        <span className="viewclass-info-text">{cls.classname}</span>
+                      </div>
+                      <div className="viewclassdetail-row">
+                        <span className="viewclass-info-label">Instructor: </span>
+                        <span className="viewclass-info-text">
+                          {cls.instructorid} - {cls.instructor_name}
+                        </span>
+                      </div>
+                      <div className="viewclassdetail-row">
+                        <span className="viewclass-info-label">Semester: </span>
+                        <span className="viewclass-info-text">
+                          {cls.semester_name} - SY - {cls.school_year}
+                        </span>
+                      </div>
+                      <div className="viewclassdetail-row">
+                        <span className="viewclass-info-label">Schedule: </span>
+                        <span className="viewclass-info-text">{cls.schedule}</span>
+                      </div>
+                      <div className="viewclassdetail-row">
+                        <span className="viewclass-info-label">Class Location: </span>
+                        <span className="viewclass-info-text">
+                          {cls.classlocation || "null"}
+                        </span>
+                      </div>
+                      <div className="detail-row">
+                        <span className="viewclass-info-label">Capacity: </span>
+                        <span className="viewclass-info-text">{cls.capacity}</span>
+                      </div>
+                      <div className="viewclass-action">
+                        <button
+                          className="viewclassedit-btn"
+                          onClick={() =>
+                            navigate(`/ClassManagement/editClass/${cls.clsid}`)
+                          }
+                        >
+                          Edit
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
+              ))}
             </div>
           ))}
         </div>
 
+        {/* --- DELETE DIALOG --- */}
         {showDialog && (
           <div className="viewclassdialog-backdrop">
             <div className="viewclassdialog-box">
@@ -184,15 +206,15 @@ export default function ViewClass() {
             </div>
           </div>
         )}
+
+        {/* ADD BUTTON */}
         <button
           className="viewclassadd-class-btn"
           onClick={async () => {
             try {
               const response = await fetch(
                 "http://localhost:3001/api/admin/semester/next",
-                {
-                  method: "POST",
-                }
+                { method: "POST" }
               );
 
               if (!response.ok) {

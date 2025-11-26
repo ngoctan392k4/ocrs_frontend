@@ -298,10 +298,6 @@ input[type="text"] {
   transition: 0.2s;
 }
 
-.addclasscancel-dialog-btn.no {
+.addclassdialog-btn:hover {
   background: var(--color-white-100);
-}
-
-.addclasscancel-dialog-btn.yes {
-  background: var(--color-white-200);
 }
