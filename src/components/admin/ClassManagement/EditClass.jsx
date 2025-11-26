@@ -15,7 +15,7 @@ export default function EditClass() {
     instructorid: "",
     classname: "",
     semid: "",
-    capacity: "",
+    capacity: 0,
     schedule: [],
   });
 
@@ -71,18 +71,36 @@ export default function EditClass() {
     if (clsid) fetchData();
   }, [clsid]);
 
-  const handleBlur = () => {
-    let val = Number(formData.capacity);
-    if (val < 10) {
-      setFormData((prev) => ({ ...prev, capacity: 10 }));
-    } else if (val > 200) {
-      setFormData((prev) => ({ ...prev, capacity: 200 }));
-    }
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setHasChanges(true); 
+
+    if (name === "capacity") {
+      let val = value;
+
+      if (val === "") {
+        setFormData((prev) => ({ ...prev, capacity: 0 }));
+        return;
+      }
+
+      if (val.includes("-")) return;
+
+      const num = Number(val);
+
+      if (val.length === 2) {
+        setFormData((prev) => ({ ...prev, capacity: val }));
+        return;
+      }
+
+      if (num > 200) {
+        setFormData((prev) => ({ ...prev, capacity: 200 }));
+        return;
+      }
+
+      setFormData((prev) => ({ ...prev, capacity: num }));
+      return;
+    }
+
 
     if (name === "courseid") {
       const selectedCourse = courses.find((c) => c.courseid === value);
@@ -159,6 +177,11 @@ export default function EditClass() {
         validationErrors[field] = "This field is required";
       }
     });
+
+    if (formData.capacity 
+      && (formData.capacity < 10 || formData.capacity > 200)) { 
+        validationErrors.capacity = "Capacity must be between 10 and 200"; 
+      }
 
     scheduleList.forEach((sch, i) => {
       if (!sch.day || !sch.location || !sch.start || !sch.end) {
@@ -256,10 +279,10 @@ export default function EditClass() {
           <input
             type="number"
             name="capacity"
+            min={0}
+            max={200}
             value={formData.capacity}
-            onChange={handleChange}
-            onBlur={handleBlur} 
-            className={errors.capacity ? "error" : ""}
+            onChange={handleChange} 
           />
           {errors.capacity && <div className="editclasserror-message">{errors.capacity}</div>}
 

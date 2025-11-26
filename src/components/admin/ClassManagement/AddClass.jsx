@@ -15,7 +15,7 @@ export default function AddClass() {
     instructorid: "",
     classname: "",
     semid: "",
-    capacity: "",
+    capacity: 0,
     schedule: [],
   });
 
@@ -59,21 +59,33 @@ export default function AddClass() {
     fetchData();
   }, []);
 
-  const handleBlur = () => {
-    let val = Number(formData.capacity);
-    if (val < 10) {
-      setFormData((prev) => ({ ...prev, capacity: 10 }));
-    } else if (val > 200) {
-      setFormData((prev) => ({ ...prev, capacity: 200 }));
-    }
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setHasChanges(true); 
+    setHasChanges(true);
 
     if (name === "capacity") {
-      setFormData((prev) => ({ ...prev, capacity: value }));
+      let val = value;
+
+      if (val === "") {
+        setFormData((prev) => ({ ...prev, capacity: 0 }));
+        return;
+      }
+
+      if (val.includes("-")) return;
+
+      const num = Number(val);
+
+      if (val.length === 2) {
+        setFormData((prev) => ({ ...prev, capacity: val }));
+        return;
+      }
+
+      if (num > 200) {
+        setFormData((prev) => ({ ...prev, capacity: 200 }));
+        return;
+      }
+
+      setFormData((prev) => ({ ...prev, capacity: num }));
       return;
     }
 
@@ -103,19 +115,19 @@ export default function AddClass() {
 
   const handleCancel = () => {
     if (hasChanges) {
-      setShowCancelDialog(true); 
+      setShowCancelDialog(true);
     } else {
-      navigate(-1); 
+      navigate(-1);
     }
   };
 
   const handleConfirmCancel = () => {
     setShowCancelDialog(false);
-    navigate(-1); 
+    navigate(-1);
   };
 
   const handleCancelDialogClose = () => {
-    setShowCancelDialog(false); 
+    setShowCancelDialog(false);
   };
 
   const handleScheduleChange = (index, field, value) => {
@@ -177,6 +189,11 @@ export default function AddClass() {
       validationErrors.instructorid = "This field is required";
     if (!formData.capacity)
       validationErrors.capacity = "This field is required";
+
+    if (formData.capacity 
+      && (formData.capacity < 10 || formData.capacity > 200)) { 
+        validationErrors.capacity = "Capacity must be between 10 and 200"; 
+      }
 
     if (scheduleErrors.some((e) => e && e !== "")) {
       alert("Please fix schedule errors before submitting.");
@@ -348,9 +365,10 @@ export default function AddClass() {
           <input
             type="number"
             name="capacity"
+            min={0}
+            max={200}
             value={formData.capacity}
             onChange={handleChange}
-            onBlur={handleBlur} 
           />
           {errors.capacity && (
             <div className="addclasserror-message">{errors.capacity}</div>
@@ -467,11 +485,19 @@ export default function AddClass() {
               )}
             </div>
           ))}
-      <div className="addclass-buttons">
-            <button type="button" className="addclassbtn-cancel" onClick={handleCancel}>
+          <div className="addclass-buttons">
+            <button
+              type="button"
+              className="addclassbtn-cancel"
+              onClick={handleCancel}
+            >
               Cancel
             </button>
-            <button type="submit" className="addclassbtn-save" disabled={loading}>
+            <button
+              type="submit"
+              className="addclassbtn-save"
+              disabled={loading}
+            >
               {loading ? "Saving..." : "Update Class"}
             </button>
           </div>
@@ -485,10 +511,16 @@ export default function AddClass() {
               You have unsaved changes. Do you really want to cancel?
             </div>
             <div className="addclasscancel-dialog-actions">
-              <button className="addclasscancel-dialog-btn no" onClick={handleCancelDialogClose}>
+              <button
+                className="addclasscancel-dialog-btn no"
+                onClick={handleCancelDialogClose}
+              >
                 No
               </button>
-              <button className="addclasscancel-dialog-btn yes" onClick={handleConfirmCancel}>
+              <button
+                className="addclasscancel-dialog-btn yes"
+                onClick={handleConfirmCancel}
+              >
                 Yes
               </button>
             </div>
