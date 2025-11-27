@@ -19,31 +19,33 @@
 }
 
 .detail-rows-account {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  border: 1px solid var(--color-gray-300);
+  border: 1px solid var(color-gray-300);
   background: var(--color-white);
   border-radius: 12px;
   padding: 18px 22px;
   width: 95%;
+  margin-left: 15px;
+  margin-top: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-detail-row-account {
+.detail-row-account {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
 }
 
-detail-row-account span {
+.detail-row-account span {
   width: 180px;
   font-size: 16px;
   color: var(--color-black);
 }
 
-detail-row-account input,
-detail-row-account select {
+.detail-row-account input,
+.detail-row-account select {
   flex: 1;
   height: 40px;
   padding: 0 15px;
@@ -54,8 +56,8 @@ detail-row-account select {
   background-color: var(--color-white);
 }
 
-detail-row-account input:focus,
-detail-row-account select:focus {
+.detail-row-account input:focus,
+.detail-row-account select:focus {
   border-color: var(--color-black);
 }
 
@@ -156,4 +158,10 @@ detail-row-account select:focus {
   display: flex;
   justify-content: center;
   gap: 20px;
+}
+
+.detail-rows-account .detail-row-account {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
 }

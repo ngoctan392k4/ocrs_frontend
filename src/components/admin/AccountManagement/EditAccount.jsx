@@ -3,6 +3,7 @@ import Menu from "../../menu/Menu";
 import menu_admin from "../../../assets/dataMenu/MenuAdminData";
 import { useNavigate, useParams } from "react-router-dom";
 import "../../../styles/Admin/AccountManagement/EditAccount.css";
+import "../../../styles/Admin/AccountManagement/ViewAccount.css";
 import { useEffect, useState } from "react";
 
 export default function EditAccount() {
@@ -203,9 +204,9 @@ export default function EditAccount() {
           ) : error ? (
             <div>{error}</div>
           ) : (
-            <div className="detail-rows">
+            <div className="detail-rows-account">
               {/* Name input field */}
-              <div className="detail-row">
+              <div className="detail-row-account">
                 <span> Name </span>
                 <input
                   type="text"
@@ -215,7 +216,7 @@ export default function EditAccount() {
               </div>
 
               {/* Email input field */}
-              <div className="detail-row">
+              <div className="detail-row-account">
                 <span> Email: </span>
                 <input
                   type="text"
@@ -231,7 +232,7 @@ export default function EditAccount() {
               {mailNoti && <p className="notification">{mailNoti}</p>}
 
               {/* Status input field */}
-              <div className="detail-row">
+              <div className="detail-row-account">
                 <span> Status: </span>
                 <select
                   className="status-select"
@@ -248,7 +249,7 @@ export default function EditAccount() {
 
               {/* If role is instructor then display department field */}
               {role === "instructor" && (
-                <div className="detail-row">
+                <div className="detail-row-account">
                   <span> Department: </span>
                   <input
                     type="text"
@@ -260,7 +261,7 @@ export default function EditAccount() {
 
               {/* If role is student then display major field */}
               {role === "student" && (
-                <div className="detail-row">
+                <div className="detail-row-account">
                   <span> Major: </span>
                   <input
                     type="text"
@@ -270,7 +271,7 @@ export default function EditAccount() {
                 </div>
               )}
 
-              <div className="detail-row">
+              <div className="detail-row-account">
                 <span> Phone Number: </span>
                 <input
                   type="text"
@@ -284,7 +285,7 @@ export default function EditAccount() {
 
               {phoneNoti && <p className="notification">{phoneNoti}</p>}
 
-              <div className="detail-row">
+              <div className="detail-row-account">
                 <span> Date of birth: </span>
                 <input
                   type="date"
@@ -295,7 +296,7 @@ export default function EditAccount() {
               </div>
 
               {/* Username input field */}
-              <div className="detail-row">
+              <div className="detail-row-account">
                 <span> Username: </span>
                 <input
                   type="text"
