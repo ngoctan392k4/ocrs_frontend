@@ -105,13 +105,8 @@ export default function EditAccount() {
       const data = await res.json();
 
       if (!res.ok) {
-        if (data.message === "Email exists") {
-          setPopupNotiError("Email or username is already existed");
-          setShowPopupError(true);
-        } else {
-          setPopupNotiError("An error occurred, please try again");
-          setShowPopupError(true);
-        }
+        setPopupNotiError(data.message);
+        setShowPopupError(true);
       } else {
         setSuccessMessage("Successfully edited the account");
         setSuccessDialog(true);
