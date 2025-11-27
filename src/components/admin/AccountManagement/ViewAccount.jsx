@@ -156,43 +156,43 @@ export default function ViewAccount() {
                 </div>
                 {selectedAccounts.includes(account.accountid) && (
                   <div className="account-detail">
-                    <div className="detail-row">
+                    <div className="detail-row-account">
                       <span className="account-info-label">Account ID: </span>
                       <span className="account-info-text">
                         {account.accountid}
                       </span>
                     </div>
-                    <div className="detail-row">
+                    <div className="detail-row-account">
                       <span className="account-info-label">Name: </span>
                       <span className="account-info-text">
                         {account.full_name}
                       </span>
                     </div>
-                    <div className="detail-row">
+                    <div className="detail-row-account">
                       <span className="account-info-label">Email: </span>
                       <span className="account-info-text">
                         {account.email || "null"}
                       </span>
                     </div>
-                    <div className="detail-row">
+                    <div className="detail-row-account">
                       <span className="account-info-label">Date of birth:</span>
                       <span className="account-info-text">
                         {account.dob || "null"}
                       </span>
                     </div>
-                    <div className="detail-row">
+                    <div className="detail-row-account">
                       <span className="account-info-label">Status: </span>
                       <span className="account-info-text">
                         {account.status}
                       </span>
                     </div>
-                    <div className="detail-row">
+                    <div className="detail-row-account">
                       <span className="account-info-label">Role: </span>
                       <span className="account-info-text">{account.role}</span>
                     </div>
                     {/* Personalize additional row for Instructor and Students */}
                     {account.role === "instructor" && (
-                      <div className="detail-row">
+                      <div className="detail-row-account">
                         <span className="account-info-label">Department</span>
                         <span className="account-info-text">
                           {account.role}
@@ -200,14 +200,14 @@ export default function ViewAccount() {
                       </div>
                     )}
                     {account.role === "student" && (
-                      <div className="detail-row">
+                      <div className="detail-row-account">
                         <span className="account-info-label">Major</span>
                         <span className="account-info-text">
                           {account.role}
                         </span>
                       </div>
                     )}
-                    <div className="detail-row">
+                    <div className="detail-row-account">
                       <span className="account-info-label">Username: </span>
                       <span className="account-info-text">
                         {account.username}

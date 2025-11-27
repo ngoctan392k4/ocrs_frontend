@@ -18,7 +18,7 @@
   margin-bottom: 20px;
 }
 
-.detail-rows {
+.detail-rows-account {
   margin-top: 10px;
   display: flex;
   flex-direction: column;
@@ -30,20 +30,20 @@
   width: 95%;
 }
 
-.detail-row {
+detail-row-account {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.detail-row span {
+detail-row-account span {
   width: 180px;
   font-size: 16px;
   color: var(--color-black);
 }
 
-.detail-row input,
-.detail-row select {
+detail-row-account input,
+detail-row-account select {
   flex: 1;
   height: 40px;
   padding: 0 15px;
@@ -54,8 +54,8 @@
   background-color: var(--color-white);
 }
 
-.detail-row input:focus,
-.detail-row select:focus {
+detail-row-account input:focus,
+detail-row-account select:focus {
   border-color: var(--color-black);
 }
 
