@@ -201,7 +201,7 @@ export default function ViewAccount() {
                       <div className="detail-row-account">
                         <span className="account-info-label">Department: </span>
                         <span className="account-info-text">
-                          {account.role}
+                          {account.department}
                         </span>
                       </div>
                     )}
@@ -209,7 +209,7 @@ export default function ViewAccount() {
                       <div className="detail-row-account">
                         <span className="account-info-label">Major: </span>
                         <span className="account-info-text">
-                          {account.role}
+                          {account.major}
                         </span>
                       </div>
                     )}

@@ -177,6 +177,7 @@ export default function EditAccount() {
           setUsername(data?.username);
           setPhone(data?.phone_number);
           setRole(data?.role);
+          setDob(data?.dob);
         }
       } catch (e) {
         console.log(e.message);
@@ -195,7 +196,9 @@ export default function EditAccount() {
       <Menu menus={menu_admin} />
 
       <div className="edit-account-content">
-        <h1 className="edit-account-title">Editing Account ID: {accountid}</h1>
+        <h1 className="edit-account-title">
+          Editing Account ID: {accountid} - Role: {role}
+        </h1>
 
         <div className="edit-form">
           {loading ? (
@@ -209,7 +212,7 @@ export default function EditAccount() {
                 <span> Name </span>
                 <input
                   type="text"
-                  placeholder={name}
+                  value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
@@ -219,7 +222,7 @@ export default function EditAccount() {
                 <span> Email: </span>
                 <input
                   type="text"
-                  placeholder={mail}
+                  value={mail}
                   onChange={(e) => {
                     setMail(e.target.value);
                     handleOnchangeMail(e.target.value);
@@ -252,7 +255,7 @@ export default function EditAccount() {
                   <span> Department: </span>
                   <input
                     type="text"
-                    placeholder={department}
+                    value={department}
                     onChange={(e) => setDepartment(e.target.value)}
                   />
                 </div>
@@ -264,7 +267,7 @@ export default function EditAccount() {
                   <span> Major: </span>
                   <input
                     type="text"
-                    placeholder={major}
+                    value={major}
                     onChange={(e) => setDepartment(e.target.value)}
                   />
                 </div>
@@ -274,7 +277,7 @@ export default function EditAccount() {
                 <span> Phone Number: </span>
                 <input
                   type="text"
-                  placeholder={phone}
+                  value={phone}
                   onChange={(e) => {
                     setPhone(e.target.value);
                     handleOnchangePhone(e.target.value);
@@ -288,7 +291,7 @@ export default function EditAccount() {
                 <span> Date of birth: </span>
                 <input
                   type="date"
-                  placeholder={dob}
+                  value={dob ? dob.split("T")[0] : ""}
                   onChange={(e) => setDob(e.target.value)}
                   max={new Date().toISOString().split("T")[0]}
                 />
@@ -299,7 +302,7 @@ export default function EditAccount() {
                 <span> Username: </span>
                 <input
                   type="text"
-                  placeholder={username}
+                  value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
