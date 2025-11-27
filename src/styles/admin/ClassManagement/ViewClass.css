@@ -1,4 +1,4 @@
-.view-container {
+.viewclass-container {
   display: flex;
   min-height: 100vh;
   background: var(--color-white-100);
@@ -7,7 +7,7 @@
 
 /* ============= CONTENT ============= */
 
-.view-content {
+.viewclass-content {
   flex-grow: 1;
   padding: 30px;
   margin-left: 260px;
@@ -16,7 +16,7 @@
   color: var(--color-white-900);
 }
 
-.view-title {
+.viewclass-title {
   font-size: 26px;
   font-weight: 700;
   margin-bottom: 20px;
@@ -24,8 +24,8 @@
 
 /* ============= SEARCH BAR ============= */
 
-.search-bar {
-  width: 100%;
+.viewclasssearch-bar {
+  width: 1150px;
   padding: 12px 18px;
   border-radius: 25px;
   border: 1px solid var(--color-gray-300);
@@ -35,14 +35,14 @@
 
 /* ============= CLASS LIST ============= */
 
-.class-list {
+.viewclass-list {
   display: flex;
   flex-direction: column;
   gap: 22px;
 }
 
 /* Ô class giống prototype */
-.class-item {
+.viewclass-item {
   background: var(--color-greengray-400);
   border-radius: 15px;
   padding: 16px 20px;
@@ -51,25 +51,25 @@
   transition: 0.2s;
 }
 
-.class-item:hover {
+.viewclass-item:hover {
   transform: translateY(-2px);
 }
 
 /* ============= HEADER ============= */
 
-.class-header {
+.viewclass-header {
   display: flex;
   padding: 10px 20px;
   justify-content: space-between;
   align-items: center;
 }
 
-.class-name {
+.viewclass-name {
   font-size: 18px;
   font-weight: 700;
 }
 
-.class-delete-btn {
+.viewclass-delete-btn {
   width: 26px;
   height: 26px;
   border: none;
@@ -82,7 +82,7 @@
 
 /* ============= DETAIL ============= */
 
-.class-detail {
+.viewclass-detail {
   margin-top: 12px;
   padding-top: 14px;
   border-top: 5px solid var(--color-gray-300);
@@ -91,24 +91,24 @@
   gap:5px;
 }
 
-.detail-row {
+.viewclassdetail-row {
   display: flex;
   gap: 10px;
 }
 
-.class-info-label {
+.viewclass-info-label {
   width: 150px;
   font-weight: 700;
   font-size: 14px;
 }
 
-.class-info-text {
+.viewclass-info-text {
   font-size: 14px;
 }
 
 /* ============= EDIT BUTTON ============= */
 
-.edit-btn {
+.viewclassedit-btn {
   border: none;
   margin-top: 12px;
   padding: 6px 14px;
@@ -120,13 +120,13 @@
   cursor: pointer;
 }
 
-.edit-btn:hover {
+.viewclassedit-btn:hover {
   opacity: 0.9;
 }
 
 /* ============= ADD BUTTON ============= */
 
-.add-class-btn {
+.viewclassadd-class-btn {
   position: fixed;
   bottom: 40px;
   right: 40px;
@@ -140,12 +140,12 @@
   cursor: pointer;
 }
 
-.add-class-btn:hover {
+.viewclassadd-class-btn:hover {
   opacity: 0.85;
 }
 
 /* Backdrop mờ */
-.dialog-backdrop {
+.viewclassdialog-backdrop {
   position: fixed;
   inset: 0;
   background: var(--color-black)(0, 0, 0, 0.05);
@@ -157,7 +157,7 @@
 }
 
 /* Hộp dialog giống prototype */
-.dialog-box {
+.viewclassdialog-box {
   width: 380px;
   background: var(--color-white-000);
   padding: 35px 25px;
@@ -168,7 +168,7 @@
 }
 
 /* Tiêu đề câu hỏi */
-.dialog-message {
+.viewclassdialog-message {
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 35px;
@@ -176,14 +176,14 @@
 }
 
 /* Khung nút dưới */
-.dialog-actions {
+.viewclassdialog-actions {
   display: flex;
   justify-content: space-between;
   gap: 20px;
 }
 
 /* Nút YES / NO giống Figma */
-.dialog-btn {
+.viewclassdialog-btn {
   flex: 1;
   padding: 10px 0;
   font-size: 18px;
@@ -195,19 +195,19 @@
   transition: 0.2s;
 }
 
-.dialog-btn:hover {
+.viewclassdialog-btn:hover {
   background: var(--color-white-100);
 }
 
-.dialog-btn.no:hover {
+.viewclassdialog-btn.no:hover {
   background: var(--color-white-200);
 }
 
-.dialog-btn.yes:hover {
+.viewclassdialog-btn.yes:hover {
   background: var(--color-white-500);
 }
 
-.class-item {
+.viewclass-item {
   background: var(--color-white-000);
   border-radius: 18px;
   padding: 16px 20px;
@@ -215,7 +215,7 @@
   cursor: pointer;
   transition: 0.2s;
 }
-.class-header {
+.viewclass-header {
   display: flex;
   width: 1100px;
   border-radius: 15px;
