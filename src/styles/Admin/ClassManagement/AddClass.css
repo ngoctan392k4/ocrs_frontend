@@ -1,30 +1,24 @@
-
 .addclass-container {
   display: flex;
   min-height: 100vh;
-  background: var(--color-white-100);
-  font-family: var(--font-sans);
 }
-
-/* ============= CONTENT ============= */
 
 .addclass-content {
   flex-grow: 1;
   padding: 30px;
   margin-left: 260px;
   line-height: 1.6;
-  font-family: var(--font-sans);
-  color: var(--color-white-900);
+  color: var(--color-blue-900);
+  animation: fadeIn 0.4s ease;
 }
-
 
 .addclass-title {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  color: var(--color-blue-900);
 }
 
-/* ======= BLACK HEADER BAR ======= */
 .addclass-header {
   background: var( --color-black);
   color: var(--color-white-000);
@@ -35,7 +29,6 @@
   margin-bottom: 30px;
 }
 
-/* ======= GRID FORM ======= */
 .addclass-form {
   display: grid;
   grid-template-columns: 150px auto;
@@ -43,13 +36,11 @@
   row-gap: 20px;
 }
 
-/* ======= LABELS ======= */
 .addclass-form .addclasslabel {
   font-weight: 500;
   font-size: 16px;
 }
 
-/* ======= INPUTS ======= */
 .addclass-form input,
 .addclass-form select {
   width: 1013px;
@@ -70,17 +61,14 @@
   width: 1013px;      
 }
 
-/* Class dropdown rộng hơn */
 .addclassselect-wide {
   width: 260px;
 }
 
-/* Class Name rộng hơn một chút */
 .addclassinput-wide {
   width: 260px;
 }
 
-/* ======= "+" ADD SCHEDULE BUTTON ======= */
 .addclassschedule-add-btn {
   width: 32px;
   height: 32px;
@@ -95,7 +83,6 @@
   font-size: 22px;
 }
 
-/* ======= SCHEDULE BOX ======= */
 .addclassschedule-box {
   grid-column: span 2;
   margin-top: 10px;
@@ -103,10 +90,9 @@
   padding: 16px;
   border-radius: 14px;
 
-  /* chỉnh lại layout để label/select không bị lệch */
   display: grid;
-  grid-template-columns: 50px 400px 50px 200px; /* chỉnh rộng cột */
-  align-items: center; /* căn giữa theo chiều dọc */
+  grid-template-columns: 50px 400px 50px 200px;
+  align-items: center; 
   row-gap: 16px;
   column-gap: 18px;
 }
@@ -115,10 +101,9 @@
   font-size: 14px;
   font-weight: 600;
   display: flex;
-  align-items: center; /* giúp chữ đứng đúng giữa */
+  align-items: center; 
 }
 
-/* Input + Select của schedule */
 .addclassschedule-box select,
 .addclassschedule-box input {
   width: 260px;
@@ -126,7 +111,7 @@
   padding: 7px 10px;
   border: 1px solid var(--color-white-500);
   background: var(--color-white-000);
-  height: 40px;                 /* giữ chiều cao đều */
+  height: 40px;                
   display: flex;
   align-items: center;
 }
@@ -160,21 +145,18 @@
   background: var(--color-white-500);
 }
 
-/* ======= INPUT/SELECT ERROR ======= */
 input.error,
 select.error {
-  border-color: var(--color-red);       /* viền đỏ */
-  background-color: var(--color-gray-100); /* nền hồng nhạt để nổi bật */
+  border-color: var(--color-red);      
+  background-color: var(--color-gray-100); 
 }
 
-
-/* ===== ERROR TEXT SÁT DƯỚI INPUT ===== */
 .addclasserror-message {
   color: var(--color-red);
   font-size: 10px;
-  margin-top: -14px; /* kéo chữ lên sát box */
+  margin-top: -14px;
   margin-bottom: -10px; 
-  grid-column: 2 / 3; /* đảm bảo nằm dưới input */
+  grid-column: 2 / 3;
 }
 
 .addclassschedule-error {
