@@ -300,11 +300,7 @@ export default function EditAccount() {
               {/* Username input field */}
               <div className="detail-row-account">
                 <span> Username: </span>
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
+                <span> {username} </span>
               </div>
 
               {/* Buttons */}
