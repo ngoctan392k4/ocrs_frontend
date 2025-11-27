@@ -1,0 +1,206 @@
+.editclass-container {
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-white-100);
+  font-family: var(--font-sans);
+}
+
+.editclass-content {
+  flex-grow: 1;
+  padding: 30px;
+  margin-left: 260px;
+  line-height: 1.6;
+  color: var(--color-white-900);
+}
+
+.editclass-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.editclass-form {
+  display: grid;
+  grid-template-columns: 150px auto;
+  row-gap: 20px;
+}
+
+.editclass-form .editclasslabel {
+  font-weight: 600;
+}
+
+.editclass-form input,
+.editclass-form select {
+  width: 1013px;
+  height: 17px;
+  padding: 10px 10px;
+  border: 1.3px solid var(--color-gray-300);
+  border-radius: 4px; 
+  font-size: 16px;
+  font-family: Segoe UI;
+  background: var(--color-white-000);
+}
+
+.editclassinput-wide {
+  width: 260px;
+}
+
+.editclassreadOnly:disabled {
+  background-color: var(--color-gray-300);
+  color: var(--color-gray-700); 
+  cursor: not-allowed; 
+  width: 1013px;   
+}
+
+.editclassschedule-add-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--color-black);
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.editclassschedule-box select {
+  width: 260px;  
+  border-radius: 8px;
+  padding: 7px 10px;
+  border: 1px solid var(--color-white-500);
+  background: var(--color-white-000);
+  height: 40px;                 
+  display: flex;
+  align-items: center;
+}
+
+.editclassschedule-box {
+  grid-column: span 2;
+  margin-top: 10px;
+  background: var(--color-white-300);
+  padding: 16px;
+  border-radius: 14px;
+
+  display: grid;
+  grid-template-columns: 50px 400px 50px 200px;
+  align-items: center;
+  row-gap: 16px;
+  column-gap: 18px;
+}
+
+.editclassschedule-label {
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.editclassschedule-remove {
+  font-size: 20px;
+  color: var(--color-red-500);
+  text-align: center;
+  cursor: pointer;
+}
+
+.editclass-buttons {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 15px;
+  align-items: center;
+  margin-top: 25px;
+}
+
+.editclassbtn-save,
+.editclassbtn-cancel {
+  width: 120px;
+  height: 35px;
+  border-radius: 14px;
+  border: 2px;
+  cursor: pointer;
+  grid-column: 1 / -1; 
+  justify-self: end;  
+  margin-top: 10px;
+  font-size: 16px;
+  background: var(--color-blue-500);
+  color: var(--color-white-000);
+}
+
+.editclass-delete-btn {
+  width: 130px;
+  border: none;
+  border-radius: 10px;
+  background: var(--color-blue-500);
+  color: var(--color-white-000);
+  font-size: 15px;
+  cursor: pointer;
+
+  grid-column: 1 / -1; 
+  justify-self: start;  
+  margin-bottom: 10px; 
+}
+
+input.error,
+select.error {
+  border-color: var(--color-red);       
+  background-color: var(--color-gray-100); 
+}
+
+.editclasserror-message {
+  color: var(--color-red);
+  font-size: 12px;
+  margin-top: 5px;
+  grid-column: 2 / span 1;
+}
+
+.editclasscancel-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--color-black)(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  backdrop-filter: blur(1px);
+}
+
+.editclasscancel-dialog-box {
+  width: 380px;
+  background: var(--color-white-000);
+  padding: 35px 25px;
+  border-radius: 18px; 
+  text-align: center;
+  box-shadow: 0 6px 18px var(--color-black)(0, 0, 0, 0.25);
+  font-family: var(--font-sans);
+}
+
+.editclasscancel-dialog-message {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 35px;
+  color: var(--color-gray-700);
+}
+
+.editclasscancel-dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.editclasscancel-dialog-btn {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  background: var(--color-white-300); 
+  transition: 0.2s;
+}
+
+.editclassdialog-btn:hover {
+  background: var(--color-white-100);
+}
