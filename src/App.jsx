@@ -27,31 +27,9 @@ function App() {
     <Routes>
       {/* Common Routes */}
       <Route path="/" element={<HomeLogin />} />
-
-      <Route
-        path="/classManagement"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["admin"]}>
-              <ViewClass />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
-
-      <Route
-        path="/classManagement/addClass"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["admin"]}>
-              <AddClass />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
-
       <Route path="/forgotPassword" element={<ForgotPassword />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
+
 
       {/* Admin Routes */}
       <Route
@@ -60,6 +38,17 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
               <HomeAdmin />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="/accountManagement"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <ViewAccount />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
@@ -77,6 +66,17 @@ function App() {
       />
 
       <Route
+        path="/accountManagement/edit/:accountid"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <EditAccount />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
         path="/courseManagement"
         element={
           <EnsureLoggedToRoutes>
@@ -86,6 +86,7 @@ function App() {
           </EnsureLoggedToRoutes>
         }
       />
+
       <Route
         path="/courseManagement/addCourse"
         element={
@@ -120,22 +121,22 @@ function App() {
       />
 
       <Route
-        path="/accountManagement"
+        path="/classManagement"
         element={
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
-              <ViewAccount />
+              <ViewClass />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
       />
 
       <Route
-        path="/accountManagement/edit/:accountid"
+        path="/classManagement/addClass"
         element={
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
-              <EditAccount />
+              <AddClass />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
