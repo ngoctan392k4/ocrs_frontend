@@ -242,13 +242,23 @@ export default function AddClass() {
     const result = await response.json();
 
     if (!response.ok) {
-      if (result.code === "SCHEDULE_OVERLAP") {
-        alert("Schedule overlap! Please adjust your schedule.");
-      } else if (result.field) {
-        setErrors((prev) => ({ ...prev, [result.field]: result.message }));
-      } else {
-        alert(result.message || "Error adding class.");
-      }
+  switch (result.code) {
+    case "INSTRUCTOR_CONFLICT":
+      alert(result.message || "Instructor has schedule conflict!");
+      break;
+    case "LOCATION_CONFLICT":
+      alert(result.message || "Location has schedule conflict!");
+      break;
+    case "SCHEDULE_OVERLAP_INSIDE":
+      alert(result.message || "Schedule overlap inside class!");
+      break;
+    case "PROC_DUPLICATE":
+      setErrors((prev) => ({ ...prev, classcode: result.message }));
+      break;
+    default:
+      alert(result.message || "Error adding class.");
+      break;
+  }
     } else {
       alert("Class added successfully!");
       navigate("/classManagement");

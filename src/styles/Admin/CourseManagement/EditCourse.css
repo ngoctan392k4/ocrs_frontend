@@ -8,16 +8,16 @@
   padding: 30px;
   margin-left: 260px;
   line-height: 1.6;
-  font-family: var(--font-sans);
   color: var(--color-blue-900);
+  animation: fadeIn 0.4s ease;
 }
 
 .edit-course-title {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  color: var(--color-blue-900);
 }
-/* Form */
 
 .edit-form {
   display: flex;
@@ -28,14 +28,16 @@
 }
 
 .readOnly:disabled {
+  width: 200px;
+  padding: 8px 12px;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 4px;
+  font-size: 14px;
   background-color: var(--color-gray-300);
-  color: var(--color-gray-700); 
-  cursor: not-allowed;          
+  color: var(--color-gray-700);
+  appearance: none;
+  cursor: pointer;
 }
-
-
-/* ROW 1 (3 COL - NAME - ID _ CODE) & ROW 2 (2 COL - PARA - PRE) & ROW 3 (1 COL - DES) */
-
 
 .row-3col {
   display: flex;
@@ -70,10 +72,12 @@
   font-weight: 600;
   font-size: 16px;
   color: var(--color-gray-600);
-  margin-bottom: 6px;
+  /* margin-top: 9px;
+  margin-bottom: 19px; */
 }
 
 .field-group input {
+  flex-grow: 0;
   padding: 8px 12px;
   border: 1px solid var(--color-gray-300);
   border-radius: 4px;
@@ -146,7 +150,8 @@
 
 
 .attribute-credit > .field-group span {
-  margin-bottom: 25px;
+  margin-top: 9px;
+  margin-bottom: 19px;
 }
 
 .attribute-credit > .field-group {
@@ -185,6 +190,7 @@
 }
 
 .credit-list {
+  width: 200px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -193,13 +199,16 @@
 }
 
 .credit-item {
+  padding: 8px 12px;
+  border: 1px solid var(--color-gray-300);
   display: flex;
   align-items: center;
   gap: 12px;
+  font-size: 14px;
   background-color: var(--color-gray-200);
-  padding: 6px 12px;
   border-radius: 4px;
-  width: fit-content;
+  width: 250px;
+  height: 16px;
 }
 
 .credit-label {
@@ -255,10 +264,6 @@
 .save-button:hover, .cancel-button:hover {
   background-color: var(--color-blue-400);
 }
-
-/* =========================================================
-   DIALOG POPUP
-   ========================================================= */
 
 .dialog-backdrop {
   position: fixed;
