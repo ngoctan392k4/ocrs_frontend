@@ -1,0 +1,255 @@
+.classReigstration-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.classReigstration-content {
+  flex-grow: 1;
+  padding: 30px;
+  margin-left: 260px;
+  line-height: 1.6;
+  font-family: var(--font-sans);
+  color: var(--color-blue-900);
+}
+
+.classReigstration-content h1 {
+  color: var(--color-blue-900);
+  margin-bottom: 25px;
+  font-size: 24px;
+  border-bottom: 2px solid var(--color-white-300);
+  padding-bottom: 10px;
+}
+
+/* Class input */
+.register-class {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: var(--color-white-100);
+  border-radius: 8px;
+  border: 1px solid var(--color-white-300);
+  flex-wrap: wrap;
+}
+
+.register-class input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid var(--color-white-400);
+  border-radius: 4px;
+  font-size: 16px;
+  min-width: 200px;
+  color: var(--color-gray-700);
+  background-color: var(--color-white-000);
+  outline: none;
+}
+
+.register-class input:focus {
+  border-color: var(--color-blue-500);
+}
+
+.register-class input:disabled {
+  background-color: var(--color-white-200);
+  color: var(--color-gray-600);
+  cursor: not-allowed;
+}
+
+.register-class button {
+  padding: 10px 20px;
+  background-color: var(--color-blue-600);
+  color: var(--color-white-000);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.register-class button:hover {
+  background-color: var(--color-blue-500);
+}
+
+.register-class button:disabled {
+  background-color: var(--color-white-400);
+  cursor: not-allowed;
+}
+
+.notification {
+  color: var(--color-red-500);
+  font-weight: 500;
+  margin-left: 10px;
+  width: 100%;
+  margin-top: 5px;
+}
+
+
+/* Backup courses */
+.backup-courses {
+  margin-top: 30px;
+}
+
+.backup-courses h3 {
+  font-size: 18px;
+  color: var(--color-greengray-600);
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-left: 4px solid var(--color-greengray-400);
+  padding-left: 10px;
+}
+
+/* Select BU course */
+.select-container {
+  margin-bottom: 15px;
+  color: var(--color-gray-700);
+}
+
+/* BU course details */
+.course-detail {
+  background-color: var(--color-white-000);
+  border-left: 5px solid var(--color-blue-500) !important;
+  border: 1px solid var(--color-white-300);
+  margin-bottom: 20px;
+  font-size: 14px;
+  padding: 15px;
+  border-radius: 0 4px 4px 0;
+}
+
+.detail-row {
+  display: flex;
+  margin-bottom: 8px;
+  border-bottom: 1px dashed var(--color-white-300);
+  padding-bottom: 5px;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.course-info-label {
+  font-weight: 700;
+  width: 150px;
+  color: var(--color-blue-900);
+  flex-shrink: 0;
+}
+
+.course-info-text {
+  color: var(--color-gray-600);
+  flex: 1;
+}
+
+.credit-detail-row {
+  display: inline-block;
+  margin-right: 15px;
+  background-color: var(--color-white-100);
+  border: 1px solid var(--color-white-300);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  color: var(--color-blue-800);
+}
+
+/* Button cancel and register */
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-white-300);
+}
+
+.button-container button {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+/* Cancel */
+.button-container button:first-child {
+  background-color: var(--color-white-300);
+  color: var(--color-gray-700);
+}
+
+.button-container button:first-child:hover {
+  background-color: var(--color-white-400);
+  color: var(--color-red);
+}
+
+/* Register Active */
+.button-container button.valid {
+  background-color: var(--color-green);
+  color: var(--color-white-000);
+}
+
+.button-container button.valid:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* Register Disabled */
+.button-container button.invalid {
+  background-color: var(--color-white-400);
+  color: var(--color-white-000);
+  cursor: not-allowed;
+}
+
+/* Popup */
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: var(--color-white-000);
+  padding: 30px;
+  border-radius: 10px;
+  border: 1px solid var(--color-white-300);
+  text-align: center;
+  min-width: 350px;
+  max-width: 90%;
+}
+
+.popup-content p {
+  font-size: 18px;
+  margin-bottom: 25px;
+  color: var(--color-gray-700);
+}
+
+.popup-content button {
+  padding: 10px 25px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  background-color: var(--color-blue-600);
+  color: var(--color-white-000);
+}
+
+.popup-content button:hover {
+  background-color: var(--color-blue-500);
+}
+
+
+.popup-content div button:first-child {
+  background-color: var(--color-gray-600);
+}
+
+.popup-content div button:last-child {
+  background-color: var(--color-red-500);
+}
+
