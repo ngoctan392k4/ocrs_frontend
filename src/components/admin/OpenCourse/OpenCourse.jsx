@@ -14,6 +14,7 @@ export default function OpenCourse() {
   const [loading, setLoading] = useState(true);
 
   const [openCourse, setOpenCourse] = useState([]);
+  const [semester, setSemester] = useState(null);
 
   const [successDialog, setSuccessDialog] = useState(false); // Success dialog state
   const [successMessage, setSuccessMessage] = useState(""); // Success message
@@ -27,7 +28,12 @@ export default function OpenCourse() {
       );
       const data = await response.json();
       console.log("Fetched courses:", data);
-      setCourses(data);
+
+      setCourses(data.course);
+      if (data.semester?.length > 0) {
+          const sem = data.semester[0];
+          setSemester(sem);
+        }
 
       const firstCourse = data[0] || {};
       const newType = [];
@@ -101,12 +107,29 @@ export default function OpenCourse() {
     }
   };
 
+  const semesterGenerate = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/admin/semester/next",
+        { method: "POST" }
+      );
+
+      if (!response.ok) {
+        const err = await response.text();
+        throw new Error(err);
+      }
+    } catch (err) {
+      console.error("Failed to create next semester:", err);
+      alert("Không thể tạo kỳ học mới!");
+    }
+  };
+
   return (
     <div className="open-course-container">
       <Menu menus={menu_admin} />
 
       <div className="open-course-content">
-        <h1 className="open-course-title">Open Course</h1>
+        <h1 className="open-course-title">Open Course For {semester?.semid || "Loading..."}</h1>
         <div className="search-and-buttons">
           <input
             className="search-bar"
@@ -116,7 +139,15 @@ export default function OpenCourse() {
             onChange={(e) => setSearched(e.target.value)}
           />
           <span className="buttons-container">
-            <button className="Open-button" onClick={handleOpenCourse}>Open</button>
+            <button
+              className="Open-button"
+              onClick={() => {
+                semesterGenerate();
+                handleOpenCourse();
+              }}
+            >
+              Open
+            </button>
             <button className="currentSem-button">Current Semester</button>
           </span>
         </div>

@@ -1,6 +1,6 @@
 .login-container {
   font-family: "Segoe UI", Arial, sans-serif;
-  background-color: #fff;
+  background-color: var(--color-white-000);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,14 +26,14 @@
 }
 
 .infor p {
-  color: #444;
+  color: var(--color-white-400);
   font-size: 15px;
 }
 
 /* Login Card */
 .loginCard {
-  background-color: #f8f8f8;
-  border: 1px solid #d9d9d9;
+  background-color: var(--color-white-100);
+  border: 1px solid var(--color-white-400);
   border-radius: 10px;
   padding: 25px 30px;
   width: 320px;
@@ -54,13 +54,13 @@
   margin-bottom: 10px;
   border: none;
   border-radius: 6px;
-  background-color: #e5e5e5;
+  background-color: var(--color-white-000);
   font-size: 14px;
   outline: none;
 }
 
 .loginCard input:focus {
-  background-color: #ddd;
+  background-color: var(--color-white-300)
 }
 
 /* On Off password */
@@ -82,8 +82,8 @@
 /* login button */
 .loginCard button {
   width: 100%;
-  background-color: #000;
-  color: #fff;
+  background-color: var(--color-black);
+  color: var(--color-white-000);
   border: none;
   border-radius: 8px;
   padding: 10px;
