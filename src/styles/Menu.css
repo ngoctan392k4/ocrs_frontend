@@ -2,7 +2,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-
 .tree-view-container {
   position: fixed;
   width: 220px;
@@ -13,7 +12,6 @@ body {
   margin: 0;
 }
 
-
 .menu-list-container {
   list-style: none;
   padding: 0;
@@ -21,10 +19,9 @@ body {
 }
 
 .menu-list-container li {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
-
 
 .menu-item {
   display: flex;
@@ -69,8 +66,6 @@ li .menu-item:not(.has-children):hover {
   border-color: var(--color-red);
 }
 
-
-
 /*
   CSS for toggle
 */
@@ -91,3 +86,25 @@ li .menu-item:not(.has-children):hover {
   padding: 10px 15px;
 }
 
+.menu-item.logout-item {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 15px;
+  background-color: var(--color-greengray-400);
+}
+
+.menu-item.logout-item:hover {
+  background-color: var(--color-greengray-600);
+}
+
+button.logout-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  text-align: left;
+  color: #333;
+  margin: 0;
+  font-weight: 500;
+}
