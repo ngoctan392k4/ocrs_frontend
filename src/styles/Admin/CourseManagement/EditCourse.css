@@ -74,6 +74,7 @@
 }
 
 .field-group input {
+  flex-grow: 0;
   padding: 8px 12px;
   border: 1px solid var(--color-gray-300);
   border-radius: 4px;
@@ -146,7 +147,8 @@
 
 
 .attribute-credit > .field-group span {
-  margin-bottom: 25px;
+  margin-top: 9px;
+  margin-bottom: 19px;
 }
 
 .attribute-credit > .field-group {
