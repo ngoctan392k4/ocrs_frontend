@@ -17,7 +17,7 @@ export default function RegisteredClass() {
     try {
       const response = await fetch(
         "http://localhost:3001/api/student/registeredClass",
-        { credentials: "include" } // nếu dùng session
+        { credentials: "include" }
       );
       const data = await response.json();
       setClasses(data.registered || []);
@@ -39,9 +39,8 @@ export default function RegisteredClass() {
     );
   });
 
-  // --- GROUP BY semid ---
   const groupedBySemester = filteredClasses.reduce((acc, cls) => {
-    const semid = cls.semid || "Unknown Semester"; // dùng semester_name nếu có
+    const semid = cls.semid || "Unknown Semester";
     if (!acc[semid]) acc[semid] = [];
     acc[semid].push(cls);
     return acc;
@@ -68,15 +67,15 @@ export default function RegisteredClass() {
     try {
       await fetch(
         `http://localhost:3001/api/student/registeredClass/${deleteClassId}`,
-        { method: "DELETE", credentials: "include" } 
+        { method: "DELETE", credentials: "include" }
       );
-      await fetchClasses(); // reload danh sách
+      await fetchClasses();
       setShowDialog(false);
       setDeleteClassId(null);
     } catch (err) {
       console.error("Delete failed:", err);
     }
-};
+  };
 
   const handleCancel = () => {
     setShowDialog(false);
@@ -98,6 +97,11 @@ export default function RegisteredClass() {
         />
 
         <div className="viewregistered-list">
+          {!loading && filteredClasses.length === 0 && (
+            <div className="no-classes-message">
+              There are no registered classes for this semester!
+            </div>
+          )}
           {sortedSemesters.map((semid) => (
             <div key={semid} className="viewregistered-semester-group">
               <h2 className="semester-title">{semid}</h2>
@@ -122,28 +126,52 @@ export default function RegisteredClass() {
                   {selectedClasses.includes(cls.clsid) && (
                     <div className="viewregistered-detail">
                       <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">Class Code:</span>
-                        <span className="viewregistered-info-text">{cls.classcode}</span>
+                        <span className="viewregistered-info-label">
+                          Class Code:
+                        </span>
+                        <span className="viewregistered-info-text">
+                          {cls.classcode}
+                        </span>
                       </div>
                       <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">Instructor:</span>
-                        <span className="viewregistered-info-text">{cls.instructorid} - {cls.instructor_name}</span>
+                        <span className="viewregistered-info-label">
+                          Instructor:
+                        </span>
+                        <span className="viewregistered-info-text">
+                          {cls.instructorid} - {cls.instructor_name}
+                        </span>
                       </div>
                       <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">Schedule:</span>
-                        <span className="viewregistered-info-text">{cls.schedule}</span>
+                        <span className="viewregistered-info-label">
+                          Schedule:
+                        </span>
+                        <span className="viewregistered-info-text">
+                          {cls.schedule}
+                        </span>
                       </div>
                       <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">Location:</span>
-                        <span className="viewregistered-info-text">{cls.classlocation}</span>
+                        <span className="viewregistered-info-label">
+                          Location:
+                        </span>
+                        <span className="viewregistered-info-text">
+                          {cls.classlocation}
+                        </span>
                       </div>
                       <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">Back Up Course 1:</span>
-                        <span className="viewregistered-info-text">{cls.bucourseid_st}</span>
+                        <span className="viewregistered-info-label">
+                          Back Up Course 1:
+                        </span>
+                        <span className="viewregistered-info-text">
+                          {cls.bucourseid_st}
+                        </span>
                       </div>
                       <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">Back Up Course 2:</span>
-                        <span className="viewregistered-info-text">{cls.bucourseid_nd}</span>
+                        <span className="viewregistered-info-label">
+                          Back Up Course 2:
+                        </span>
+                        <span className="viewregistered-info-text">
+                          {cls.bucourseid_nd}
+                        </span>
                       </div>
                     </div>
                   )}
@@ -153,7 +181,6 @@ export default function RegisteredClass() {
           ))}
         </div>
 
-        {/* DELETE DIALOG */}
         {showDialog && (
           <div className="viewregistereddialog-backdrop">
             <div className="viewregistereddialog-box">
@@ -162,10 +189,16 @@ export default function RegisteredClass() {
                 {registered.find((cls) => cls.clsid === deleteClassId)?.clsid}?
               </div>
               <div className="viewregistereddialog-actions">
-                <button className="viewregistereddialog-btn no" onClick={handleCancel}>
+                <button
+                  className="viewregistereddialog-btn no"
+                  onClick={handleCancel}
+                >
                   No
                 </button>
-                <button className="viewregistereddialog-btn yes" onClick={handleConfirmDelete}>
+                <button
+                  className="viewregistereddialog-btn yes"
+                  onClick={handleConfirmDelete}
+                >
                   Yes
                 </button>
               </div>
