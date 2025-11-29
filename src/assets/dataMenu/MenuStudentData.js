@@ -65,6 +65,10 @@ export const menu_student = [
       },
     ],
   },
+  {
+    label: "Log out",
+    isLogout: true
+  }
 
 ];
 
