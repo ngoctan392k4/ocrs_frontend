@@ -28,9 +28,15 @@
 }
 
 .readOnly:disabled {
+  width: 200px;
+  padding: 8px 12px;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 4px;
+  font-size: 14px;
   background-color: var(--color-gray-300);
-  color: var(--color-gray-700); 
-  cursor: not-allowed;          
+  color: var(--color-gray-700);
+  appearance: none;
+  cursor: pointer;         
 }
 
 
@@ -187,21 +193,25 @@
 }
 
 .credit-list {
+  width: 200px;
   display: flex;
   flex-direction: column;
   gap: 8px;
   margin-top: -70px;     
-  margin-left: 210px;    
+  margin-left: 210px;     
 }
 
 .credit-item {
+  padding: 8px 12px;
+  border: 1px solid var(--color-gray-300);
   display: flex;
   align-items: center;
   gap: 12px;
+  font-size: 14px;
   background-color: var(--color-gray-200);
-  padding: 6px 12px;
   border-radius: 4px;
-  width: fit-content;
+  width: 250px;
+  height: 16px;
 }
 
 .credit-label {

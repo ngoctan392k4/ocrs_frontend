@@ -1,9 +1,9 @@
-.view-course-container {
+.open-course-container {
   display: flex;
   min-height: 100vh;
 }
 
-.view-course-content {
+.open-course-content {
   flex-grow: 1;
   padding: 30px;
   margin-left: 260px;
@@ -12,11 +12,46 @@
   animation: fadeIn 0.4s ease;
 }
 
-.view-course-title {
+.open-course-title {
   font-size: 28px;
   font-weight: 700;
   margin-bottom: 10px;
   color: var(--color-blue-900);
+}
+
+/*buttons*/
+
+.search-and-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 10px;
+}
+
+.Open-button,
+.currentSem-button {
+  margin-top: -20px;
+  background: var(--color-greengray-200);
+  color: var(--color-blue-900);
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 10px 20px;
+  text-transform: none;
+  border: none;
+  outline: none;
+}
+
+.Open-button:hover,
+.currentSem-button:hover {
+  background-color: var(--color-blue-400);
+  transform: translateY(-2px);
 }
 
 .search-bar {
@@ -29,13 +64,23 @@
   margin-bottom: 20px;
 }
 
+/* Details */
+
+.Checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
 .course-list {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.course-item {
+.course-item,
+.course-header,
+.course-detail {
   margin: 0;
 }
 
@@ -57,12 +102,13 @@
 
 .course-detail {
   border: 1px solid var(--color-gray-300);
-  background: var(--color-white-000);
+  background: var(--color-white);
   border-radius: 12px;
   padding: 18px 22px;
   width: 95%;
   margin-left: 15px;
   margin-top: 10px;
+
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -70,6 +116,7 @@
 
 .detail-row {
   display: flex;
+  justify-content: flex-start;
   gap: 12px;
 }
 
@@ -83,70 +130,37 @@
 
 .course-info-text {
   font-size: 14px;
+  line-height: 1.5;
+  flex: 1;
+}
+.credit-detail-row {
+  gap: 8px;
+}
+
+.credit-info-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  width: 70px;
+  white-space: nowrap;
+}
+
+.credit-info-text {
+  font-size: 14px;
+  line-height: 1.5;
   flex: 1;
 }
 
-.course-delete-btn {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: none;
-  background: var(--color-gray-400);
-  color: var(--color-white-000);
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.course-delete-btn:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-}
-
-.add-course-btn {
-  position: fixed;
-  bottom: 40px;
-  right: 40px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--color-blue-500);
-  color: var(--color-white-000);
-  border: none;
-  font-size: 32px;
-  cursor: pointer;
-}
-
-.add-course-btn:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-}
-
-.edit-btn {
-  border: none;
-  background: var(--color-blue-500);
-  color: var(--color-white-000);
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 13px;
-  margin-top: 10px;
-  align-self: flex-end;
-}
-
-.edit-btn:hover {
-  opacity: 0.85;
-  transform: translateY(-2px);
-}
+/* DIALOG POPUP */
 
 .dialog-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.25);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999;
-  backdrop-filter: blur(1px);
 }
 
 .dialog-box {
@@ -156,7 +170,6 @@
   border-radius: 18px;
   text-align: center;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-  font-family: var(--font-sans);
 }
 
 .dialog-message {
@@ -181,17 +194,8 @@
   border: none;
   cursor: pointer;
   background: var(--color-white-300);
-  transition: 0.2s;
 }
 
 .dialog-btn:hover {
   background: var(--color-white-400);
-}
-
-.dialog-btn.no:hover {
-  background: var(--color-white-200);
-}
-
-.dialog-btn.yes:hover {
-  background: var(--color-gray-300);
 }
