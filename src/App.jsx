@@ -14,6 +14,8 @@ import RoleBasedAuthorization from "./components/auth/RoleBasedAuthorization";
 import AddCourse from "./components/admin/CourseManagement/AddCourse";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
+import AddClass from "./components/admin/ClassManagement/AddClass";
+import EditClass from "./components/admin/ClassManagement/EditClass";
 import AddAccount from "./components/admin/AccountManagement/AddAccount";
 import EditCourse from "./components/admin/CourseManagement/EditCourse";
 import ViewProfile from "./components/admin/ViewProfile/ViewProfile";
@@ -52,6 +54,21 @@ function App() {
         }
       />
 
+      <Route
+        path="/classManagement/addClass"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <AddClass />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route path="/forgotPassword" element={<ForgotPassword />} />
+      <Route path="/resetPassword" element={<ResetPassword />} />
+
+      {/* Admin Routes */}
       <Route
         path="/homepageAdmin"
         element={
@@ -101,6 +118,17 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
               <EditCourse />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="/ClassManagement/editClass/:clsid" 
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <EditClass />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
