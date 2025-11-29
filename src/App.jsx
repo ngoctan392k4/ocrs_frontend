@@ -19,6 +19,7 @@ import EditClass from "./components/admin/ClassManagement/EditClass";
 import AddAccount from "./components/admin/AccountManagement/AddAccount";
 import EditCourse from "./components/admin/CourseManagement/EditCourse";
 import EditAccount from "./components/admin/AccountManagement/EditAccount";
+import OpenCourse from "./components/admin/OpenCourse/OpenCourse";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -137,6 +138,17 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
               <AddClass />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="/openCourse"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <OpenCourse />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
