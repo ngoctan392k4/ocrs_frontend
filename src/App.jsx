@@ -20,6 +20,7 @@ import AddAccount from "./components/admin/AccountManagement/AddAccount";
 import EditCourse from "./components/admin/CourseManagement/EditCourse";
 import ViewRegistered from "./components/student/ClassRegistration/RegisteredClass"
 import EditAccount from "./components/admin/AccountManagement/EditAccount";
+import ClassRegistration from "./components/student/ClassRegistration/ClassRegistration";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -150,6 +151,17 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["student"]}>
               <HomeStudent />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="/register"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["student"]}>
+              <ClassRegistration />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
