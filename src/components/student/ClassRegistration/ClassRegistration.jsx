@@ -163,6 +163,8 @@ function ClassRegistration() {
           setErrorClass(
             `The class ${registeredClass} has conflict schedule with ${data.conflict_course}`
           );
+        } else if (data.message === "Class full"){
+          setErrorClass(`The class ${registeredClass} is full ${data.registered_num}/${data.capacity}`);
         } else {
           setErrorClass(data.message);
         }
