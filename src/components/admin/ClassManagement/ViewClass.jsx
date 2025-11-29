@@ -209,24 +209,7 @@ export default function ViewClass() {
         {/* ADD BUTTON */}
         <button
           className="viewclassadd-class-btn"
-          onClick={async () => {
-            try {
-              const response = await fetch(
-                "http://localhost:3001/api/admin/semester/next",
-                { method: "POST" }
-              );
-
-              if (!response.ok) {
-                const err = await response.text();
-                throw new Error(err);
-              }
-
-              navigate("/ClassManagement/addClass");
-            } catch (err) {
-              console.error("Failed to create next semester:", err);
-              alert("Không thể tạo kỳ học mới!");
-            }
-          }}
+          onClick={async () => navigate("/ClassManagement/addClass")}
         >
           +
         </button>
