@@ -18,6 +18,7 @@ import AddClass from "./components/admin/ClassManagement/AddClass";
 import EditClass from "./components/admin/ClassManagement/EditClass";
 import AddAccount from "./components/admin/AccountManagement/AddAccount";
 import EditCourse from "./components/admin/CourseManagement/EditCourse";
+import ViewRegistered from "./components/student/ClassRegistration/RegisteredClass"
 
 
 function App() {
@@ -161,6 +162,17 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["instructor"]}>
               <HomeInstructor />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="/registeredClass"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["student"]}>
+              <ViewRegistered />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }

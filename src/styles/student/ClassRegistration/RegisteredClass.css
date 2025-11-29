@@ -1,0 +1,212 @@
+.viewregistered-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.viewregistered-content {
+  flex-grow: 1;
+  padding: 30px;
+  margin-left: 260px;
+  line-height: 1.6;
+  color: var(--color-blue-900);
+  animation: fadeIn 0.4s ease;
+}
+
+.viewregistered-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--color-blue-900);
+}
+
+.viewregisteredsearch-bar {
+  width: 1150px;
+  padding: 12px 18px;
+  border-radius: 25px;
+  border: 1px solid var(--color-gray-300);
+  font-size: 15px;
+  margin-bottom: 25px;
+}
+
+
+.viewregistered-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.viewregistered-item {
+  background: var(--color-greengray-400);
+  border-radius: 15px;
+  padding: 16px 20px;
+  border: 1px solid var(--color-gray-300);
+  cursor: pointer;
+  transition: 0.2s;
+  margin-bottom: 10px;
+}
+
+.viewregistered-item:hover {
+  transform: translateY(-2px);
+}
+
+
+.viewregistered-header {
+  display: flex;
+  padding: 10px 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.viewregistered-name {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.viewregistered-delete-btn {
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-gray-300);
+  color: var(--color-blue-900);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+
+.viewregistered-detail {
+  margin-top: 12px;
+  padding-top: 14px;
+  border-top: 5px solid var(--color-gray-300);
+  display: flex;
+  flex-direction: column;
+  gap:5px;
+}
+
+.viewregistereddetail-row {
+  display: flex;
+  gap: 10px;
+}
+
+.viewregistered-info-label {
+  width: 150px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.viewregistered-info-text {
+  font-size: 14px;
+}
+
+
+.viewregisterededit-btn {
+  border: none;
+  margin-top: 12px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  background: var(--color-blue-500);
+  color: var(--color-blue-900);
+  font-size: 13px;
+  align-self: flex-end;
+  cursor: pointer;
+}
+
+.viewregisterededit-btn:hover {
+  opacity: 0.9;
+}
+
+
+.viewregisteredadd-class-btn {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-blue-500);
+  color: var(--color-white-000);
+  font-size: 34px;
+  cursor: pointer;
+}
+
+.viewregisteredadd-class-btn:hover {
+  opacity: 0.85;
+}
+
+.viewregistereddialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--color-black)(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  backdrop-filter: blur(1px);
+}
+
+.viewregistereddialog-box {
+  width: 380px;
+  background: var(--color-white-000);
+  padding: 35px 25px;
+  border-radius: 18px; 
+  text-align: center;
+  box-shadow: 0 6px 18px var(--color-black)(0, 0, 0, 0.25);
+  font-family: var(--font-sans);
+}
+
+.viewregistereddialog-message {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 35px;
+  color: var(--color-gray-700);
+}
+
+.viewregistereddialog-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.viewregistereddialog-btn {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  background: var(--color-white-300); 
+  transition: 0.2s;
+}
+
+.viewregistereddialog-btn:hover {
+  background: var(--color-white-100);
+}
+
+.viewregistereddialog-btn.no:hover {
+  background: var(--color-white-200);
+}
+
+.viewregistereddialog-btn.yes:hover {
+  background: var(--color-white-500);
+}
+
+.viewregistered-item {
+  background: var(--color-white-000);
+  border-radius: 18px;
+  padding: 16px 20px;
+  border: 1px solid var(--color-gray-300);
+  cursor: pointer;
+  transition: 0.2s;
+}
+.viewregistered-header {
+  display: flex;
+  width: 1100px;
+  border-radius: 15px;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-greengray-300); 
+}
+
+
