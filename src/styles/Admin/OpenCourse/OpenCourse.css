@@ -1,0 +1,257 @@
+.open-course-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.open-course-content {
+  flex-grow: 1;
+  padding: 30px;
+  margin-left: 260px;
+  line-height: 1.6;
+  color: var(--color-blue-900);
+  animation: fadeIn 0.4s ease;
+}
+
+.open-course-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--color-blue-900);
+}
+
+/*buttons*/
+
+.search-and-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.Open-button {
+  margin-top: -20px;
+  background: var(--color-greengray-200);
+  color: var(--color-blue-900);
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 10px 20px;
+  text-transform: none;
+  border: none;
+  outline: none;
+  min-width: 100px; 
+}
+
+.Open-button:disabled {
+  cursor: not-allowed;
+  filter: grayscale(100%);
+  background-color: var(--color-greengray-600);
+  border: 2px solid var(--color-greengray-600);
+  color: var(--color-gray-100);
+}
+
+.Open-button:hover:disabled {
+  transform: none;
+  background-color: var(--color-gray-700);
+}
+
+.buttons-container {
+  display: flex;
+  gap: 10px;
+  align-items: center; 
+}
+
+.Open-button:hover {
+  background-color: var(--color-blue-400);
+  transform: translateY(-2px);
+}
+
+.semester-row {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+  margin-bottom: 16px;
+}
+
+.semester-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.semester-dropdown {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 12px;
+  background-color: var(--color-white);
+  cursor: pointer;
+  min-width: 160px; 
+  transition: border-color 0.2s, box-shadow 0.2s;
+} 
+
+.semester-dropdown:hover {
+  border-color: var(--color-blue-400);
+}
+
+.semester-dropdown:focus {
+  outline: none;
+  border-color: var(--color-blue-500);
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+}
+
+.search-bar {
+  width: 100%;
+  max-width: 350px;
+  padding: 10px 14px;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 18px;
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+
+/* Details */
+
+.Checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.Checkbox:disabled {
+  cursor: not-allowed;
+  filter: grayscale(100%);
+  background-color: var(--color-gray-700);
+  border: 2px solid var(--color-gray-700);
+  color: var(--color-gray-100);
+}
+
+
+.course-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.course-item,
+.course-header,
+.course-detail {
+  margin: 0;
+}
+
+.course-header {
+  background: var(--color-greengray-200);
+  padding: 12px 20px;
+  border-radius: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.course-name {
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.course-detail {
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  border-radius: 12px;
+  padding: 18px 22px;
+  width: 95%;
+  margin-left: 15px;
+  margin-top: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.course-info-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  width: 140px;
+  white-space: nowrap;
+}
+
+.course-info-text {
+  font-size: 14px;
+  line-height: 1.5;
+  flex: 1;
+}
+.credit-detail-row {
+  gap: 8px;
+}
+
+.credit-info-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  width: 70px;
+  white-space: nowrap;
+}
+
+.credit-info-text {
+  font-size: 14px;
+  line-height: 1.5;
+  flex: 1;
+}
+
+/* DIALOG POPUP */
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.dialog-box {
+  width: 380px;
+  background: var(--color-white-000);
+  padding: 35px 25px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.dialog-message {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 35px;
+  color: var(--color-gray-700);
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.dialog-btn {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  background: var(--color-white-300);
+}
+
+.dialog-btn:hover {
+  background: var(--color-white-400);
+}
