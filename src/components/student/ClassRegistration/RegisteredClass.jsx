@@ -9,6 +9,7 @@ export default function RegisteredClass() {
   const [searched, setSearched] = useState("");
   const [selectedClasses, setSelectedClasses] = useState([]);
   const [registered, setClasses] = useState([]);
+  const [currentSem, setCurrentSem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
   const [deleteClassId, setDeleteClassId] = useState(null);
@@ -20,7 +21,14 @@ export default function RegisteredClass() {
         { credentials: "include" }
       );
       const data = await response.json();
+
       setClasses(data.registered || []);
+
+      // Lấy kỳ hiện tại từ backend
+      if (data.semesterlat && data.semesterlat.length > 0) {
+        setCurrentSem(data.semesterlat[0].semid);
+      }
+
       setLoading(false);
     } catch (error) {
       console.log(error.message);
@@ -31,7 +39,13 @@ export default function RegisteredClass() {
     fetchClasses();
   }, []);
 
-  const filteredClasses = registered.filter((cls) => {
+  // 🔥 Chỉ lớp của kỳ hiện tại
+  const currentSemClasses = registered.filter(
+    (cls) => cls.semid === currentSem
+  );
+
+  // 🔍 Search
+  const filteredClasses = currentSemClasses.filter((cls) => {
     const keyword = searched.toLowerCase();
     return (
       cls.clsid?.toLowerCase().includes(keyword) ||
@@ -39,20 +53,9 @@ export default function RegisteredClass() {
     );
   });
 
-  const groupedBySemester = filteredClasses.reduce((acc, cls) => {
-    const semid = cls.semid || "Unknown Semester";
-    if (!acc[semid]) acc[semid] = [];
-    acc[semid].push(cls);
-    return acc;
-  }, {});
-
-  const sortedSemesters = Object.keys(groupedBySemester).sort();
-
   const toggleClass = (id) => {
-    setSelectedClasses((otherClasses) =>
-      otherClasses.includes(id)
-        ? otherClasses.filter((clsid) => clsid !== id)
-        : [...otherClasses, id]
+    setSelectedClasses((prev) =>
+      prev.includes(id) ? prev.filter((clsid) => clsid !== id) : [...prev, id]
     );
   };
 
@@ -99,84 +102,82 @@ export default function RegisteredClass() {
         <div className="viewregistered-list">
           {!loading && filteredClasses.length === 0 && (
             <div className="no-classes-message">
-              There are no registered classes for this semester!
+              There are no registered classes for the current semester!
             </div>
           )}
-          {sortedSemesters.map((semid) => (
-            <div key={semid} className="viewregistered-semester-group">
-              <h2 className="semester-title">{semid}</h2>
-              {groupedBySemester[semid].map((cls) => (
-                <div
-                  key={cls.clsid}
-                  className="viewregistered-item"
-                  onClick={() => toggleClass(cls.clsid)}
+
+          {filteredClasses.map((cls) => (
+            <div
+              key={cls.clsid}
+              className="viewregistered-item"
+              onClick={() => toggleClass(cls.clsid)}
+            >
+              <div className="viewregistered-header">
+                <div className="viewregistered-name">
+                  {cls.classname} - {cls.classcode?.split("-")[1]}
+                </div>
+                <button
+                  className="viewregistered-delete-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteClick(cls.clsid);
+                  }}
                 >
-                  <div className="viewregistered-header">
-                    <div className="viewregistered-name">
-                      {cls.classname} - {cls.classcode?.split("-")[1]}
-                    </div>
-                    <button
-                      className="viewregistered-delete-btn"
-                      onClick={() => handleDeleteClick(cls.clsid)}
-                    >
-                      x
-                    </button>
+                  x
+                </button>
+              </div>
+
+              {selectedClasses.includes(cls.clsid) && (
+                <div className="viewregistered-detail">
+                  <div className="viewregistereddetail-row">
+                    <span className="viewregistered-info-label">
+                      Class Code:
+                    </span>
+                    <span className="viewregistered-info-text">
+                      {cls.classcode}
+                    </span>
                   </div>
 
-                  {selectedClasses.includes(cls.clsid) && (
-                    <div className="viewregistered-detail">
-                      <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">
-                          Class Code:
-                        </span>
-                        <span className="viewregistered-info-text">
-                          {cls.classcode}
-                        </span>
-                      </div>
-                      <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">
-                          Instructor:
-                        </span>
-                        <span className="viewregistered-info-text">
-                          {cls.instructorid} - {cls.instructor_name}
-                        </span>
-                      </div>
-                      <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">
-                          Schedule:
-                        </span>
-                        <span className="viewregistered-info-text">
-                          {cls.schedule}
-                        </span>
-                      </div>
-                      <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">
-                          Location:
-                        </span>
-                        <span className="viewregistered-info-text">
-                          {cls.classlocation}
-                        </span>
-                      </div>
-                      <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">
-                          Back Up Course 1:
-                        </span>
-                        <span className="viewregistered-info-text">
-                          {cls.bucourseid_st}
-                        </span>
-                      </div>
-                      <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">
-                          Back Up Course 2:
-                        </span>
-                        <span className="viewregistered-info-text">
-                          {cls.bucourseid_nd}
-                        </span>
-                      </div>
-                    </div>
-                  )}
+                  <div className="viewregistereddetail-row">
+                    <span className="viewregistered-info-label">
+                      Instructor:
+                    </span>
+                    <span className="viewregistered-info-text">
+                      {cls.instructorid} - {cls.instructor_name}
+                    </span>
+                  </div>
+
+                  <div className="viewregistereddetail-row">
+                    <span className="viewregistered-info-label">Schedule:</span>
+                    <span className="viewregistered-info-text">
+                      {cls.schedule}
+                    </span>
+                  </div>
+
+                  <div className="viewregistereddetail-row">
+                    <span className="viewregistered-info-label">Location:</span>
+                    <span className="viewregistered-info-text">
+                      {cls.classlocation}
+                    </span>
+                  </div>
+                  <div className="viewregistereddetail-row">
+                    <span className="viewregistered-info-label">
+                      Back Up Course 1:
+                    </span>
+                    <span className="viewregistered-info-text">
+                      {cls.bucourseid_st}
+                    </span>
+                  </div>
+                  <div className="viewregistereddetail-row">
+                    <span className="viewregistered-info-label">
+                      Back Up Course 2:
+                    </span>
+                    <span className="viewregistered-info-text">
+                      {cls.bucourseid_nd}
+                    </span>
+                  </div>
                 </div>
-              ))}
+              )}
             </div>
           ))}
         </div>
