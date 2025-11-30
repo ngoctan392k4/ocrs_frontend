@@ -33,6 +33,10 @@ export const menu_instructor = [
       },
     ],
   },
+  {
+    label: "Log out",
+    isLogout: true
+  }
 ];
 
 export default menu_instructor;
