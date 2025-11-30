@@ -53,6 +53,10 @@ export const menu_admin = [
       },
     ],
   },
+  {
+    label: "Log out",
+    isLogout: true
+  }
 
 ];
 
