@@ -20,7 +20,8 @@ import AddAccount from "./components/admin/AccountManagement/AddAccount";
 import EditCourse from "./components/admin/CourseManagement/EditCourse";
 import EditAccount from "./components/admin/AccountManagement/EditAccount";
 import ClassRegistration from "./components/student/ClassRegistration/ClassRegistration";
-
+import ViewAvailableCourse from "./components/student/ClassRegistration/viewAvailableCourse";
+import ViewAvailableClass from "./components/student/ClassRegistration/viewAvailableClass";
 function App() {
   const [count, setCount] = useState(0);
 
@@ -165,6 +166,31 @@ function App() {
           </EnsureLoggedToRoutes>
         }
       />
+      <Route
+        path="/availableCourse"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["student"]}>
+              <ViewAvailableCourse />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+      <Route
+        path="/availableCourse/availableClass/:courseID"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["student"]}>
+              <ViewAvailableClass />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+
+
+
+
 
       {/* Instructor Routes */}
       <Route

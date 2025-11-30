@@ -1,0 +1,118 @@
+.available-course-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* CONTENT */
+.available-course-content {
+  flex-grow: 1;
+  padding: 30px;
+  margin-left: 260px;
+  line-height: 1.6;
+  color: var(--color-blue-900);
+  animation: fadeIn 0.4s ease;
+}
+
+.available-course-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* SEARCH */
+.search-container {
+  width: 100%; 
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.search-container .search-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  font-size: 16px; 
+  color: var(--color-gray-600);
+}
+
+.available-course-search {
+  width: 100%;
+  padding: 8px 12px 8px 36px; 
+  border: 1px solid var(--color-gray-300);
+  border-radius: 18px;
+  font-size: 14px; 
+}
+
+/* LIST */
+.available-course-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* CARD (copy từ admin) */
+.course-item {
+  margin: 0;
+}
+
+/* Header giống admin */
+.course-header {
+  background: var(--color-greengray-200);
+  padding: 12px 20px;
+  border-radius: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.course-name {
+  font-weight: 600;
+  font-size: 17px;
+}
+
+/* DETAIL giống admin */
+.course-detail {
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  border-radius: 12px;
+  padding: 18px 22px;
+  width: 95%;
+  margin-left: 15px;
+  margin-top: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detail-row {
+  display: flex;
+  gap: 12px;
+}
+
+.course-info-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  width: 160px;
+  white-space: nowrap;
+}
+
+.course-info-text {
+  font-size: 14px;
+  flex: 1;
+}
+
+/* VIEW CLASS LINK */
+.view-class-link {
+  font-size: 14px;
+  color: var(--color-blue-900);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.view-class-link:hover {
+  color: var(--color-blue-700);
+}
