@@ -21,6 +21,7 @@ import EditCourse from "./components/admin/CourseManagement/EditCourse";
 import ViewRegistered from "./components/student/ClassRegistration/RegisteredClass"
 import EditAccount from "./components/admin/AccountManagement/EditAccount";
 import ClassRegistration from "./components/student/ClassRegistration/ClassRegistration";
+import ViewAssignedClass from "./components/instructor/Teaching/ViewAssignedClass/ViewAssignedClass";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -167,6 +168,17 @@ function App() {
         }
       />
 
+      <Route
+        path="/registeredClass"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["student"]}>
+              <ViewRegistered />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
       {/* Instructor Routes */}
       <Route
         path="/homepageInstructor"
@@ -179,12 +191,13 @@ function App() {
         }
       />
 
+
       <Route
-        path="/registeredClass"
+        path="/myClasses"
         element={
           <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["student"]}>
-              <ViewRegistered />
+            <RoleBasedAuthorization allowRole={["instructor"]}>
+              <ViewAssignedClass />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
