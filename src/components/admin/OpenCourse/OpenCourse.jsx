@@ -14,28 +14,41 @@ export default function OpenCourse() {
   const [loading, setLoading] = useState(true);
 
   const [openCourse, setOpenCourse] = useState([]);
+  const [originOpenCourse, setOriginOpenCourse] = useState([]);
   const [semester, setSemester] = useState(null);
+  const [allSemesters, setAllSemesters] = useState([]);
+  const [latestSem, setLatestSem] = useState(null);
+  const [showOpeneOnly, setShowOpeneOnly] = useState(false);
 
   const [successDialog, setSuccessDialog] = useState(false); // Success dialog state
   const [successMessage, setSuccessMessage] = useState(""); // Success message
   const [errorDialog, setErrorDialog] = useState(false);
   const [error, setError] = useState("");
 
-  async function fetchCourses() {
+  async function fetchCourses(semid = null) {
     try {
-      const response = await fetch(
-        "http://localhost:3001/api/admin/openCourse"
-      );
+      const url = semid
+        ? `http://localhost:3001/api/admin/openCourse?semid=${semid}`
+        : `http://localhost:3001/api/admin/openCourse`;
+
+      const response = await fetch(url);
       const data = await response.json();
       console.log("Fetched courses:", data);
 
-      setCourses(data.course);
-      if (data.semester?.length > 0) {
-          const sem = data.semester[0];
-          setSemester(sem);
-        }
+      setAllSemesters(data.allSem);
 
-      const firstCourse = data[0] || {};
+      const selectedSem = semid
+        ? data.allSem.find((s) => s.semid === semid) || data.latestSem
+        : data.latestSem;
+
+      setSemester(selectedSem);
+      setCourses(data.allCourse);
+      setLatestSem(data.latestSem?.semid);
+
+      setOpenCourse(data.course.map((c) => c.courseid));
+      setOriginOpenCourse(data.course.map((c) => c.courseid));
+
+      const firstCourse = data.course[0] || {};
       const newType = [];
       for (const key in firstCourse) {
         if (key.toLowerCase().startsWith("credit_")) {
@@ -56,7 +69,11 @@ export default function OpenCourse() {
     fetchCourses();
   }, []);
 
-  const searchCourse = courses.filter((course) =>
+  const courseDisplay = showOpeneOnly
+    ? courses.filter((course) => openCourse.includes(course.courseid))
+    : courses;
+
+  const searchCourse = courseDisplay.filter((course) =>
     course.courseid?.toLowerCase().includes(searched.toLowerCase())
   );
 
@@ -79,12 +96,18 @@ export default function OpenCourse() {
 
   const handleOpenCourse = async () => {
     try {
+      const addCourse = openCourse.filter(
+        (id) => !originOpenCourse.includes(id)
+      );
+      const removeCourse = originOpenCourse.filter(
+        (id) => !openCourse.includes(id)
+      );
       const response = await fetch(
         "http://localhost:3001/api/admin/openCourse",
         {
-          method: "POST",
+          method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ courses: openCourse }),
+          body: JSON.stringify({ add: addCourse, remove: removeCourse }),
         }
       );
 
@@ -97,7 +120,6 @@ export default function OpenCourse() {
         setSuccessMessage(data.message);
         setSuccessDialog(true);
         setErrorDialog(false);
-        setOpenCourse([]);
 
         await fetchCourses();
       }
@@ -129,7 +151,8 @@ export default function OpenCourse() {
       <Menu menus={menu_admin} />
 
       <div className="open-course-content">
-        <h1 className="open-course-title">Open Course For {semester?.semid || "Loading..."}</h1>
+        <h1 className="open-course-title">Open Course For {semester?.semid}</h1>
+
         <div className="search-and-buttons">
           <input
             className="search-bar"
@@ -140,15 +163,37 @@ export default function OpenCourse() {
           />
           <span className="buttons-container">
             <button
+              disabled={semester?.semid !== latestSem}
               className="Open-button"
               onClick={() => {
                 semesterGenerate();
                 handleOpenCourse();
               }}
             >
-              Open
+              Save
             </button>
-            <button className="currentSem-button">Current Semester</button>
+            <button
+              className={"Open-button"}
+              onClick={() => {
+                setShowOpeneOnly(!showOpeneOnly);
+              }}
+            >
+              {showOpeneOnly ? "Show All" : "Opened"}
+            </button>
+            <div className="semester-row">
+              <span className="semester-label">Semester:</span>
+              <select
+                className="semester-dropdown"
+                value={semester?.semid || ""}
+                onChange={(e) => fetchCourses(e.target.value)}
+              >
+                {allSemesters.map((sem) => (
+                  <option key={sem.semid} value={sem.semid}>
+                    {sem.semid}
+                  </option>
+                ))}
+              </select>
+            </div>
           </span>
         </div>
         <div className="course-list">
@@ -164,6 +209,7 @@ export default function OpenCourse() {
                 <div className="course-header">
                   <div className="course-name">{course.coursename}</div>
                   <input
+                    disabled={semester?.semid !== latestSem}
                     className="Checkbox"
                     type="checkbox"
                     checked={openCourse.includes(course.courseid)}

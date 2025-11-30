@@ -29,13 +29,7 @@
   margin-bottom: 20px;
 }
 
-.buttons-container {
-  display: flex;
-  gap: 10px;
-}
-
-.Open-button,
-.currentSem-button {
+.Open-button {
   margin-top: -20px;
   background: var(--color-greengray-200);
   color: var(--color-blue-900);
@@ -46,12 +40,66 @@
   text-transform: none;
   border: none;
   outline: none;
+  min-width: 100px; 
 }
 
-.Open-button:hover,
-.currentSem-button:hover {
+.Open-button:disabled {
+  cursor: not-allowed;
+  filter: grayscale(100%);
+  background-color: var(--color-greengray-600);
+  border: 2px solid var(--color-greengray-600);
+  color: var(--color-gray-100);
+}
+
+.Open-button:hover:disabled {
+  transform: none;
+  background-color: var(--color-gray-700);
+}
+
+.buttons-container {
+  display: flex;
+  gap: 10px;
+  align-items: center; 
+}
+
+.Open-button:hover {
   background-color: var(--color-blue-400);
   transform: translateY(-2px);
+}
+
+.semester-row {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+  margin-bottom: 16px;
+}
+
+.semester-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.semester-dropdown {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 12px;
+  background-color: var(--color-white);
+  cursor: pointer;
+  min-width: 160px; 
+  transition: border-color 0.2s, box-shadow 0.2s;
+} 
+
+.semester-dropdown:hover {
+  border-color: var(--color-blue-400);
+}
+
+.semester-dropdown:focus {
+  outline: none;
+  border-color: var(--color-blue-500);
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
 }
 
 .search-bar {
@@ -71,6 +119,14 @@
   height: 20px;
   cursor: pointer;
 }
+.Checkbox:disabled {
+  cursor: not-allowed;
+  filter: grayscale(100%);
+  background-color: var(--color-gray-700);
+  border: 2px solid var(--color-gray-700);
+  color: var(--color-gray-100);
+}
+
 
 .course-list {
   display: flex;
