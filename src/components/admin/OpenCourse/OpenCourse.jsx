@@ -25,6 +25,23 @@ export default function OpenCourse() {
   const [errorDialog, setErrorDialog] = useState(false);
   const [error, setError] = useState("");
 
+  async function semesterGenerate() {
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/admin/semester/next",
+        { method: "POST" }
+      );
+
+      if (!response.ok) {
+        const err = await response.text();
+        throw new Error(err);
+      }
+    } catch (err) {
+      console.error("Failed to create next semester:", err);
+      alert("Không thể tạo kỳ học mới!");
+    }
+  }
+
   async function fetchCourses(semid = null) {
     try {
       const url = semid
@@ -66,6 +83,7 @@ export default function OpenCourse() {
     }
   }
   useEffect(() => {
+    semesterGenerate();
     fetchCourses();
   }, []);
 
@@ -129,23 +147,6 @@ export default function OpenCourse() {
     }
   };
 
-  const semesterGenerate = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:3001/api/admin/semester/next",
-        { method: "POST" }
-      );
-
-      if (!response.ok) {
-        const err = await response.text();
-        throw new Error(err);
-      }
-    } catch (err) {
-      console.error("Failed to create next semester:", err);
-      alert("Không thể tạo kỳ học mới!");
-    }
-  };
-
   return (
     <div className="open-course-container">
       <Menu menus={menu_admin} />
@@ -166,7 +167,6 @@ export default function OpenCourse() {
               disabled={semester?.semid !== latestSem}
               className="Open-button"
               onClick={() => {
-                semesterGenerate();
                 handleOpenCourse();
               }}
             >
