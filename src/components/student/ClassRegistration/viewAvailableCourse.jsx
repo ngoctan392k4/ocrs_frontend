@@ -132,18 +132,24 @@ export default function ViewAvailableCourse() {
                                                 </div>
 
                                                 <div className="detail-row">
-                                                    <span className="course-info-label">Credits:</span>
-                                                    <span className="course-info-text">{course.total_credits ?? "-"}</span>
+                                                    <span className="course-info-label">Credit:</span>
+                                                    <span className="course-info-text">
+                                                        {Object.entries(course.credit_details)
+                                                            .filter(([_, value]) => value > 0)
+                                                            .map(([type, value]) => (
+                                                                <div key={type} className="credit-detail-row">
+                                                                    <span className="credit-info-label">{type.toUpperCase()}:</span>
+                                                                    <span className="credit-info-text">{value}</span>
+                                                                </div>
+                                                            ))
+                                                        }
+                                                    </span>
                                                 </div>
+
 
                                                 <div className="detail-row">
                                                     <span className="course-info-label">Prerequisite:</span>
                                                     <span className="course-info-text">{course.prerequisite ?? "None"}</span>
-                                                </div>
-
-                                                <div className="detail-row">
-                                                    <span className="course-info-label">Department:</span>
-                                                    <span className="course-info-text">{course.department_name ?? "-"}</span>
                                                 </div>
 
                                                 <div className="detail-row">

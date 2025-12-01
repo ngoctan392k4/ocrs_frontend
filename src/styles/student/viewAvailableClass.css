@@ -41,10 +41,9 @@
     transform: translateY(-2px);
 }
 
-/* HEADER giống admin */
+/* HEADER */
 .viewclass-header {
     display: flex;
-    width: 1100px;
     border-radius: 15px;
     justify-content: space-between;
     align-items: center;
@@ -61,19 +60,20 @@
 .viewclass-detail {
     margin-top: 12px;
     padding-top: 14px;
-    border-top: 5px solid var(--color-gray-300);
+    border-top: 3px solid var(--color-gray-300);
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 .viewclassdetail-row {
     display: flex;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 .viewclass-info-label {
-    width: 150px;
+    width: 130px;
     font-weight: 700;
     font-size: 14px;
 }
@@ -82,18 +82,23 @@
     font-size: 14px;
 }
 
-/* BACK BUTTON */
-.viewclass-back-btn {
-    margin-top: 35px;
-    padding: 10px 22px;
-    border: none;
-    border-radius: 10px;
-    background: var(--color-blue-500);
-    color: var(--color-white-000);
-    font-size: 15px;
-    cursor: pointer;
+.viewclass-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-size: 16px;
+    color: var(--color-gray-600);
+    background: var(--color-white-100);
+    border-radius: 12px;
+    margin-top: 20px;
 }
 
-.viewclass-back-btn:hover {
-    opacity: 0.9;
+.viewclass-message.no-class i {
+    color: var(--color-blue-500);
+}
+
+.viewclass-message.error {
+    color: var(--color-red-500);
+    background: var(--color-white-100);
 }

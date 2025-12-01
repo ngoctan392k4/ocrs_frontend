@@ -22,15 +22,12 @@ import ViewRegistered from "./components/student/ClassRegistration/RegisteredCla
 import EditAccount from "./components/admin/AccountManagement/EditAccount";
 import OpenCourse from "./components/admin/OpenCourse/OpenCourse";
 import ClassRegistration from "./components/student/ClassRegistration/ClassRegistration";
-<<<<<<< HEAD
 import ViewAvailableCourse from "./components/student/ClassRegistration/viewAvailableCourse";
 import ViewAvailableClass from "./components/student/ClassRegistration/viewAvailableClass";
-=======
 import ViewAssignedClass from "./components/instructor/Teaching/ViewAssignedClass/ViewAssignedClass";
 import ViewStudentList from "./components/instructor/Teaching/ViewStudentList/ViewStudentList";
 
 
->>>>>>> b75b3acaa777440f839d4fe1dee660474af7d3cd
 function App() {
   const [count, setCount] = useState(0);
 

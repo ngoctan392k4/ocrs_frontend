@@ -116,3 +116,17 @@
 .view-class-link:hover {
   color: var(--color-blue-700);
 }
+.credit-row {
+    align-items: flex-start !important;
+}
+
+.credit-breakdown {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.credit-item {
+    display: flex;
+    gap: 6px;
+}
