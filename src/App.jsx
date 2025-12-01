@@ -18,10 +18,19 @@ import AddClass from "./components/admin/ClassManagement/AddClass";
 import EditClass from "./components/admin/ClassManagement/EditClass";
 import AddAccount from "./components/admin/AccountManagement/AddAccount";
 import EditCourse from "./components/admin/CourseManagement/EditCourse";
+import ViewRegistered from "./components/student/ClassRegistration/RegisteredClass"
 import EditAccount from "./components/admin/AccountManagement/EditAccount";
+import OpenCourse from "./components/admin/OpenCourse/OpenCourse";
 import ClassRegistration from "./components/student/ClassRegistration/ClassRegistration";
+<<<<<<< HEAD
 import ViewAvailableCourse from "./components/student/ClassRegistration/viewAvailableCourse";
 import ViewAvailableClass from "./components/student/ClassRegistration/viewAvailableClass";
+=======
+import ViewAssignedClass from "./components/instructor/Teaching/ViewAssignedClass/ViewAssignedClass";
+import ViewStudentList from "./components/instructor/Teaching/ViewStudentList/ViewStudentList";
+
+
+>>>>>>> b75b3acaa777440f839d4fe1dee660474af7d3cd
 function App() {
   const [count, setCount] = useState(0);
 
@@ -144,6 +153,17 @@ function App() {
         }
       />
 
+      <Route
+        path="/openCourse"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <OpenCourse />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
       {/* Student Routes */}
       <Route
         path="/homepageStudent"
@@ -192,6 +212,17 @@ function App() {
 
 
 
+      <Route
+        path="/registeredClass"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["student"]}>
+              <ViewRegistered />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
       {/* Instructor Routes */}
       <Route
         path="/homepageInstructor"
@@ -199,6 +230,29 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["instructor"]}>
               <HomeInstructor />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+
+      <Route
+        path="/myClasses"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["instructor"]}>
+              <ViewAssignedClass />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="/myClasses/studentList/:classID"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["instructor"]}>
+              <ViewStudentList />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
