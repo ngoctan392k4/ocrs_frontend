@@ -38,15 +38,25 @@ export default function ViewAvailableCourse() {
         fetchCourses();
     }, []);
 
+    const canView = () => {
+        if (!semester || !semester.start_date) return false;
+
+        const today = new Date();
+        const start = new Date(semester.start_date);
+
+        const viewStart = new Date(start);
+        viewStart.setDate(viewStart.getDate() - 20);
+
+        return today >= viewStart;
+    };
+
     // handle mở/đóng course (mở nhiều được)
     const handleCourseClick = (course) => {
-        setOpenCourses((prev) => {
-            if (prev.includes(course.courseid)) {
-                return prev.filter((id) => id !== course.courseid);
-            } else {
-                return [...prev, course.courseid];
-            }
-        });
+        setOpenCourses((prev) =>
+            prev.includes(course.courseid)
+                ? prev.filter((id) => id !== course.courseid)
+                : [...prev, course.courseid]
+        );
     };
 
     const handleViewClass = (courseid) => {
@@ -89,6 +99,19 @@ export default function ViewAvailableCourse() {
                     <div>Loading courses...</div>
                 ) : error ? (
                     <div>{error}</div>
+                ) : !canView() ? (
+                    // ⭐ Show message khi chưa tới 20 ngày cho xem
+                    <div>
+                        There is no available course right now.
+                        <br />
+                        You can view courses from:{" "}
+                        {semester &&
+                            new Date(
+                                new Date(semester.start_date).setDate(
+                                    new Date(semester.start_date).getDate() - 20
+                                )
+                            ).toLocaleDateString()}
+                    </div>
                 ) : (
                     <div className="available-course-list">
                         {filteredCourses.length === 0 ? (
@@ -123,12 +146,16 @@ export default function ViewAvailableCourse() {
                                             <div className="course-detail">
                                                 <div className="detail-row">
                                                     <span className="course-info-label">Course ID:</span>
-                                                    <span className="course-info-text">{course.courseid ?? "-"}</span>
+                                                    <span className="course-info-text">
+                                                        {course.courseid ?? "-"}
+                                                    </span>
                                                 </div>
 
                                                 <div className="detail-row">
                                                     <span className="course-info-label">Course Name:</span>
-                                                    <span className="course-info-text">{course.coursename ?? "-"}</span>
+                                                    <span className="course-info-text">
+                                                        {course.coursename ?? "-"}
+                                                    </span>
                                                 </div>
 
                                                 <div className="detail-row">
@@ -137,19 +164,26 @@ export default function ViewAvailableCourse() {
                                                         {Object.entries(course.credit_details)
                                                             .filter(([_, value]) => value > 0)
                                                             .map(([type, value]) => (
-                                                                <div key={type} className="credit-detail-row">
-                                                                    <span className="credit-info-label">{type.toUpperCase()}:</span>
-                                                                    <span className="credit-info-text">{value}</span>
+                                                                <div
+                                                                    key={type}
+                                                                    className="credit-detail-row"
+                                                                >
+                                                                    <span className="credit-info-label">
+                                                                        {type.toUpperCase()}:
+                                                                    </span>
+                                                                    <span className="credit-info-text">
+                                                                        {value}
+                                                                    </span>
                                                                 </div>
-                                                            ))
-                                                        }
+                                                            ))}
                                                     </span>
                                                 </div>
 
-
                                                 <div className="detail-row">
                                                     <span className="course-info-label">Prerequisite:</span>
-                                                    <span className="course-info-text">{course.prerequisite ?? "None"}</span>
+                                                    <span className="course-info-text">
+                                                        {course.prerequisite ?? "None"}
+                                                    </span>
                                                 </div>
 
                                                 <div className="detail-row">
@@ -168,7 +202,6 @@ export default function ViewAvailableCourse() {
                                             </div>
                                         )}
                                     </div>
-
                                 );
                             })
                         )}
