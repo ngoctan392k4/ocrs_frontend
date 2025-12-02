@@ -25,6 +25,7 @@ import ClassRegistration from "./components/student/ClassRegistration/ClassRegis
 import ViewAssignedClass from "./components/instructor/Teaching/ViewAssignedClass/ViewAssignedClass";
 import ViewStudentList from "./components/instructor/Teaching/ViewStudentList/ViewStudentList";
 import TeachingSchedule from "./components/instructor/Schedule/teachingSchedule";
+import StudySchedule from "./components/student/Schedule/studySchedule";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -188,6 +189,17 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["student"]}>
               <ViewRegistered />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="studySchedule"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["student"]}>
+              <StudySchedule />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
