@@ -22,6 +22,8 @@ import ViewRegistered from "./components/student/ClassRegistration/RegisteredCla
 import EditAccount from "./components/admin/AccountManagement/EditAccount";
 import OpenCourse from "./components/admin/OpenCourse/OpenCourse";
 import ClassRegistration from "./components/student/ClassRegistration/ClassRegistration";
+import ViewAvailableCourse from "./components/student/ClassRegistration/viewAvailableCourse";
+import ViewAvailableClass from "./components/student/ClassRegistration/viewAvailableClass";
 import ViewAssignedClass from "./components/instructor/Teaching/ViewAssignedClass/ViewAssignedClass";
 import ViewStudentList from "./components/instructor/Teaching/ViewStudentList/ViewStudentList";
 
@@ -181,6 +183,31 @@ function App() {
           </EnsureLoggedToRoutes>
         }
       />
+      <Route
+        path="/availableCourse"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["student"]}>
+              <ViewAvailableCourse />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+      <Route
+        path="/availableCourse/availableClass/:courseID"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["student"]}>
+              <ViewAvailableClass />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+
+
+
+
 
       <Route
         path="/registeredClass"
