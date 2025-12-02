@@ -26,7 +26,8 @@ import ViewAvailableCourse from "./components/student/ClassRegistration/viewAvai
 import ViewAvailableClass from "./components/student/ClassRegistration/viewAvailableClass";
 import ViewAssignedClass from "./components/instructor/Teaching/ViewAssignedClass/ViewAssignedClass";
 import ViewStudentList from "./components/instructor/Teaching/ViewStudentList/ViewStudentList";
-
+import TeachingSchedule from "./components/instructor/Schedule/teachingSchedule";
+import StudySchedule from "./components/student/Schedule/studySchedule";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -220,6 +221,17 @@ function App() {
         }
       />
 
+      <Route
+        path="studySchedule"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["student"]}>
+              <StudySchedule />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
       {/* Instructor Routes */}
       <Route
         path="/homepageInstructor"
@@ -250,6 +262,17 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["instructor"]}>
               <ViewStudentList />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="teachingSchedule"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["instructor"]}>
+              <TeachingSchedule />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
