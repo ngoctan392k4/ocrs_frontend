@@ -1,0 +1,286 @@
+/* 1. Global Reset to prevent width calculation errors */
+* {
+  box-sizing: border-box;
+}
+
+/* --- LAYOUT CONTAINER --- */
+.tuition-payment-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #ecf1f7;
+  overflow-x: hidden;
+  position: relative; /* Added for better positioning */
+}
+
+/* --- MAIN CONTENT AREA --- */
+.tuition-payment-content {
+  /* 1. FLEX COLUMN: Critical for pushing footer to bottom */
+  display: flex;
+  flex-direction: column;
+
+  /* 2. HEIGHT: Force it to take at least full screen height */
+  min-height: 100vh;
+
+  /* 3. SIDEBAR OFFSET: Keeps space for your fixed menu */
+  margin-left: 260px;
+
+  /* 4. WIDTH: Fill remaining space exactly */
+  width: calc(100% - 260px);
+
+  padding: 30px 40px;
+  font-family: var(--font-sans, "Inter", sans-serif);
+  color: #1e3957; /* var(--color-blue-900) */
+  animation: fadeIn 0.4s ease;
+  position: relative; /* Added */
+}
+
+/* --- HEADERS --- */
+.payment-header {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #1e3957;
+}
+
+.payment-header:nth-of-type(2) {
+  margin-top: 40px;
+  font-size: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e0e4eb;
+}
+
+/* --- DASHBOARD CARDS --- */
+.summary-dashboard {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.info-card-payment {
+  flex: 1;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+.info-card-payment strong {
+  font-size: 24px;
+  color: #2d5582;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* --- TABLE STYLING --- */
+.tuition-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+  margin-bottom: 30px; /* Added margin to separate from footer */
+}
+
+.tuition-table thead tr {
+  background-color: #abb7b3; /* Green-gray header */
+}
+
+/* HEADER CENTERING */
+.tuition-table th {
+  padding: 16px 20px;
+  text-align: center; /* Centers header text */
+  font-weight: 700;
+  color: #1e3957;
+  font-size: 14px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Force first column (ID) and second column (Name) to align left for readability */
+.tuition-table th:nth-child(1),
+.tuition-table td:nth-child(1),
+.tuition-table th:nth-child(2),
+.tuition-table td:nth-child(2) {
+  text-align: left;
+}
+
+/* CELL CENTERING */
+.tuition-table td {
+  padding: 12px 20px;
+  border-bottom: 1px solid #e0e4eb;
+  font-size: 14px;
+  color: #374151;
+  vertical-align: middle;
+  text-align: center; /* Centers the badges */
+}
+
+.tuition-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* --- STATUS BADGES (The "Pills") --- */
+.status-unpaid,
+.status-paid {
+  display: inline-flex; /* Ensures content is centered in the pill */
+  justify-content: center;
+  align-items: center;
+
+  font-weight: 600;
+  font-size: 12px; /* Smaller text */
+
+  /* FIXED SIZE FOR PROPORTION */
+  min-width: 80px;
+  height: 28px; /* Fixed height makes them look uniform */
+  border-radius: 50px; /* Perfect pill shape */
+
+  margin: 0 auto; /* Ensures the badge itself is centered in the TD */
+}
+
+.status-unpaid {
+  color: #bd161d !important;
+  background-color: #ffe5e5;
+}
+
+.status-paid {
+  color: #14662c !important;
+  background-color: #e6f4ea;
+}
+
+/* --- FOOTER (Fixed at bottom, aligned with menu) --- */
+.payment-footer {
+  /* Changed from margin-top: auto to fixed positioning */
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: calc(100% - 260px); /* Same as content width */
+  height: 80px; /* Fixed height */
+
+  background-color: #ffffff;
+  padding: 20px 30px;
+  border-top: 1px solid #d1d5db;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 24px;
+  z-index: 100;
+}
+
+.total-cost {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e3957;
+}
+
+.pay-btn {
+  background-color: #1e3957;
+  color: #ffffff;
+  border: none;
+  padding: 10px 35px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.pay-btn:hover {
+  opacity: 0.9;
+}
+
+.pay-btn:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* --- POPUPS --- */
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.popup-content {
+  background-color: #ffffff;
+  width: 400px;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.popup-content h3 {
+  margin-top: 0;
+  color: #1e3957;
+}
+
+.popup-content button {
+  padding: 10px 24px;
+  margin-top: 15px;
+  background-color: #1e3957;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Status cell container for perfect centering */
+.status-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Ensure table cells have consistent height */
+.tuition-table tbody tr {
+  height: 60px; /* Fixed row height for consistency */
+}
+
+/* Better status badge styling */
+.status-unpaid,
+.status-paid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 12px;
+  min-width: 80px;
+  height: 28px;
+  border-radius: 50px;
+  padding: 0 15px; /* Add horizontal padding */
+}
+
+/* Add padding to content to prevent footer overlap */
+.tuition-payment-content {
+  padding-bottom: 100px; /* Extra space for fixed footer */
+}
