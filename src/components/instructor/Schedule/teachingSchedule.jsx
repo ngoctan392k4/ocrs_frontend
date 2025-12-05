@@ -50,61 +50,79 @@ export default function TeachingSchedule() {
       const events = [];
 
       (data.assigned || []).forEach((c) => {
-        if (!c.schedule) return;
+        if (!c.schedule || !c.classlocation) return;
 
-        // Tách nhiều ca theo dấu phẩy
-        const schedules = c.schedule.split(",").map((s) => s.trim());
-        const totalWeeklySessions = schedules.length;
+        // ───────────────────────────────────────────────
+        // 1) Parse LOCATION → map theo ngày
+        // "Wed - ROOM 110, Mon - ROOM 110, Sun - ROOM 208"
+        // => { Wed: "ROOM 110", Mon: "ROOM 110", Sun: "ROOM 208" }
+        // ───────────────────────────────────────────────
+        const locationMap = {};
 
-        // Tính thời lượng mỗi buổi (giờ)
-        const sessionDurations = schedules.map((sch) => {
-          const [day, timeRange] = sch.split(" ");
-          const [start, end] = timeRange.split("-");
-          const [sh, sm] = start.split(":").map(Number);
-          const [eh, em] = end.split(":").map(Number);
-          return eh + em / 60 - (sh + sm / 60);
+        c.classlocation.split(",").forEach((x) => {
+          const part = x.trim();
+          if (part.includes(" - ")) {
+            const [d, r] = part.split(" - ");
+            locationMap[d.trim()] = r.trim();
+          }
         });
 
-        // Tổng số buổi cần học cho môn này
-        const totalSessions = Math.ceil(
-          c.lecture_hours / sessionDurations[0] // giả sử các ca có thời lượng bằng nhau
-        );
+        // ───────────────────────────────────────────────
+        // 2) Parse schedule từng buổi
+        // ───────────────────────────────────────────────
+        const schedules = c.schedule.split(",").map((s) => s.trim());
 
-        for (let i = 0; i < totalSessions; i++) {
-          // Xác định ca tuần hiện tại
-          const schIndex = i % totalWeeklySessions;
-          const sch = schedules[schIndex];
+        schedules.forEach((sch) => {
+          if (!sch.includes(" ")) return;
 
           const [day, timeRange] = sch.split(" ");
+          if (!timeRange || !timeRange.includes("-")) return;
+
           const [start, end] = timeRange.split("-");
           const targetDow = weekDayIndex[day];
-          if (targetDow === undefined) continue;
+          if (targetDow === undefined) return;
+
+          // Lấy ROOM đúng theo ngày
+          const roomOnly = locationMap[day] || "ROOM ???";
 
           const [sh, sm] = start.split(":").map(Number);
           const [eh, em] = end.split(":").map(Number);
 
-          // Xác định tuần: Math.floor(i / totalWeeklySessions)
-          const weekOffset = Math.floor(i / totalWeeklySessions);
-          const eventDate = new Date(semesterStart);
-          eventDate.setDate(
-            eventDate.getDate() + ((targetDow - eventDate.getDay() + 7) % 7) + weekOffset * 7
+          const sessionDurationHours =
+            eh + em / 60 - (sh + sm / 60);
+          if (sessionDurationHours <= 0) return;
+
+          const sessionsNeeded = Math.ceil(
+            c.lecture_hours / sessionDurationHours
           );
-          if (eventDate > semesterEnd) break;
 
-          const startDateTime = new Date(eventDate);
-          startDateTime.setHours(sh, sm, 0, 0);
+          const firstEventDate = new Date(semesterStart);
+          firstEventDate.setDate(
+            firstEventDate.getDate() +
+              ((targetDow - firstEventDate.getDay() + 7) % 7)
+          );
 
-          const endDateTime = new Date(eventDate);
-          endDateTime.setHours(eh, em, 0, 0);
+          for (let i = 0; i < sessionsNeeded; i++) {
+            const eventDate = new Date(firstEventDate);
+            eventDate.setDate(eventDate.getDate() + i * 7);
+            if (eventDate > semesterEnd) break;
 
-          events.push({
-            title: `${c.classcode} | ${c.classname} | ${day} - ${c.classlocation} | ${formatTime(
-              startDateTime
-            )} - ${formatTime(endDateTime)}`,
-            start: startDateTime,
-            end: endDateTime,
-          });
-        }
+            const startDateTime = new Date(eventDate);
+            startDateTime.setHours(sh, sm, 0, 0);
+
+            const endDateTime = new Date(eventDate);
+            endDateTime.setHours(eh, em, 0, 0);
+
+            // FINAL TITLE – CHUẨN THEO YÊU CẦU
+            events.push({
+              title: `${c.classcode} | ${c.classname} | ${roomOnly} | ${formatTime(
+                startDateTime
+              )} - ${formatTime(endDateTime)}`,
+              start: startDateTime,
+              end: endDateTime,
+            });
+          }
+        });
       });
 
       setSchedule(events);
