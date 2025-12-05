@@ -37,12 +37,12 @@ export default function TuitionPayment() {
   const [popupConfirmPay, setPopupConfirmPay] = useState(false);
 
   // Fetch tuition data
-  const fetchTuitionData = async (student_id) => {
+  const fetchTuitionData = async () => {
     setLoading(true);
     try {
-      const res = await fetch(
-        `http://localhost:3001/api/student/tuition?student_id=${student_id}`
-      );
+      const res = await fetch(`http://localhost:3001/api/student/tuition`, {
+        credentials: "include",
+      });
       if (!res.ok) {
         throw new Error("Failed to fetch data");
       }
@@ -64,36 +64,10 @@ export default function TuitionPayment() {
     }
   };
 
-  // Fetch the current user
-  const fetchCurrentUser = async () => {
-    try {
-      const res = await fetch("http://localhost:3001/api/student/me", {
-        credentials: "include",
-      });
-
-      if (!res.ok) {
-        return null;
-      }
-
-      const data = await res.json();
-      const student_id = data.get_studentid_by_accountid;
-      setCurrentStudentID(student_id);
-      return student_id;
-    } catch (e) {
-      console.error("Auth Check Failed: ", e);
-      return null;
-    }
-  };
-
   useEffect(() => {
     const handlePageLoad = async () => {
-      const fetchedId = await fetchCurrentUser();
-
-      if (fetchedId) {
-        await fetchTuitionData(fetchedId);
-      } else {
-        setLoading(false);
-      }
+      fetchTuitionData();
+      setLoading(false);
 
       const status = searchParams.get("status");
       const code = searchParams.get("code");
@@ -104,11 +78,10 @@ export default function TuitionPayment() {
         setSuccessMessage("Payment successful!");
         setSuccessDialog(true);
 
-        if (fetchedId) {
-          setTimeout(() => {
-            fetchTuitionData(fetchedId);
-          }, 2000);
-        }
+        setTimeout(() => {
+          fetchTuitionData();
+        }, 2000);
+
         setSearchParams({});
       } else if (cancel === "true") {
         setPopupNotiError("Payment was cancelled");
@@ -177,6 +150,7 @@ export default function TuitionPayment() {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({
             amount: totalCost,
             student_id: currentStudentID,
@@ -233,7 +207,6 @@ export default function TuitionPayment() {
                 <th>Course ID</th>
                 <th>Course Name</th>
                 <th>Credit</th>
-                <th>Payment date</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -244,7 +217,6 @@ export default function TuitionPayment() {
                     <td>{course.courseid}</td>
                     <td>{course.coursename}</td>
                     <td>{course.credit}</td>
-                    <td>{course.date ? course.date.split("T")[0] : ""}</td>
                     <td>
                       {/* Wrap status in a centered container */}
                       <div className="status-cell">
