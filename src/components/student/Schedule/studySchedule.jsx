@@ -38,9 +38,13 @@ export default function StudySchedule() {
       const semesterStart = data.currentSem?.start_date
         ? new Date(data.currentSem.start_date)
         : null;
+
       const semesterEnd = data.currentSem?.end_date
         ? new Date(data.currentSem.end_date)
         : null;
+
+      const offsetStart = new Date(semesterStart);
+      offsetStart.setDate(offsetStart.getDate() + 7);
 
       if (!semesterStart || !semesterEnd) {
         console.error("Semester start or end date missing");
@@ -52,11 +56,6 @@ export default function StudySchedule() {
       (data.enrolled || []).forEach((c) => {
         if (!c.schedule || !c.classlocation) return;
 
-        // ───────────────────────────────────────────────
-        // 1) Parse LOCATION → map theo ngày
-        // "Wed - ROOM 110, Mon - ROOM 110, Sun - ROOM 208"
-        // => { Wed: "ROOM 110", Mon: "ROOM 110", Sun: "ROOM 208" }
-        // ───────────────────────────────────────────────
         const locationMap = {};
 
         c.classlocation.split(",").forEach((x) => {
@@ -67,9 +66,6 @@ export default function StudySchedule() {
           }
         });
 
-        // ───────────────────────────────────────────────
-        // 2) Parse schedule từng buổi
-        // ───────────────────────────────────────────────
         const schedules = c.schedule.split(",").map((s) => s.trim());
 
         schedules.forEach((sch) => {
@@ -82,21 +78,19 @@ export default function StudySchedule() {
           const targetDow = weekDayIndex[day];
           if (targetDow === undefined) return;
 
-          // Lấy ROOM đúng theo ngày
           const roomOnly = locationMap[day] || "ROOM ???";
 
           const [sh, sm] = start.split(":").map(Number);
           const [eh, em] = end.split(":").map(Number);
 
-          const sessionDurationHours =
-            eh + em / 60 - (sh + sm / 60);
+          const sessionDurationHours = eh + em / 60 - (sh + sm / 60);
           if (sessionDurationHours <= 0) return;
 
           const sessionsNeeded = Math.ceil(
             c.lecture_hours / sessionDurationHours
           );
 
-          const firstEventDate = new Date(semesterStart);
+          const firstEventDate = new Date(offsetStart);
           firstEventDate.setDate(
             firstEventDate.getDate() +
               ((targetDow - firstEventDate.getDay() + 7) % 7)
@@ -115,9 +109,11 @@ export default function StudySchedule() {
 
             // FINAL TITLE – CHUẨN THEO YÊU CẦU
             events.push({
-              title: `${c.classcode} | ${c.classname} | ${roomOnly} | ${formatTime(
-                startDateTime
-              )} - ${formatTime(endDateTime)}`,
+              title: `${c.classcode} | ${
+                c.classname
+              } | ${roomOnly} | ${formatTime(startDateTime)} - ${formatTime(
+                endDateTime
+              )}`,
               start: startDateTime,
               end: endDateTime,
             });
