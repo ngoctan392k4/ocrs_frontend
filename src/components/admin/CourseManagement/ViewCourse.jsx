@@ -14,18 +14,25 @@ export default function ViewCourse() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const [showDialog, setShowDialog] = useState(false);
   const [deleteCourseId, setDeleteCourseId] = useState(null);
 
+  // ❗ New: disable delete when semester starts in <= 20 days
+  const [disableDelete, setDisableDelete] = useState(false);
+
+  // ============================
+  // Fetch Courses
+  // ============================
   async function fetchCourses() {
     try {
       const response = await fetch(
         "http://localhost:3001/api/admin/CourseManagement"
       );
       const data = await response.json();
-      console.log("Fetched courses:", data);
       setCourses(data);
 
+      // Detect credit types
       const firstCourse = data[0] || {};
       const newType = [];
       for (const key in firstCourse) {
@@ -34,23 +41,54 @@ export default function ViewCourse() {
           newType.push({ keyLabel, key });
         }
       }
-
       setCreditTypes(newType);
     } catch (e) {
-      console.log(e.message);
       setError("Lost connection to the database");
     } finally {
       setLoading(false);
     }
   }
+
+  // ============================
+  // Fetch latest semester to calculate days remaining
+  // ============================
+  async function fetchLatestSemester() {
+    try {
+      const res = await fetch("http://localhost:3001/api/admin/getLatestSemester");
+      const data = await res.json();
+
+      if (!data || !data.startdate) return;
+
+      const start = new Date(data.startdate);
+      const now = new Date();
+      const diff = (start - now) / (1000 * 60 * 60 * 24); // days remaining
+
+      if (diff <= 20) {
+        setDisableDelete(true);
+      }
+    } catch (err) {
+      console.error("Failed to fetch latest semester:", err);
+    }
+  }
+
+  // ============================
+  // useEffect
+  // ============================
   useEffect(() => {
     fetchCourses();
+    fetchLatestSemester();
   }, []);
 
+  // ============================
+  // Search filter
+  // ============================
   const searchCourse = courses.filter((course) =>
     course.courseid?.toLowerCase().includes(searched.toLowerCase())
   );
 
+  // ============================
+  // Toggle Course Detail
+  // ============================
   const toggleCourse = (id) => {
     setSelectedCourses((otherCourses) =>
       otherCourses.includes(id)
@@ -58,20 +96,30 @@ export default function ViewCourse() {
         : [...otherCourses, id]
     );
   };
+
+  // ============================
+  // Delete Handler
+  // ============================
   const handleDeleteClick = (id) => {
+    if (disableDelete) return; // ❌ Block delete when disabled
     setDeleteCourseId(id);
     setShowDialog(true);
   };
+
   const handleConfirmDelete = async () => {
     if (!deleteCourseId) return;
+
     try {
       const response = await fetch(
         `http://localhost:3001/api/admin/CourseManagement/${deleteCourseId}`,
         { method: "DELETE" }
       );
+
       if (response.ok) {
-        setCourses(prev => prev.filter(c => c.courseid !== deleteCourseId));
-        setSelectedCourses(prev => prev.filter(id => id !== deleteCourseId));
+        setCourses((prev) => prev.filter((c) => c.courseid !== deleteCourseId));
+        setSelectedCourses((prev) =>
+          prev.filter((id) => id !== deleteCourseId)
+        );
       }
     } catch (err) {
       console.error(err);
@@ -80,17 +128,28 @@ export default function ViewCourse() {
       setDeleteCourseId(null);
     }
   };
+
   const handleCancelDelete = () => {
     setShowDialog(false);
     setDeleteCourseId(null);
   };
 
+  // ============================
+  // UI
+  // ============================
   return (
     <div className="view-course-container">
       <Menu menus={menu_admin} />
 
       <div className="view-course-content">
         <h1 className="view-course-title">View Course</h1>
+
+        {/* Warning when delete is disabled */}
+        {disableDelete && (
+          <div style={{ color: "red", marginBottom: "10px" }}>
+            ⚠️ Delete is disabled — New semester starts within 20 days.
+          </div>
+        )}
 
         <input
           className="search-bar"
@@ -115,14 +174,23 @@ export default function ViewCourse() {
                 <div className="course-header">
                   <div className="course-name">{course.coursename}</div>
 
+                  {/* DELETE BUTTON WITH DISABLE */}
                   <button
                     className="delete-btn course-delete-btn"
+                    disabled={disableDelete}
+                    style={{
+                      opacity: disableDelete ? 0.4 : 1,
+                      cursor: disableDelete ? "not-allowed" : "pointer",
+                    }}
                     onClick={(e) => {
                       e.stopPropagation();
                       handleDeleteClick(course.courseid);
                     }}
-                  >x</button>
+                  >
+                    x
+                  </button>
                 </div>
+
                 {selectedCourses.includes(course.courseid) && (
                   <div className="course-detail">
                     <div className="detail-row">
@@ -131,40 +199,46 @@ export default function ViewCourse() {
                         {course.courseid}
                       </span>
                     </div>
+
                     <div className="detail-row">
                       <span className="course-info-label">Course Name: </span>
                       <span className="course-info-text">
                         {course.coursename}
                       </span>
                     </div>
+
                     <div className="detail-row">
                       <span className="course-info-label">
-                        Type of study unit:{" "}
+                        Type of study unit:
                       </span>
                       <span className="course-info-text">
                         {course.type_of_study_unit}
                       </span>
                     </div>
+
                     <div className="detail-row">
                       <span className="course-info-label">Prerequisite: </span>
                       <span className="course-info-text">
                         {course.prerequisite || "No prerequisite"}
                       </span>
                     </div>
+
                     <div className="detail-row">
                       <span className="course-info-label">
-                        Parallel Course: <br />
+                        Parallel Course:
                       </span>
                       <span className="course-info-text">
                         {course.parallel_course || "No parallel courses"}
                       </span>
                     </div>
+
                     <div className="detail-row">
                       <span className="course-info-label">Description: </span>
                       <span className="course-info-text">
                         {course.description || "No description"}
                       </span>
                     </div>
+
                     <div className="detail-row">
                       <span className="course-info-label">Credit: </span>
 
@@ -174,7 +248,7 @@ export default function ViewCourse() {
                           .map((credit) => (
                             <div key={credit.key} className="credit-detail-row">
                               <span className="credit-info-label">
-                                {credit.keyLabel}:{" "}
+                                {credit.keyLabel}:
                               </span>
                               <span className="credit-info-text">
                                 {course[credit.key]}
@@ -183,8 +257,16 @@ export default function ViewCourse() {
                           ))}
                       </span>
                     </div>
+
                     <div className="course-action">
-                      <button className="edit-btn" onClick={()=> navigate(`/courseManagement/editCourse/${course.courseid}`)}>Edit</button>
+                      <button
+                        className="edit-btn"
+                        onClick={() =>
+                          navigate(`/courseManagement/editCourse/${course.courseid}`)
+                        }
+                      >
+                        Edit
+                      </button>
                     </div>
                   </div>
                 )}
@@ -192,6 +274,7 @@ export default function ViewCourse() {
             ))
           )}
         </div>
+
         <button
           className="add-course-btn"
           onClick={() => navigate("/courseManagement/addCourse")}
@@ -199,6 +282,7 @@ export default function ViewCourse() {
           +
         </button>
       </div>
+
       {showDialog && (
         <DeleteCourse
           courseId={deleteCourseId}
