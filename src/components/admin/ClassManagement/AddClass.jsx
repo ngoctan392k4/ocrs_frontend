@@ -26,33 +26,48 @@ export default function AddClass() {
 
   const [scheduleList, setScheduleList] = useState([]);
   const [scheduleErrors, setScheduleErrors] = useState([]);
-
   const [loading, setLoading] = useState(false);
 
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
 
-  /* ------------------------------
-      FETCH DATA
-  ------------------------------ */
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await fetch(
           "http://localhost:3001/api/admin/ClassManagement/addClass"
         );
+
         const data = await res.json();
+
+        if (!res.ok) {
+          alert(data.message || "Failed to load data");
+          return navigate("/classManagement");
+        }
 
         setCourses(data.courses || []);
         setInstructors(data.instructors || []);
 
-        if (data.semesterlat?.length > 0) {
-          const sem = data.semesterlat[0];
-          setSemester(sem);
-          setFormData((prev) => ({ ...prev, semid: sem.semid }));
+        let semesterToUse = data.semesterInfo;
+
+        if (!semesterToUse) {
+          semesterToUse = {
+            semester_name: data.latestSemester?.semester_name || "",
+            school_year: data.latestSemester?.school_year || "",
+          };
         }
+
+        setSemester(semesterToUse);
+
+        setFormData((prev) => ({
+          ...prev,
+          semid: data.allowSemid,
+        }));
+
       } catch (err) {
         console.error("Fetch error:", err.message);
+        alert("Cannot connect to server");
+        navigate("/classManagement");
       }
     };
 
@@ -64,43 +79,30 @@ export default function AddClass() {
     setHasChanges(true);
 
     if (name === "capacity") {
-      let val = value;
+      let v = value;
 
-      if (val === "") {
+      if (v === "") {
         setFormData((prev) => ({ ...prev, capacity: 0 }));
         return;
       }
 
-      if (val.includes("-")) return;
+      if (v.includes("-")) return;
 
-      const num = Number(val);
+      const num = Number(v);
+      if (num > 200) v = 200;
 
-      if (val.length === 2) {
-        setFormData((prev) => ({ ...prev, capacity: val }));
-        return;
-      }
-
-      if (num > 200) {
-        setFormData((prev) => ({ ...prev, capacity: 200 }));
-        return;
-      }
-
-      setFormData((prev) => ({ ...prev, capacity: num }));
+      setFormData((prev) => ({ ...prev, capacity: v }));
       return;
     }
 
     if (name === "courseid") {
-      const selectedCourse = courses.find((c) => c.courseid === value);
+      const selected = courses.find((c) => c.courseid === value);
       setFormData((prev) => ({
         ...prev,
         courseid: value,
-        classname: selectedCourse ? selectedCourse.coursename : "",
+        classname: selected ? selected.coursename : "",
         classcode:
-          value && prev.classcodeSuffix
-            ? `${value}-${prev.classcodeSuffix}`
-            : value
-            ? `${value}-`
-            : "",
+          value && prev.classcodeSuffix ? `${value}-${prev.classcodeSuffix}` : value ? `${value}-` : "",
       }));
       return;
     }
@@ -114,11 +116,8 @@ export default function AddClass() {
   };
 
   const handleCancel = () => {
-    if (hasChanges) {
-      setShowCancelDialog(true);
-    } else {
-      navigate(-1);
-    }
+    if (hasChanges) setShowCancelDialog(true);
+    else navigate(-1);
   };
 
   const handleConfirmCancel = () => {
@@ -126,150 +125,124 @@ export default function AddClass() {
     navigate(-1);
   };
 
-  const handleCancelDialogClose = () => {
-    setShowCancelDialog(false);
-  };
-
-  const handleScheduleChange = (index, field, value) => {
+  const handleScheduleChange = (idx, field, value) => {
     const updated = [...scheduleList];
-    updated[index][field] = value;
+    updated[idx][field] = value;
 
     setScheduleList(updated);
     setFormData((prev) => ({ ...prev, schedule: updated }));
 
-    const { day, start, end, location } = updated[index];
+    const { day, start, end, location } = updated[idx];
 
-    let errorMsg = "";
-    if (!day || !start || !end || !location) {
-      errorMsg = "Please complete all schedule fields.";
-    } else if (start >= end) {
-      errorMsg = "End time must be later than start time.";
-    }
+    let err = "";
+    if (!day || !start || !end || !location) err = "Please complete all schedule fields.";
+    else if (start >= end) err = "End time must be later than start time.";
 
-    setScheduleErrors((prev) => {
-      const errList = [...prev];
-      errList[index] = errorMsg;
-      return errList;
-    });
+    const newErr = [...scheduleErrors];
+    newErr[idx] = err;
+    setScheduleErrors(newErr);
   };
 
   const addScheduleRow = () => {
-    setScheduleList((prev) => [
-      ...prev,
-      { day: "", start: "", end: "", location: "" },
-    ]);
-    setScheduleErrors((prev) => [
-      ...prev,
-      "Please complete all schedule fields.",
-    ]);
+    setScheduleList((prev) => [...prev, { day: "", start: "", end: "", location: "" }]);
+    setScheduleErrors((prev) => [...prev, "Please complete all schedule fields."]);
   };
 
-  const removeSchedule = (index) => {
-    const updated = scheduleList.filter((_, i) => i !== index);
-    setScheduleList(updated);
-    setFormData((prev) => ({ ...prev, schedule: updated }));
-
-    const errUpdated = scheduleErrors.filter((_, i) => i !== index);
-    setScheduleErrors(errUpdated);
+  const removeSchedule = (i) => {
+    setScheduleList(scheduleList.filter((_, x) => x !== i));
+    setScheduleErrors(scheduleErrors.filter((_, x) => x !== i));
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
+    e.preventDefault();
+    setLoading(true);
 
-  let validationErrors = {};
+    const validation = {};
 
-  if (!formData.courseid)
-    validationErrors.courseid = "This field is required";
-  if (!formData.classcodeSuffix.trim())
-    validationErrors.classcode = "This field is required";
-  if (!formData.classname)
-    validationErrors.classname = "This field is required";
-  if (!formData.instructorid)
-    validationErrors.instructorid = "This field is required";
-  if (!formData.capacity)
-    validationErrors.capacity = "This field is required";
+    if (!formData.courseid) validation.courseid = "This field is required";
+    if (!formData.classcodeSuffix.trim()) validation.classcode = "This field is required";
+    if (!formData.classname) validation.classname = "This field is required";
+    if (!formData.instructorid) validation.instructorid = "This field is required";
+    if (!formData.capacity) validation.capacity = "This field is required";
 
-  if (formData.capacity && (formData.capacity < 10 || formData.capacity > 200)) {
-    validationErrors.capacity = "Capacity must be between 10 and 200";
-  }
+    if (formData.capacity < 10 || formData.capacity > 200)
+      validation.capacity = "Capacity must be between 10 and 200";
 
-  if (scheduleErrors.some((e) => e && e !== "")) {
-    alert("Please fix schedule errors before submitting.");
-    setLoading(false);
-    return;
-  }
-
-  if (Object.keys(validationErrors).length > 0) {
-    setErrors(validationErrors);
-    setLoading(false);
-    return;
-  }
-
-  const schedulePayload =
-    scheduleList.length === 0
-      ? [
-          {
-            day: null,
-            start: null,
-            end: null,
-            location: "This class has no schedule yet!",
-            note: "This class has no schedule yet!",
-          },
-        ]
-      : scheduleList;
-
-  const payload = {
-    courseid: formData.courseid,
-    classcode: formData.classcode,
-    classname: formData.classname,
-    semid: formData.semid,
-    instructorid: formData.instructorid,
-    capacity: formData.capacity,
-    schedule: schedulePayload,
-  };
-
-  try {
-    const response = await fetch(
-      "http://localhost:3001/api/admin/ClassManagement/addClass",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      }
-    );
-
-    const result = await response.json();
-
-    if (!response.ok) {
-  switch (result.code) {
-    case "INSTRUCTOR_CONFLICT":
-      alert(result.message || "Instructor has schedule conflict!");
-      break;
-    case "LOCATION_CONFLICT":
-      alert(result.message || "Location has schedule conflict!");
-      break;
-    case "SCHEDULE_OVERLAP_INSIDE":
-      alert(result.message || "Schedule overlap inside class!");
-      break;
-    case "PROC_DUPLICATE":
-      setErrors((prev) => ({ ...prev, classcode: result.message }));
-      break;
-    default:
-      alert(result.message || "Error adding class.");
-      break;
-  }
-    } else {
-      alert("Class added successfully!");
-      navigate("/classManagement");
+    if (Object.keys(validation).length > 0) {
+      setErrors(validation);
+      setLoading(false);
+      return;
     }
-  } catch (error) {
-    alert("Error connecting to server.");
-  }
 
-  setLoading(false);
-};
+    if (scheduleErrors.some((e) => e && e !== "")) {
+      alert("Please fix schedule errors first.");
+      setLoading(false);
+      return;
+    }
 
+    const schedulePayload =
+      scheduleList.length === 0
+        ? [
+            {
+              day: null,
+              start: null,
+              end: null,
+              location: "This class has no schedule yet!",
+              note: "This class has no schedule yet!",
+            },
+          ]
+        : scheduleList;
+
+    const payload = {
+      classcode: formData.classcode,
+      courseid: formData.courseid,
+      instructorid: formData.instructorid,
+      semid: formData.semid,
+      classname: formData.classname,
+      capacity: formData.capacity,
+      schedule: schedulePayload,
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/admin/ClassManagement/addClass",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        switch (result.code) {
+          case "INSTRUCTOR_CONFLICT":
+          case "LOCATION_CONFLICT":
+          case "SCHEDULE_OVERLAP_INSIDE":
+          case "SCHEDULE_OVERLAP":
+            alert(result.message);
+            break;
+
+          case "DUPLICATE_CLASSCODE":
+          case "PROC_DUPLICATE":
+            setErrors((prev) => ({ ...prev, classcode: result.message }));
+            break;
+
+          default:
+            alert(result.message || "Error adding class");
+            break;
+        }
+      } else {
+        alert("Class added successfully!");
+        navigate("/classManagement");
+      }
+    } catch {
+      alert("Cannot connect to server");
+    }
+
+    setLoading(false);
+  };
 
   const courseOptions = courses.map((c) => ({
     value: c.courseid,
@@ -296,21 +269,15 @@ export default function AddClass() {
           <div className="addclasslabel">Course:</div>
           <Select
             name="courseid"
-            value={
-              courseOptions.find((o) => o.value === formData.courseid) || null
-            }
+            value={courseOptions.find((o) => o.value === formData.courseid) || null}
             options={courseOptions}
             isClearable
             placeholder="Select Course"
             onChange={(selected) =>
-              handleChange({
-                target: { name: "courseid", value: selected?.value || "" },
-              })
+              handleChange({ target: { name: "courseid", value: selected?.value || "" } })
             }
           />
-          {errors.courseid && (
-            <div className="addclasserror-message">{errors.courseid}</div>
-          )}
+          {errors.courseid && <div className="addclasserror-message">{errors.courseid}</div>}
 
           {/* CLASS CODE */}
           <div className="addclasslabel">Class Code:</div>
@@ -318,47 +285,47 @@ export default function AddClass() {
             <span className="addclasscode-prefix">
               {formData.courseid ? formData.courseid + "-" : ""}
             </span>
+
+            {/* CLASSCODE SUFFIX WITH MAX LENGTH VALIDATION */}
             <input
               type="text"
               name="classcodeSuffix"
               value={formData.classcodeSuffix}
               onChange={(e) => {
-                const suffix = e.target.value.replace(/\s/g, "");
+                let suffix = e.target.value.replace(/\s/g, "");
+
+                if (suffix.length > 5) {
+                  setErrors((prev) => ({
+                    ...prev,
+                    classcode: "Classcode is too long (max 5 characters)",
+                  }));
+                  return;
+                }
+
+                setErrors((prev) => ({ ...prev, classcode: "" }));
+
                 setFormData((prev) => ({
                   ...prev,
                   classcodeSuffix: suffix,
-                  classcode: prev.courseid
-                    ? `${prev.courseid}-${suffix}`
-                    : suffix,
+                  classcode: prev.courseid ? `${prev.courseid}-${suffix}` : suffix,
                 }));
+                setHasChanges(true);
               }}
             />
           </div>
-          {errors.classcode && (
-            <div className="addclasserror-message">{errors.classcode}</div>
-          )}
+
+          {errors.classcode && <div className="addclasserror-message">{errors.classcode}</div>}
 
           {/* CLASS NAME */}
           <div className="addclasslabel">Class Name:</div>
-          <input
-            className="addclassreadOnly"
-            name="classname"
-            value={formData.classname}
-            disabled
-          />
-          {errors.classname && (
-            <div className="addclasserror-message">{errors.classname}</div>
-          )}
+          <input className="addclassreadOnly" value={formData.classname} disabled />
+          {errors.classname && <div className="addclasserror-message">{errors.classname}</div>}
 
           {/* INSTRUCTOR */}
           <div className="addclasslabel">Instructor:</div>
           <Select
             name="instructorid"
-            value={
-              instructorOptions.find(
-                (o) => o.value === formData.instructorid
-              ) || null
-            }
+            value={instructorOptions.find((o) => o.value === formData.instructorid) || null}
             options={instructorOptions}
             isClearable
             placeholder="Select Instructor"
@@ -377,21 +344,17 @@ export default function AddClass() {
           <input
             type="number"
             name="capacity"
-            min={0}
-            max={200}
             value={formData.capacity}
+            min="0"
+            max="200"
             onChange={handleChange}
           />
-          {errors.capacity && (
-            <div className="addclasserror-message">{errors.capacity}</div>
-          )}
+          {errors.capacity && <div className="addclasserror-message">{errors.capacity}</div>}
 
           {/* SCHEDULE */}
           <div className="addclasslabel">Schedule:</div>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <div className="addclassschedule-add-btn" onClick={addScheduleRow}>
-              +
-            </div>
+          <div className="addclassschedule-add-btn" onClick={addScheduleRow}>
+            +
           </div>
 
           {scheduleList.map((sch, index) => (
@@ -400,10 +363,9 @@ export default function AddClass() {
                 type="button"
                 className="addclass-delete-btn"
                 onClick={() => {
-                    removeSchedule(index)
-                    setHasChanges(true)
-                  }
-                }
+                  removeSchedule(index);
+                  setHasChanges(true);
+                }}
               >
                 Cancel Schedule
               </button>
@@ -411,39 +373,28 @@ export default function AddClass() {
               <div className="addclassschedule-label">Days:</div>
               <select
                 value={sch.day}
-                onChange={(e) =>
-                  handleScheduleChange(index, "day", e.target.value)
-                }
+                onChange={(e) => handleScheduleChange(index, "day", e.target.value)}
               >
                 <option value="">Select</option>
-                {[
-                  "Monday",
-                  "Tuesday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday",
-                  "Saturday",
-                  "Sunday",
-                ].map((d) => (
-                  <option key={d} value={d}>
-                    {d}
-                  </option>
-                ))}
+                {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(
+                  (d) => (
+                    <option key={d} value={d}>
+                      {d}
+                    </option>
+                  )
+                )}
               </select>
 
               <div className="addclassschedule-label">Location:</div>
               <select
                 value={sch.location}
-                onChange={(e) =>
-                  handleScheduleChange(index, "location", e.target.value)
-                }
+                onChange={(e) => handleScheduleChange(index, "location", e.target.value)}
               >
                 <option value="">Select</option>
                 {[...Array(8)].map((_, floor) =>
                   [...Array(10)].map((_, room) => {
                     const value =
-                      "ROOM " +
-                      `${floor + 1}${(room + 1).toString().padStart(2, "0")}`;
+                      "ROOM " + `${floor + 1}${(room + 1).toString().padStart(2, "0")}`;
                     return (
                       <option key={value} value={value}>
                         {value}
@@ -456,12 +407,23 @@ export default function AddClass() {
               <div className="addclassschedule-label">Start:</div>
               <select
                 value={sch.start}
-                onChange={(e) =>
-                  handleScheduleChange(index, "start", e.target.value)
-                }
+                onChange={(e) => handleScheduleChange(index, "start", e.target.value)}
               >
                 <option value="">Select</option>
-                {["07:00", "09:15", "13:00", "15:15", "17:30", "17:45"].map(
+                {["07:00", "09:15", "13:00", "15:15", "17:30", "17:45"].map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+
+              <div className="addclassschedule-label">End:</div>
+              <select
+                value={sch.end}
+                onChange={(e) => handleScheduleChange(index, "end", e.target.value)}
+              >
+                <option value="">Select</option>
+                {["09:00", "10:15", "11:15", "15:00", "16:15", "17:15", "19:30", "21:00"].map(
                   (t) => (
                     <option key={t} value={t}>
                       {t}
@@ -470,49 +432,23 @@ export default function AddClass() {
                 )}
               </select>
 
-              <div className="addclassschedule-label">End:</div>
-              <select
-                value={sch.end}
-                onChange={(e) =>
-                  handleScheduleChange(index, "end", e.target.value)
-                }
-              >
-                <option value="">Select</option>
-                {[
-                  "09:00",
-                  "10:15",
-                  "11:15",
-                  "15:00",
-                  "16:15",
-                  "17:15",
-                  "19:30",
-                  "21:00",
-                ].map((t) => (
-                  <option key={t} value={t}>
-                    {t}
-                  </option>
-                ))}
-              </select>
-
               {scheduleErrors[index] && (
-                <div className="addclasserror-message" style={{ marginTop: 6 }}>
-                  {scheduleErrors[index]}
-                </div>
+                <div className="addclasserror-message">{scheduleErrors[index]}</div>
               )}
             </div>
           ))}
+
+          {/* BUTTONS */}
           <div className="addclass-buttons">
-            <button
-              type="button"
-              className="addclassbtn-cancel"
-              onClick={handleCancel}
-            >
+            <button type="button" className="addclassbtn-cancel" onClick={handleCancel}>
               Cancel
             </button>
+
+            {/* DISABLE ADD BUTTON WHEN ERROR EXISTS */}
             <button
               type="submit"
               className="addclassbtn-save"
-              disabled={loading}
+              disabled={loading || errors.classcode}
             >
               {loading ? "Saving..." : "Add Class"}
             </button>
@@ -520,6 +456,7 @@ export default function AddClass() {
         </form>
       </div>
 
+      {/* CANCEL DIALOG */}
       {showCancelDialog && (
         <div className="addclasscancel-dialog-backdrop">
           <div className="addclasscancel-dialog-box">
@@ -527,16 +464,10 @@ export default function AddClass() {
               You have unsaved changes. Do you really want to cancel?
             </div>
             <div className="addclasscancel-dialog-actions">
-              <button
-                className="addclasscancel-dialog-btn no"
-                onClick={handleCancelDialogClose}
-              >
+              <button className="addclasscancel-dialog-btn no" onClick={() => setShowCancelDialog(false)}>
                 No
               </button>
-              <button
-                className="addclasscancel-dialog-btn yes"
-                onClick={handleConfirmCancel}
-              >
+              <button className="addclasscancel-dialog-btn yes" onClick={handleConfirmCancel}>
                 Yes
               </button>
             </div>
