@@ -16,6 +16,8 @@ export default function ViewCourse() {
   const [error, setError] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
   const [deleteCourseId, setDeleteCourseId] = useState(null);
+  const [deleteError, setDeleteError] = useState(null);
+
 
   async function fetchCourses() {
     try {
@@ -64,26 +66,37 @@ export default function ViewCourse() {
   };
   const handleConfirmDelete = async () => {
     if (!deleteCourseId) return;
+
     try {
       const response = await fetch(
         `http://localhost:3001/api/admin/CourseManagement/${deleteCourseId}`,
         { method: "DELETE" }
       );
+
       if (response.ok) {
+        // Xóa ở FE
         setCourses(prev => prev.filter(c => c.courseid !== deleteCourseId));
         setSelectedCourses(prev => prev.filter(id => id !== deleteCourseId));
+        setShowDialog(false);
+        setDeleteCourseId(null);
+        setDeleteError(null);
+        return;
       }
+
+      const data = await response.json();
+      setDeleteError(data.message || "Delete failed due to server error");
+
     } catch (err) {
       console.error(err);
-    } finally {
-      setShowDialog(false);
-      setDeleteCourseId(null);
+      setDeleteError("Database connection error");
     }
   };
   const handleCancelDelete = () => {
     setShowDialog(false);
     setDeleteCourseId(null);
+    setDeleteError(null);
   };
+
 
   return (
     <div className="view-course-container">
@@ -184,7 +197,7 @@ export default function ViewCourse() {
                       </span>
                     </div>
                     <div className="course-action">
-                      <button className="edit-btn" onClick={()=> navigate(`/courseManagement/editCourse/${course.courseid}`)}>Edit</button>
+                      <button className="edit-btn" onClick={() => navigate(`/courseManagement/editCourse/${course.courseid}`)}>Edit</button>
                     </div>
                   </div>
                 )}
@@ -204,6 +217,7 @@ export default function ViewCourse() {
           courseId={deleteCourseId}
           onConfirm={handleConfirmDelete}
           onCancel={handleCancelDelete}
+          errorMessage={deleteError}
         />
       )}
     </div>
