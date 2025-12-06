@@ -1,19 +1,24 @@
-import React from "react";
-import "../../../styles/admin/CourseManagement/DeleteCourse.css";
-
-export default function DeleteCourse({ courseId, onCancel, onConfirm }) {
+export default function DeleteCourse({ courseId, onCancel, onConfirm, errorMessage }) {
     return (
         <div className="dialog-backdrop">
             <div className="dialog-box">
+
                 <div className="dialog-message">
-                    Delete Course {courseId}?
+                    {errorMessage ? (
+                        <span style={{ color: "red" }}>{errorMessage}</span>
+                    ) : (
+                        <>Delete Course {courseId}?</>
+                    )}
                 </div>
+
                 <div className="dialog-actions">
-                    <button className="dialog-btn yes" onClick={onConfirm}>
-                        Yes
-                    </button>
+                    {!errorMessage && (
+                        <button className="dialog-btn yes" onClick={onConfirm}>
+                            Yes
+                        </button>
+                    )}
                     <button className="dialog-btn no" onClick={onCancel}>
-                        No
+                        {errorMessage ? "Close" : "No"}
                     </button>
                 </div>
             </div>
