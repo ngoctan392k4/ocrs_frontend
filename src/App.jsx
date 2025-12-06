@@ -205,11 +205,6 @@ function App() {
         }
       />
 
-
-
-
-
-
       <Route
         path="/registeredClass"
         element={
