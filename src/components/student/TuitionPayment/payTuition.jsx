@@ -10,6 +10,8 @@ export default function TuitionPayment() {
 
   const [loading, setLoading] = useState(true);
   const [courses, setCourses] = useState([]);
+
+  // State for the Blocking Popup
   const [restrictionPopup, setRestrictionPopup] = useState({
     show: false,
     type: "", // 'early' or 'late'
@@ -22,7 +24,7 @@ export default function TuitionPayment() {
 
   const formatDate = (dateObj) => {
     if (!dateObj) return "";
-    return new Intl.DateTimeFormat("en-GB").format(dateObj);
+    return new Intl.DateTimeFormat("en-GB").format(dateObj); // dd/mm/yyyy
   };
 
   const [summary, setSummary] = useState({
@@ -40,7 +42,7 @@ export default function TuitionPayment() {
   const [popupConfirmPay, setPopupConfirmPay] = useState(false);
 
   const checkPaymentWindow = (dateString) => {
-    if (!dateString) return;
+    if (!dateString) return true;
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -49,8 +51,7 @@ export default function TuitionPayment() {
     startDate.setHours(0, 0, 0, 0);
 
     const endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + 6);
-
+    endDate.setDate(startDate.getDate() + 7);
     endDate.setHours(23, 59, 59, 999);
 
     if (today < startDate) {
@@ -71,7 +72,7 @@ export default function TuitionPayment() {
 
     return true;
   };
-  // Fetch tuition data
+
   const fetchTuitionData = async () => {
     setLoading(true);
     try {
@@ -106,14 +107,12 @@ export default function TuitionPayment() {
 
   useEffect(() => {
     const handlePageLoad = async () => {
-      fetchTuitionData();
-      setLoading(false);
+      await fetchTuitionData();
 
       const status = searchParams.get("status");
       const code = searchParams.get("code");
       const cancel = searchParams.get("cancel");
 
-      //IF Payment is Successful
       if (status === "PAID" || code === "00") {
         setSuccessMessage("Payment successful!");
         setSuccessDialog(true);
@@ -138,7 +137,7 @@ export default function TuitionPayment() {
     .reduce((acc, course) => acc + course.total_amount, 0);
 
   const handlePayment = async () => {
-    if (courses.length > 0 && courses[0].sem_start_date) {
+    if (courses.length > 0) {
       const isOpen = checkPaymentWindow(courses[0].sem_start_date);
       if (!isOpen) return;
     }
@@ -281,7 +280,8 @@ export default function TuitionPayment() {
         {successDialog && (
           <div className="popup-container">
             <div className="popup-content">
-              <h3 style={{ color: "green" }}>Success</h3>
+              {/* Used var(--color-green) */}
+              <h3 style={{ color: "var(--color-green)" }}>Success</h3>
               <p>{successMessage}</p>
               <button onClick={handleCloseSuccess}>OK</button>
             </div>
@@ -298,7 +298,10 @@ export default function TuitionPayment() {
               <div className="popup-buttons" style={{ marginTop: "15px" }}>
                 <button
                   onClick={closeConfirmPay}
-                  style={{ marginRight: "10px", backgroundColor: "#ccc" }}
+                  style={{
+                    marginRight: "10px",
+                    backgroundColor: "var(--color-gray-ccc)",
+                  }}
                 >
                   Cancel
                 </button>
@@ -311,28 +314,31 @@ export default function TuitionPayment() {
         {restrictionPopup.show && (
           <div className="popup-container" style={{ zIndex: 99999 }}>
             <div className="popup-content">
-              <h3 style={{ color: "#d9534f" }}>Access Restricted</h3>
+              <h3 style={{ color: "var(--color-red-alert)" }}>
+                Access Restricted
+              </h3>
 
               {restrictionPopup.type === "early" ? (
                 <p>
                   Payment is not yet open.
                   <br />
                   Please return on{" "}
-                  <strong>{formatDate(restrictionPopup.limitDate)}</strong>
+                  <strong>{formatDate(restrictionPopup.limitDate)}</strong>.
                 </p>
               ) : (
                 <p>
-                  Payment period has expired. <br />
+                  Payment period has expired.
+                  <br />
                   Deadline was{" "}
-                  <strong>{formatDate(restrictionPopup.limitDate)}</strong>
+                  <strong>{formatDate(restrictionPopup.limitDate)}</strong>.
                 </p>
               )}
 
               <button
                 onClick={handleRestrictionRedirect}
-                style={{ backgroundColor: "#2d5582" }}
+                style={{ backgroundColor: "var(--color-blue-900)" }}
               >
-                OK
+                Okay
               </button>
             </div>
           </div>

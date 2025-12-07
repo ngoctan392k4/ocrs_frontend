@@ -24,7 +24,9 @@
 
   --color-black: #000000;
   --color-red: #bd161d;
+  --color-red-alert: #d9534f;
   --color-green: #14662c;
+  --color-green-bg: #e6f4ea;
 
   /* Bộ màu thiên green */
   --color-greengray-600: #416774;
