@@ -1,31 +1,19 @@
-/* 1. Global Reset */
-* {
-  box-sizing: border-box;
-}
+
 
 /* --- LAYOUT CONTAINER --- */
 .tuition-payment-container {
   display: flex;
   min-height: 100vh;
-  width: 100%;
-  background-color: var(--color-bg-light);
-  overflow-x: hidden;
-  position: relative;
 }
 
 /* --- MAIN CONTENT AREA --- */
 .tuition-payment-content {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  flex-grow: 1;
+  padding: 30px;
   margin-left: 260px;
-  width: calc(100% - 260px);
-  padding: 30px 40px;
-  font-family: var(--font-sans);
+  line-height: 1.6;
   color: var(--color-blue-900);
   animation: fadeIn 0.4s ease;
-  position: relative;
-  padding-bottom: 100px;
 }
 
 /* --- HEADERS --- */
@@ -163,17 +151,11 @@
 .payment-footer {
   position: fixed;
   bottom: 0;
-  right: 0;
-  width: calc(100% - 260px);
+  left: 268px;
+  width: 100%;
   height: 80px;
-  background-color: var(--color-white-000);
   padding: 20px 30px;
-  border-top: 1px solid var(--color-gray-300);
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 24px;
-  z-index: 100;
+
 }
 
 .total-cost {
