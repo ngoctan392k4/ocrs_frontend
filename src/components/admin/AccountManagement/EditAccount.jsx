@@ -70,6 +70,7 @@ export default function EditAccount() {
       return;
     }
 
+    //Added this
     if (!dob) {
       setDobNoti("Date of birth is required.");
       return;
