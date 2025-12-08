@@ -1,24 +1,13 @@
-/* Reuse logic from TuitionPayment */
-* {
-  box-sizing: border-box;
-}
-
 .history-container {
   display: flex;
   min-height: 100vh;
-  width: 100%;
-  background-color: var(--color-bg-light);
-  position: relative;
 }
 
 .history-content {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  flex-grow: 1;
+  padding: 30px;
   margin-left: 260px;
-  width: calc(100% - 260px);
-  padding: 30px 40px;
-  font-family: var(--font-sans);
+  line-height: 1.6;
   color: var(--color-blue-900);
   animation: fadeIn 0.4s ease;
 }
