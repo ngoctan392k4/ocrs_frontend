@@ -18,7 +18,7 @@ import AddClass from "./components/admin/ClassManagement/AddClass";
 import EditClass from "./components/admin/ClassManagement/EditClass";
 import AddAccount from "./components/admin/AccountManagement/AddAccount";
 import EditCourse from "./components/admin/CourseManagement/EditCourse";
-import ViewRegistered from "./components/student/ClassRegistration/RegisteredClass"
+import ViewRegistered from "./components/student/ClassRegistration/RegisteredClass";
 import EditAccount from "./components/admin/AccountManagement/EditAccount";
 import OpenCourse from "./components/admin/OpenCourse/OpenCourse";
 import ClassRegistration from "./components/student/ClassRegistration/ClassRegistration";
@@ -28,6 +28,8 @@ import ViewAssignedClass from "./components/instructor/Teaching/ViewAssignedClas
 import ViewStudentList from "./components/instructor/Teaching/ViewStudentList/ViewStudentList";
 import TeachingSchedule from "./components/instructor/Schedule/teachingSchedule";
 import StudySchedule from "./components/student/Schedule/studySchedule";
+import TuitionPayment from "./components/student/TuitionPayment/payTuition";
+import PaymentHistory from "./components/student/TuitionPayment/paymentHistory";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -38,7 +40,6 @@ function App() {
       <Route path="/" element={<HomeLogin />} />
       <Route path="/forgotPassword" element={<ForgotPassword />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
-
 
       {/* Admin Routes */}
       <Route
@@ -227,6 +228,28 @@ function App() {
         }
       />
 
+      <Route
+        path="/payFee"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["student"]}>
+              <TuitionPayment />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="/PaymentHistory"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["student"]}>
+              <PaymentHistory />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
       {/* Instructor Routes */}
       <Route
         path="/homepageInstructor"
@@ -238,7 +261,6 @@ function App() {
           </EnsureLoggedToRoutes>
         }
       />
-
 
       <Route
         path="/myClasses"
