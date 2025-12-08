@@ -29,6 +29,7 @@ import ViewStudentList from "./components/instructor/Teaching/ViewStudentList/Vi
 import TeachingSchedule from "./components/instructor/Schedule/teachingSchedule";
 import StudySchedule from "./components/student/Schedule/studySchedule";
 import TuitionPayment from "./components/student/TuitionPayment/payTuition";
+import PaymentHistory from "./components/student/TuitionPayment/paymentHistory";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -233,6 +234,17 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["student"]}>
               <TuitionPayment />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="/PaymentHistory"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["student"]}>
+              <PaymentHistory />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
