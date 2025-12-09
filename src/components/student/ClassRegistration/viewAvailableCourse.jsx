@@ -13,6 +13,8 @@ export default function ViewAvailableCourse() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const [recommendCourse, setRecommendCourse] = useState([]);
+  const [recommendProcess, setRecommendProcess] = useState(false);
+  const [limitAPI, setLimitAPI] = useState(false);
 
   const navigate = useNavigate();
 
@@ -41,6 +43,8 @@ export default function ViewAvailableCourse() {
   // Handle recommend course function
   const handleRecommend = async () => {
     try {
+      setRecommendProcess(true);
+      setLimitAPI(false);
       const response = await fetch(
         "http://localhost:3001/api/student/recommendCourse",
         {
@@ -54,11 +58,19 @@ export default function ViewAvailableCourse() {
       );
 
       const data = await response.json();
-      if (response.ok) {
+      console.log(data);
+      if (!response.ok){
+        setRecommendProcess(false);
+        setLimitAPI(true);
+      }else {
         setRecommendCourse(data);
+        setRecommendProcess(false);
+        setLimitAPI(false);
       }
     } catch (error) {
-      console.log(error);
+      setRecommendProcess(false);
+      setRecommendCourse([]);
+      setLimitAPI(false);
     }
   };
 
@@ -135,6 +147,9 @@ export default function ViewAvailableCourse() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
+
+        {recommendProcess ? (<div className="recommend-noti">Please wait a few seconds. The system is analyzing</div>) : ""}
+        {limitAPI ? (<div className="recommend-noti">The recommend system reached limit. Please try again later.</div>) : ""}
 
         {loading ? (
           <div>Loading courses...</div>
