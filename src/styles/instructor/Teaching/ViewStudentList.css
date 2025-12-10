@@ -117,24 +117,74 @@ h3{
   padding: 6px 8px;
   font-size: 14px;
   text-align: center;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-white-000);
   border-radius: 6px;
-  background: #fdfdfd;
+  background: var(--color-white-100);
   transition: 0.2s ease;
 }
 
 .student-table input[type="number"]:hover {
-  border-color: #5a8dee;
+  border-color: var(--color-blue-500);
 }
 
 .student-table input[type="number"]:focus {
   outline: none;
-  border-color: #3d6ede;
-  box-shadow: 0 0 4px rgba(61, 110, 222, 0.4);
-  background: white;
+  border-color: var(--color-blue-600);
+  box-shadow: 0 0 4px var(--color-blue-600);
+  background: var(--color-white-000);
 }
 
 .student-table th:nth-child(n+4),
 .student-table td:nth-child(n+4) {
   text-align: center;
+}
+
+.addclasscancel-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--color-black)(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  backdrop-filter: blur(1px);
+}
+
+.addclasscancel-dialog-box {
+  width: 380px;
+  background: var(--color-white-000);
+  padding: 35px 25px;
+  border-radius: 18px; 
+  text-align: center;
+  box-shadow: 0 6px 18px var(--color-black)(0, 0, 0, 0.25);
+  font-family: var(--font-sans);
+}
+
+.addclasscancel-dialog-message {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 35px;
+  color: var(--color-gray-700);
+}
+
+.addclasscancel-dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.addclasscancel-dialog-btn {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  background: var(--color-white-300); 
+  transition: 0.2s;
+}
+
+.addclassdialog-btn:hover {
+  background: var(--color-white-100);
 }

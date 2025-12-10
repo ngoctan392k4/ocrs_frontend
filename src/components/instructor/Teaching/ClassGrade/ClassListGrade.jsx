@@ -10,6 +10,7 @@ function ClassListGrade() {
   const [grades, setGrades] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editedGrades, setEditedGrades] = useState({});
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
 
   const GRADE_TYPES = ["attendance", "regular", "project", "midterm", "final"];
 
@@ -109,6 +110,13 @@ function ClassListGrade() {
     }
   };
 
+  // ❗ Xử lý xác nhận Cancel
+  const handleConfirmCancel = () => {
+    setIsEditing(false);
+    setEditedGrades({});
+    setShowCancelDialog(false);
+  };
+
   return (
     <div className="view-studentList-container">
       <Menu menus={menu_instructor} />
@@ -122,7 +130,13 @@ function ClassListGrade() {
         {/* BUTTON GROUP */}
         <div className="grade-button-group">
           <button
-            onClick={() => setIsEditing((prev) => !prev)}
+            onClick={() => {
+              if (isEditing) {
+                setShowCancelDialog(true);
+              } else {
+                setIsEditing(true);
+              }
+            }}
             className="edit-grade-button"
           >
             {isEditing ? "Cancel Edit" : "Edit Grade"}
@@ -214,7 +228,32 @@ function ClassListGrade() {
           <h3>No students found for this class.</h3>
         )}
       </div>
+      
+      {showCancelDialog && (
+        <div className="addclasscancel-dialog-backdrop">
+          <div className="addclasscancel-dialog-box">
+            <div>You have unsaved changes. Cancel?</div>
+
+            <div className="addclasscancel-dialog-actions">
+              <button
+                className="cancel-dialog-no"
+                onClick={() => setShowCancelDialog(false)}
+              >
+                No
+              </button>
+
+              <button
+                className="cancel-dialog-yes"
+                onClick={handleConfirmCancel}
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
+export default ClassListGrade;

@@ -149,16 +149,16 @@
 .semester-filter select {
   padding: 6px 10px;
   border-radius: 5px;
-  border: 1px solid #aaa;
+  border: 1px solid var(--color-white-300);
   font-size: 15px;
   width: 260px;
 }
 
 .view-grade-disabled {
-  background: #cccccc;
+  background: var(--color-white-300);
   padding: 5px 12px;
   border-radius: 6px;
   font-size: 14px;
-  color: #666;
+  color: var(--color-white-500);
   cursor: not-allowed;
 }
