@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../../styles/student/TuitionPayment/paymentHistory.css";
 import Menu from "../../menu/Menu";
 import menu_student from "../../../assets/dataMenu/MenuStudentData";
+import Chatbot from "../Chatbot/chatbot";
 
 export default function PaymentHistory() {
   const [loading, setLoading] = useState(true);
@@ -47,6 +48,7 @@ export default function PaymentHistory() {
       <Menu menus={menu_student} />
 
       <div className="history-content">
+        <Chatbot/>
         <div className="history-header">Payment History</div>
 
         {loading ? (

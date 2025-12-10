@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Menu from "../../menu/Menu";
 import menu_student from "../../../assets/dataMenu/MenuStudentData";
 import renderCourseDetail from "./CourseDetail";
+import Chatbot from "../Chatbot/chatbot";
 
 function ClassRegistration() {
   const [semester, setSemester] = useState(null);
@@ -292,6 +293,7 @@ function ClassRegistration() {
     <div className="classReigstration-container">
       <Menu menus={menu_student} />
       <div className="classReigstration-content">
+        <Chatbot/>
         <h1>
           Class Registration for
           {semester && ` ${semester.semester_name} - ${semester.school_year}`}

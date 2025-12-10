@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Menu from "../../menu/Menu";
 import menu_student from "../../../assets/dataMenu/MenuStudentData";
 import "../../../styles/Student/ViewAvailableClass.css";
+import Chatbot from "../Chatbot/chatbot";
 
 export default function ViewAvailableClass() {
     const { courseID } = useParams();
@@ -52,6 +53,7 @@ export default function ViewAvailableClass() {
             <Menu menus={menu_student} />
 
             <div className="viewclass-content">
+                <Chatbot/>
                 <h1 className="viewclass-title">
                     Classes for {courseInfo?.courseID} - {courseInfo?.coursename}
                 </h1>

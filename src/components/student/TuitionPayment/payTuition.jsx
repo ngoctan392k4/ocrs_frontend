@@ -3,6 +3,7 @@ import "../../../styles/student/TuitionPayment/TuitionPayment.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Menu from "../../menu/Menu";
 import menu_student from "../../../assets/dataMenu/MenuStudentData";
+import Chatbot from "../Chatbot/chatbot";
 
 export default function TuitionPayment() {
   const navigate = useNavigate();
@@ -198,6 +199,7 @@ export default function TuitionPayment() {
     <div className="tuition-payment-container">
       <Menu menus={menu_student} />
       <div className="tuition-payment-content">
+        <Chatbot/>
         <div className="payment-header">Pay Tuition Fee</div>
 
         <div className="payment-header">List of registered courses</div>

@@ -3,6 +3,7 @@ import Menu from "../../menu/Menu";
 import { useNavigate } from "react-router-dom";
 import menu_student from "../../../assets/dataMenu/MenuStudentData";
 import "../../../styles/Student/ViewAvailableCourse.css";
+import Chatbot from "../Chatbot/chatbot";
 
 export default function ViewAvailableCourse() {
   const [semester, setSemester] = useState(null);
@@ -125,6 +126,7 @@ export default function ViewAvailableCourse() {
       <Menu menus={menu_student} />
 
       <div className="available-course-content">
+        <Chatbot/>
         <div className="header">
           <h1 className="available-course-title">
             Available Courses for{" "}
