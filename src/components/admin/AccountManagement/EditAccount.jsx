@@ -25,6 +25,7 @@ export default function EditAccount() {
   const [noti, setNoti] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("active");
   const [username, setUsername] = useState("");
+  const [dobNoti, setDobNoti] = useState(null);
 
   const [popupNoti, setPopupNoti] = useState("");
   const [showPopup, setShowPopup] = useState(false);
@@ -66,6 +67,12 @@ export default function EditAccount() {
   const handleSave = async () => {
     if (!mail || !name || !phone) {
       setNoti("All fields are required.");
+      return;
+    }
+
+    //Added this
+    if (!dob) {
+      setDobNoti("Date of birth is required.");
       return;
     }
 
@@ -263,7 +270,7 @@ export default function EditAccount() {
                   <input
                     type="text"
                     value={major}
-                    onChange={(e) => setDepartment(e.target.value)}
+                    onChange={(e) => setMajor(e.target.value)}
                   />
                 </div>
               )}
@@ -291,6 +298,8 @@ export default function EditAccount() {
                   max={new Date().toISOString().split("T")[0]}
                 />
               </div>
+
+              {dobNoti && <p className="notification">{dobNoti}</p>}
 
               {/* Username input field */}
               <div className="detail-row-account">

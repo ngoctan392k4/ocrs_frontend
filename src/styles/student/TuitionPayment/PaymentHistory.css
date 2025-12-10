@@ -1,0 +1,121 @@
+.history-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.history-content {
+  flex-grow: 1;
+  padding: 30px;
+  margin-left: 260px;
+  line-height: 1.6;
+  color: var(--color-blue-900);
+  animation: fadeIn 0.4s ease;
+}
+
+.history-header {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: var(--color-blue-900);
+  border-bottom: 2px solid var(--color-gray-200);
+  padding-bottom: 15px;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: var(--color-white-000);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--color-gray-300);
+  box-shadow: 0 2px 5px var(--color-shadow-light);
+}
+
+.history-table thead tr {
+  background-color: var(--color-greengray-200);
+}
+
+.history-table th {
+  padding: 16px 20px;
+  text-align: left;
+  font-weight: 700;
+  color: var(--color-blue-900);
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+/* Center specific columns */
+.history-table th:nth-child(3),
+.history-table td:nth-child(3),
+.history-table th:nth-child(5),
+.history-table td:nth-child(5) {
+  text-align: center;
+}
+
+/* Align amount to right */
+.history-table th:nth-child(4),
+.history-table td:nth-child(4) {
+  text-align: right;
+}
+
+.history-table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--color-gray-200);
+  font-size: 14px;
+  color: var(--color-gray-700);
+  vertical-align: middle;
+}
+
+.history-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.history-table tbody tr:hover {
+  background-color: var(--color-white-100);
+}
+
+/* Status Badges */
+.status-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.status-paid {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 12px;
+  min-width: 80px;
+  height: 28px;
+  border-radius: 50px;
+  color: var(--color-green) !important;
+  background-color: var(--color-green-bg);
+}
+
+.status-unpaid {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 12px;
+  min-width: 80px;
+  height: 28px;
+  border-radius: 50px;
+  color: var(--color-red) !important;
+  background-color: var(--color-gray-100);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
