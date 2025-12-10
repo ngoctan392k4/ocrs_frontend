@@ -7,6 +7,7 @@ import "../../../styles/student/ViewTranscript/DetailTranscript.css";
 export default function DetailTranscript() {
   const { classid } = useParams();
   const [grades, setGrades] = useState([]);
+  const [total, setTotal] = useState(null)
   const [classes, setClasses] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -20,6 +21,7 @@ export default function DetailTranscript() {
       const data = await response.json();
       setGrades(data.grade);
       setClasses(data.classes);
+      setTotal(data.total);
     } catch (error) {
       console.error(error.message);
     } finally {
@@ -30,8 +32,6 @@ export default function DetailTranscript() {
   useEffect(() => {
     fetchGrades();
   }, [classid]);
-
-  const totalPercentage = grades.reduce((acc, g) => acc + g.percent_score, 0);
 
   return (
     <div className="detailTranscript-container">
@@ -74,7 +74,7 @@ export default function DetailTranscript() {
 
             <div className="grades-total">
               <div className="total-label">Total Percentage:</div>
-              <div className="total-value">{totalPercentage}%</div>
+              <div className="total-value">{total}%</div>
             </div>
           </div>
         )}
