@@ -242,7 +242,7 @@
     cursor: not-allowed;
 }
 
-img {
+button img {
     width: 50px;
     height: auto;
     margin-bottom: 10px;
