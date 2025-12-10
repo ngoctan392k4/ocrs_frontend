@@ -135,7 +135,7 @@ export default function ViewAvailableCourse() {
               : ""}
           </h1>
 
-          <button onClick={handleRecommend}>Recommend</button>
+          <button className={recommendProcess ? "invalid" : "valid"} disabled={recommendProcess} onClick={handleRecommend}>Recommend</button>
         </div>
 
         {/* SEARCH BAR */}
