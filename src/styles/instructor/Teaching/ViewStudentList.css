@@ -83,3 +83,58 @@ h3{
   color: var(--color-gray-600);
   margin-top: 20px;
 }
+
+.grade-button-group {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0 20px 0;
+}
+
+.edit-grade-button,
+.submit-grade-button {
+  width: 130px;
+  height: 38px;
+  border-radius: 10px;
+  border: none;
+  background: var(--color-blue-500);
+  color: var(--color-white-000);
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.edit-grade-button:hover,
+.submit-grade-button:hover {
+  opacity: 0.85;
+}
+
+/* Input đẹp */
+.student-table input[type="number"] {
+  width: 70px;
+  padding: 6px 8px;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fdfdfd;
+  transition: 0.2s ease;
+}
+
+.student-table input[type="number"]:hover {
+  border-color: #5a8dee;
+}
+
+.student-table input[type="number"]:focus {
+  outline: none;
+  border-color: #3d6ede;
+  box-shadow: 0 0 4px rgba(61, 110, 222, 0.4);
+  background: white;
+}
+
+.student-table th:nth-child(n+4),
+.student-table td:nth-child(n+4) {
+  text-align: center;
+}

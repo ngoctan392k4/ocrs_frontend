@@ -28,6 +28,8 @@ import ViewAssignedClass from "./components/instructor/Teaching/ViewAssignedClas
 import ViewStudentList from "./components/instructor/Teaching/ViewStudentList/ViewStudentList";
 import TeachingSchedule from "./components/instructor/Schedule/teachingSchedule";
 import StudySchedule from "./components/student/Schedule/studySchedule";
+import ClassGrade from "./components/instructor/Teaching/ClassGrade/Classlist";
+import GradeClassList from "./components/instructor/Teaching/ClassGrade/ClassListGrade";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -257,6 +259,28 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["instructor"]}>
               <ViewStudentList />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="gradeManagement"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["instructor"]}>
+              <ClassGrade />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="gradeManagement/gradeclassList/:classID"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["instructor"]}>
+              <GradeClassList />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
