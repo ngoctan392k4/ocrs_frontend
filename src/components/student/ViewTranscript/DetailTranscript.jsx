@@ -63,10 +63,10 @@ export default function DetailTranscript() {
             {grades.map((g, index) => (
               <div key={index} className="grades-row">
                 <div className="grade-cell">{g.type.toUpperCase()}</div>
-                <div className="grade-cell">{g.score || "-"}</div>
+                <div className="grade-cell">{g.score !== null ? g.score : "-"}</div>
                 <div className="grade-cell">{g.max_score}</div>
                 <div className="grade-cell">
-                  {(g.percent_score && g.percent_score + "%") || "-"}
+                  {g.percent_score !== null ? g.percent_score + "%" : "-"}
                 </div>
                 <div className="grade-cell">{g.max_percent}%</div>
               </div>
