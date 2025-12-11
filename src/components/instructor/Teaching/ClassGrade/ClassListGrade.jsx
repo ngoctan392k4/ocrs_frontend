@@ -262,12 +262,12 @@ function ClassListGrade() {
       </div>
 
       {showCancelDialog && (
-        <div className="addclasscancel-dialog-backdrop">
-          <div className="addclasscancel-dialog-box">
+        <div className="viewstudylistcancel-dialog-backdrop">
+          <div className="viewstudylistcancel-dialog-box">
             <div>You have unsaved changes. Cancel?</div>
-            <div className="addclasscancel-dialog-actions">
+            <div className="viewstudylistcancel-dialog-actions">
               <button
-                className="cancel-dialog-no"
+                className="viewstudylistcancel-dialog-no"
                 onClick={() => setShowCancelDialog(false)}
               >
                 No
