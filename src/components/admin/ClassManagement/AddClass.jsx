@@ -494,8 +494,20 @@ export default function AddClass() {
           <div className="addclasscancel-dialog-box">
             <div>You have unsaved changes. Cancel?</div>
             <div className="addclasscancel-dialog-actions">
-              <button onClick={() => setShowCancelDialog(false)}>No</button>
-              <button onClick={handleConfirmCancel}>Yes</button>
+              <button
+                className="addclasscancel-dialog-no"
+                onClick={() => setShowCancelDialog(false)}
+              >
+                No
+              </button>
+
+              <button
+              //clsn
+                className="addclasscancel-dialog-yes"
+                onClick={handleConfirmCancel}
+              >
+                Yes
+              </button>
             </div>
           </div>
         </div>

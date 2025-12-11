@@ -127,3 +127,39 @@
   background: var(--color-white-100);
   border-radius: 8px;
 }
+
+.disabled-link {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.semester-filter {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.semester-filter label {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.semester-filter select {
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: 1px solid var(--color-white-300);
+  font-size: 15px;
+  width: 260px;
+}
+
+/* abc */
+.view-grade-disabled {
+  background: var(--color-white-300);
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--color-white-500);
+  cursor: not-allowed;
+}
