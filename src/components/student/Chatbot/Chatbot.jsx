@@ -48,8 +48,16 @@ const Chatbot = () => {
           sender: "bot",
           text: "The system is too busy. Please try again later.",
         };
+        
         setMessages((prev) => [...prev, botMsg]);
-      } else {
+      } else if (data.msg){
+        const botMsg = {
+          sender: "bot",
+          text: "The chat system is overloaded. Please try again.",
+        };
+        
+        setMessages((prev) => [...prev, botMsg]);
+      }else {
         const botMsg = { sender: "bot", text: data.reply };
         setMessages((prev) => [...prev, botMsg]);
       }
