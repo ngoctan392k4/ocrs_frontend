@@ -7,9 +7,9 @@ import "../../../../styles/instructor/Teaching/ViewAssignedClass.css";
 function Classlist() {
   const navigate = useNavigate();
 
-  const [semester, setSemester] = useState(null); // current sem
-  const [semList, setSemList] = useState([]); // all sem
-  const [selectedSem, setSelectedSem] = useState(null); // filter semid
+  const [semester, setSemester] = useState(null); 
+  const [semList, setSemList] = useState([]);    
+  const [selectedSem, setSelectedSem] = useState(""); // DEFAULT EMPTY
 
   const [searched, setSearched] = useState("");
   const [selectedClasses, setSelectedClasses] = useState([]);
@@ -24,8 +24,7 @@ function Classlist() {
       const data = await response.json();
 
       if (data.current_sem?.length > 0) {
-        setSemester(data.current_sem[0]); // current semester
-        setSelectedSem(data.current_sem[0].semid); // default selected
+        setSemester(data.current_sem[0]);
       }
 
       if (data.allSem) {
@@ -40,10 +39,14 @@ function Classlist() {
     fetchInitial();
   }, []);
 
-  // Fetch assigned classes by semester filter
+  // Fetch assigned classes when a semester is selected
   useEffect(() => {
     const fetchClasses = async () => {
-      if (!selectedSem) return;
+      if (!selectedSem) {
+        setClasses([]);
+        return;
+      }
+
       try {
         const response = await fetch(
           `http://localhost:3001/api/instructor/classgrade/assignedClass?semid=${selectedSem}`,
@@ -56,6 +59,7 @@ function Classlist() {
         console.log(error.message);
       }
     };
+
     fetchClasses();
   }, [selectedSem]);
 
@@ -78,8 +82,6 @@ function Classlist() {
     navigate(`/gradeManagement/gradeclassList/${encodeURIComponent(classid)}`);
   };
 
-  const isCurrentSem = selectedSem === semester?.semid;
-
   return (
     <div className="view-assignedClass-container">
       <Menu menus={menu_instructor} />
@@ -100,9 +102,10 @@ function Classlist() {
         <div className="semester-filter">
           <label>Select Semester:</label>
           <select
-            value={selectedSem || ""}
+            value={selectedSem}
             onChange={(e) => setSelectedSem(e.target.value)}
           >
+            <option value="">-- Select Semester --</option>
             {semList.map((s) => (
               <option value={s.semid} key={s.semid}>
                 {s.semid}
@@ -111,27 +114,34 @@ function Classlist() {
           </select>
         </div>
 
+        {/* REQUIRE SELECT SEMESTER */}
+        {!selectedSem && (
+          <div className="no-classes-message">
+            Please select the semester to manage the grade
+          </div>
+        )}
+
         {/* CLASS LIST */}
-        <div className="view-assignedClass-list">
-          {filteredClasses.length === 0 && (
-            <div className="no-classes-message">
-              No assigned classes for this semester
-            </div>
-          )}
+        {selectedSem && (
+          <div className="view-assignedClass-list">
+            {filteredClasses.length === 0 && (
+              <div className="no-classes-message">
+                No assigned classes for this semester
+              </div>
+            )}
 
-          {filteredClasses.map((cls) => (
-            <div
-              key={cls.clsid}
-              className="view-assignedClass-item"
-              onClick={() => toggleClass(cls.clsid)}
-            >
-              <div className="view-assignedClass-header">
-                <div className="view-assignedClass-name">
-                  {cls.classname} - {cls.classcode?.split("-")[1]}
-                </div>
+            {filteredClasses.map((cls) => (
+              <div
+                key={cls.clsid}
+                className="view-assignedClass-item"
+                onClick={() => toggleClass(cls.clsid)}
+              >
+                <div className="view-assignedClass-header">
+                  <div className="view-assignedClass-name">
+                    {cls.classname} - {cls.classcode?.split("-")[1]}
+                  </div>
 
-                {/* ENTER GRADE BUTTON DISABLED IF NOT CURRENT SEM */}
-                {isCurrentSem && (
+                  {/* ENTER GRADE ALWAYS ENABLED */}
                   <span
                     className="view-studentList-link"
                     onClick={(e) => {
@@ -139,56 +149,56 @@ function Classlist() {
                       handleViewClassGrade(cls.clsid);
                     }}
                   >
-                    Enter Grade
+                    View Grade
                   </span>
+                </div>
+
+                {selectedClasses.includes(cls.clsid) && (
+                  <div className="view-assignedClass-detail">
+                    <div className="view-assignedClassdetail-row">
+                      <span className="view-assignedClass-info-label">
+                        Class Code:
+                      </span>
+                      <span className="view-assignedClass-info-text">
+                        {cls.classcode}
+                      </span>
+                    </div>
+
+                    <div className="view-assignedClassdetail-row">
+                      <span className="view-assignedClass-info-label">
+                        Schedule:
+                      </span>
+                      <span className="view-assignedClass-info-text">
+                        {cls.schedule}
+                      </span>
+                    </div>
+
+                    <div className="view-assignedClassdetail-row">
+                      <span className="view-assignedClass-info-label">
+                        Location:
+                      </span>
+                      <span className="view-assignedClass-info-text">
+                        {cls.classlocation}
+                      </span>
+                    </div>
+
+                    <div className="view-assignedClassdetail-row">
+                      <span className="view-assignedClass-info-label">
+                        Number of Enrollments:
+                      </span>
+                      <span className="view-assignedClass-info-text">
+                        {cls.num}
+                      </span>
+                    </div>
+                  </div>
                 )}
               </div>
-
-              {/* DETAILS */}
-              {selectedClasses.includes(cls.clsid) && (
-                <div className="view-assignedClass-detail">
-                  <div className="view-assignedClassdetail-row">
-                    <span className="view-assignedClass-info-label">
-                      Class Code:
-                    </span>
-                    <span className="view-assignedClass-info-text">
-                      {cls.classcode}
-                    </span>
-                  </div>
-
-                  <div className="view-assignedClassdetail-row">
-                    <span className="view-assignedClass-info-label">
-                      Schedule:
-                    </span>
-                    <span className="view-assignedClass-info-text">
-                      {cls.schedule}
-                    </span>
-                  </div>
-
-                  <div className="view-assignedClassdetail-row">
-                    <span className="view-assignedClass-info-label">
-                      Location:
-                    </span>
-                    <span className="view-assignedClass-info-text">
-                      {cls.classlocation}
-                    </span>
-                  </div>
-
-                  <div className="view-assignedClassdetail-row">
-                    <span className="view-assignedClass-info-label">
-                      Number of Enrollments:
-                    </span>
-                    <span className="view-assignedClass-info-text">
-                      {cls.num}
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
+export default Classlist;

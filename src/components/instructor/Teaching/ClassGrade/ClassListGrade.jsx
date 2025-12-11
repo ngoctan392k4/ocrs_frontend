@@ -12,6 +12,9 @@ function ClassListGrade() {
   const [editedGrades, setEditedGrades] = useState({});
   const [showCancelDialog, setShowCancelDialog] = useState(false);
 
+  const [currentSem, setCurrentSem] = useState("");
+  const [isCurrentSem, setIsCurrentSem] = useState(false);
+
   const GRADE_TYPES = ["attendance", "regular", "project", "midterm", "final"];
 
   // Fetch student list
@@ -50,9 +53,30 @@ function ClassListGrade() {
     }
   };
 
+  // Fetch current semester
+  const fetchCurrentSemester = async () => {
+    try {
+      const res = await fetch(
+        "http://localhost:3001/api/instructor/classgrade/sem"
+      );
+      const data = await res.json();
+
+      if (data.current_sem?.length > 0) {
+        const semid = data.current_sem[0].semid;
+        setCurrentSem(semid);
+
+        const classSem = classID.split("-").slice(2).join("-").trim();
+        setIsCurrentSem(classSem === semid);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchStudents();
     fetchGrades();
+    fetchCurrentSemester();
   }, [classID]);
 
   // Build grade map
@@ -75,7 +99,7 @@ function ClassListGrade() {
     }));
   };
 
-  // Handle submit
+  // Submit
   const handleSubmitGrades = async () => {
     try {
       for (let studentid in editedGrades) {
@@ -110,7 +134,6 @@ function ClassListGrade() {
     }
   };
 
-  // ❗ Xử lý xác nhận Cancel
   const handleConfirmCancel = () => {
     setIsEditing(false);
     setEditedGrades({});
@@ -127,27 +150,32 @@ function ClassListGrade() {
           {classID.split("-").slice(2).join("-")}
         </h1>
 
-        {/* BUTTON GROUP */}
-        <div className="grade-button-group">
-          <button
-            onClick={() => {
-              if (isEditing) {
-                setShowCancelDialog(true);
-              } else {
-                setIsEditing(true);
-              }
-            }}
-            className="edit-grade-button"
-          >
-            {isEditing ? "Cancel Edit" : "Edit Grade"}
-          </button>
-
-          {isEditing && (
-            <button onClick={handleSubmitGrades} className="submit-grade-button">
-              Enter Grade
+        {/* REMOVE BUTTON COMPLETELY IF NOT CURRENT SEMESTER */}
+        {isCurrentSem && (
+          <div className="grade-button-group">
+            <button
+              onClick={() => {
+                if (isEditing) {
+                  setShowCancelDialog(true);
+                } else {
+                  setIsEditing(true);
+                }
+              }}
+              className="edit-grade-button"
+            >
+              {isEditing ? "Cancel Edit" : "Edit Grade"}
             </button>
-          )}
-        </div>
+
+            {isEditing && (
+              <button
+                onClick={handleSubmitGrades}
+                className="submit-grade-button"
+              >
+                Enter Grade
+              </button>
+            )}
+          </div>
+        )}
 
         {students.length > 0 ? (
           <div className="table-wrapper">
@@ -228,15 +256,15 @@ function ClassListGrade() {
           <h3>No students found for this class.</h3>
         )}
       </div>
-      
+
       {showCancelDialog && (
-        <div className="addclasscancel-dialog-backdrop">
-          <div className="addclasscancel-dialog-box">
+        <div className="viewstudylistcancel-dialog-backdrop">
+          <div className="viewstudylistcancel-dialog-box">
             <div>You have unsaved changes. Cancel?</div>
 
-            <div className="addclasscancel-dialog-actions">
+            <div className="viewstudylistcancel-dialog-actions">
               <button
-                className="cancel-dialog-no"
+                className="viewstudylistcancel-dialog-no"
                 onClick={() => setShowCancelDialog(false)}
               >
                 No
@@ -253,6 +281,7 @@ function ClassListGrade() {
         </div>
       )}
     </div>
+    
   );
 }
 
