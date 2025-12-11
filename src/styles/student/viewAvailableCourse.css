@@ -3,6 +3,27 @@
   min-height: 100vh;
 }
 
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header button {
+  padding: 10px 20px;
+  background-color: var(--color-blue-600);
+  color: var(--color-white-000);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.header button:hover {
+  background-color: var(--color-blue-500);
+}
+
 /* CONTENT */
 .available-course-content {
   flex-grow: 1;
@@ -21,7 +42,7 @@
 
 /* SEARCH */
 .search-container {
-  width: 100%; 
+  width: 100%;
   margin-bottom: 20px;
   position: relative;
 }
@@ -31,16 +52,16 @@
   top: 50%;
   left: 12px;
   transform: translateY(-50%);
-  font-size: 16px; 
+  font-size: 16px;
   color: var(--color-gray-600);
 }
 
 .available-course-search {
   width: 100%;
-  padding: 8px 12px 8px 36px; 
+  padding: 8px 12px 8px 36px;
   border: 1px solid var(--color-gray-300);
   border-radius: 18px;
-  font-size: 14px; 
+  font-size: 14px;
 }
 
 /* LIST */
@@ -70,6 +91,19 @@
 .course-name {
   font-weight: 600;
   font-size: 17px;
+}
+
+
+.course-name.recommended{
+  color: var(--color-red);
+  font-style: italic;
+}
+
+.recommend-noti{
+  color: var(--color-red);
+  margin-left: 20px;
+  margin-bottom: 20px;
+  font-style: bold;
 }
 
 /* DETAIL giống admin */
@@ -129,4 +163,14 @@
 .credit-item {
     display: flex;
     gap: 6px;
+}
+
+.header button.valid{
+  opacity: 1;
+  cursor: pointer;
+}
+
+.header button.invalid{
+  opacity: 0.7;
+  cursor: not-allowed;
 }

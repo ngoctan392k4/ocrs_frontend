@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Menu from "../../menu/Menu";
 import menu_admin from "../../../assets/dataMenu/MenuAdminData";
 import "../../../styles/admin/AccountManagement/AddAccount.css";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 
 function AddAccount() {
   const navigate = useNavigate();
@@ -14,7 +15,10 @@ function AddAccount() {
   const [mail, setMail] = useState("");
   const [dob, setDob] = useState("");
   const [department, setDepartment] = useState("");
+
   const [major, setMajor] = useState("");
+  const [majorSelections, setMajorSelections] = useState([]);
+
   const [notiMail, setNotiMail] = useState(null);
   const [notiPhone, setNotiPhone] = useState(null);
   const [noti, setNoti] = useState(null);
@@ -52,6 +56,38 @@ function AddAccount() {
     !validatePhone(phoneNum)
       ? setNotiPhone("Phone number with 10 numbers and start with 0")
       : setNotiPhone(null);
+  };
+
+  const fetchInitial = async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/student/major`);
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.log(data.message);
+      } else {
+        setMajorSelections(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchInitial();
+  }, []);
+
+  // Initialize options for major
+  const majorOptions = Array.isArray(majorSelections)
+    ? majorSelections.map((cur) => ({
+        value: cur.curriculum_id,
+        label: `${cur.curriculum_id} — ${cur.curriculum_name} - ${cur.total_credits} credits`,
+      }))
+    : [];
+
+  const handleChangeMajor = (selectedOption) => {
+    const val = selectedOption ? selectedOption.value : null;
+    setMajor(val);
   };
 
   const handleAdd = async () => {
@@ -223,12 +259,17 @@ function AddAccount() {
 
           {/* If student, fill in major */}
           {selectedRole === "Student" ? (
-            <div className="attribute">
+            <div className="attribute-select">
               <span>Major</span>
-              <input
-                type="text"
-                placeholder="Student's Major"
-                onChange={(e) => setMajor(e.target.value)}
+
+              <Select
+                className="select-major-container"
+                name="majorID"
+                value={majorOptions.find((op) => op.value === major) || null}
+                options={majorOptions}
+                isClearable
+                placeholder="Select Major"
+                onChange={(selected) => handleChangeMajor(selected)}
               />
             </div>
           ) : null}

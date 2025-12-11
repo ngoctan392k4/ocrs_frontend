@@ -4,6 +4,7 @@ import menu_admin from "../../../assets/dataMenu/MenuAdminData";
 import { useNavigate, useParams } from "react-router-dom";
 import "../../../styles/Admin/AccountManagement/EditAccount.css";
 import { useEffect, useState } from "react";
+import Select from "react-select";
 
 export default function EditAccount() {
   const navigate = useNavigate();
@@ -21,7 +22,10 @@ export default function EditAccount() {
   const [department, setDepartment] = useState("");
   const [mailNoti, setMailNoti] = useState(null);
   const [phoneNoti, setPhoneNoti] = useState(null);
+
   const [major, setMajor] = useState("");
+  const [majorSelections, setMajorSelections] = useState([]);
+
   const [noti, setNoti] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("active");
   const [username, setUsername] = useState("");
@@ -56,6 +60,38 @@ export default function EditAccount() {
   const validatePhone = (phoneNum) => {
     const phoneRegex = /^0[0-9]{9}$/;
     return phoneRegex.test(phoneNum);
+  };
+
+  const fetchInitial = async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/student/major`);
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.log(data.message);
+      } else {
+        setMajorSelections(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchInitial();
+  }, []);
+
+  // Initialize options for major
+  const majorOptions = Array.isArray(majorSelections)
+    ? majorSelections.map((cur) => ({
+        value: cur.curriculum_id,
+        label: `${cur.curriculum_id} — ${cur.curriculum_name} - ${cur.total_credits} credits`,
+      }))
+    : [];
+
+  const handleChangeMajor = (selectedOption) => {
+    const val = selectedOption ? selectedOption.value : null;
+    setMajor(val);
   };
 
   const handleOnchangePhone = (phoneNum) => {
@@ -265,12 +301,19 @@ export default function EditAccount() {
 
               {/* If role is student then display major field */}
               {role === "student" && (
-                <div className="detail-row-account">
-                  <span> Major: </span>
-                  <input
-                    type="text"
-                    value={major}
-                    onChange={(e) => setMajor(e.target.value)}
+                <div className="attribute-select">
+                  <span>Major</span>
+
+                  <Select
+                    className="select-major-container"
+                    name="majorID"
+                    value={
+                      majorOptions.find((op) => op.value === major) || null
+                    }
+                    options={majorOptions}
+                    isClearable
+                    placeholder="Select Major"
+                    onChange={(selected) => handleChangeMajor(selected)}
                   />
                 </div>
               )}
