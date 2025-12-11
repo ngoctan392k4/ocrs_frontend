@@ -2,12 +2,15 @@ import React from "react";
 import Menu from "../../menu/Menu";
 import menu_student from "../../../assets/dataMenu/MenuStudentData";
 import "../../../styles/Home.css";
+import Chatbot from "../Chatbot/chatbot";
+
 export default function Home() {
   return (
     <div className="home-container">
       <Menu menus={menu_student} />
 
       <div className="home-content">
+        <Chatbot/>
         <h1 className="home-title">Student Homepage</h1>
         <p className="home-desc">
           The system allows management of schedule, study transcripts, payment and supports course registration. <br/>

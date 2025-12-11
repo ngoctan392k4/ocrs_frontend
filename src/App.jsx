@@ -32,6 +32,8 @@ import ClassGrade from "./components/instructor/Teaching/ClassGrade/Classlist";
 import GradeClassList from "./components/instructor/Teaching/ClassGrade/ClassListGrade";
 import TuitionPayment from "./components/student/TuitionPayment/payTuition";
 import PaymentHistory from "./components/student/TuitionPayment/paymentHistory";
+import ViewDetailTranscript from "./components/student/ViewTranscript/ViewDetailTranscript";
+import DetailTranscript from "./components/student/ViewTranscript/DetailTranscript";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -252,6 +254,28 @@ function App() {
         }
       />
 
+      <Route
+        path="/detailedTranscript"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["student"]}>
+              <ViewDetailTranscript />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="detailTranscript/ViewGrade/:classid"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["student"]}>
+              <DetailTranscript />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
       {/* Instructor Routes */}
       <Route
         path="/homepageInstructor"
@@ -318,6 +342,7 @@ function App() {
           </EnsureLoggedToRoutes>
         }
       />
+
     </Routes>
   );
 }

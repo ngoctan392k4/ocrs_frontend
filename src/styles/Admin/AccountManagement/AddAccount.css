@@ -53,6 +53,12 @@
   margin-bottom: 20px;
 }
 
+.attribute-select {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 /* Label on the left */
 .attribute span,
 .attribute .label {
@@ -61,9 +67,17 @@
   color: var(--color-black);
 }
 
+.attribute-select span,
+.attribute-select .label {
+  /* width: 90px; */
+  margin-right: 140px;
+  font-size: 16px;
+  color: var(--color-black);
+}
+
 /* Input on the right */
 .attribute input,
-.attribute select {
+.attribute select{
   flex: 1;
   height: 40px;
   padding: 0 15px;
@@ -78,6 +92,21 @@
 .attribute select:focus {
   border-color: var(--color-black);
 }
+
+.select-major-container{
+  width: 100%;
+}
+
+.select-major-container > div {
+  border-radius: 20px;
+  border: 1px solid var(--color-blue-800);
+}
+
+.select-major-container .select-major-container__menu {
+  border-radius: 50px;
+  overflow: hidden;
+}
+
 
 /* Notification for input errors */
 .notification {

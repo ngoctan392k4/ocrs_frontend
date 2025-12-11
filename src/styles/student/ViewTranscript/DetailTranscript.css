@@ -1,0 +1,116 @@
+.detailTranscript-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.detailTranscript-content {
+  flex-grow: 1;
+  padding: 30px;
+  margin-left: 260px;
+  line-height: 1.6;
+  color: var(--color-blue-900);
+  animation: fadeIn 0.4s ease;
+}
+
+.detailTranscript-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--color-blue-900);
+}
+
+.detailTranscript-subtitle {
+  font-size: 18px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: var(--color-blue-700);
+}
+
+.no-grades-message {
+  margin-top: 20px;
+  font-size: 18px;
+  color: var(--color-blue-900);
+  text-align: center;
+  font-style: italic;
+}
+
+/* --- Table-like layout --- */
+
+.grades-table {
+  margin-top: 30px;
+  border-radius: 6px; /* tiny bit rounder */
+  overflow: hidden;
+  border: 1px solid var(--color-gray-300);
+}
+
+/* Header row */
+.grades-header {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr;
+  background: var(--color-blue-100);
+  padding: 12px 0;
+  font-weight: 700;
+  text-align: center;
+  border-bottom: 1px solid var(--color-gray-300);
+}
+
+.header-item {
+  padding: 8px 0;
+  border-right: 1px solid var(--color-gray-300);
+}
+
+.header-item:last-child {
+  border-right: none;
+}
+
+/* Row styling */
+.grades-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr;
+  padding: 10px 0;
+  text-align: center;
+  background: var(--color-white-000);
+}
+
+.grade-cell {
+  padding: 8px 0;
+  border-right: 1px solid var(--color-gray-300);
+}
+
+.grade-cell:last-child {
+  border-right: none;
+}
+
+/* Hover highlight */
+.grades-row:hover {
+  background: var(--color-blue-50);
+}
+
+/* Total row */
+.grades-total {
+  display: flex;
+  justify-content: flex-end;
+  padding: 14px 20px;
+  font-weight: 700;
+  background: var(--color-blue-50);
+  border-top: 1px solid var(--color-gray-300);
+}
+
+.total-label {
+  margin-right: 10px;
+  color: var(--color-blue-700);
+}
+
+.total-value {
+  color: var(--color-blue-900);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.no-grades-message {
+  margin-top: 20px;
+  font-size: 18px;
+  color: var(--color-blue-700); 
+  text-align: center;
+  font-style: italic;
+}
