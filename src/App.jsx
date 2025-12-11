@@ -34,6 +34,7 @@ import TuitionPayment from "./components/student/TuitionPayment/payTuition";
 import PaymentHistory from "./components/student/TuitionPayment/paymentHistory";
 import ViewDetailTranscript from "./components/student/ViewTranscript/ViewDetailTranscript";
 import DetailTranscript from "./components/student/ViewTranscript/DetailTranscript";
+import TrackPayments from "./components/admin/PaymentTracking/PaymentTracking";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -162,6 +163,17 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
               <OpenCourse />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="/paymentTracking"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <TrackPayments />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
@@ -342,7 +354,6 @@ function App() {
           </EnsureLoggedToRoutes>
         }
       />
-
     </Routes>
   );
 }
