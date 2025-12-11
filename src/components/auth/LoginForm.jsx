@@ -73,6 +73,7 @@ function LoginForm() {
           type="text"
           placeholder="Username"
           onChange={(e) => setUsername(e.target.value)}
+          onKeyPress={(e) => e.key === "Enter" && handleLogin(username, password)}
         />
         <p>Password</p>
         <div className="pwd-container">
@@ -80,6 +81,7 @@ function LoginForm() {
             type={openEye ? "text" : "password"}
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && handleLogin(username, password)}
           />
           <span className="toggle-icon" onClick={() => setOpenEye(!openEye)}>
             {openEye ? (

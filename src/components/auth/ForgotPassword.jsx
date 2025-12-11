@@ -68,6 +68,7 @@ function ForgotPassword() {
           type="mail"
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
+          onKeyPress={(e) => e.key === "Enter" && handleForgot(email)}
         />
         {noti && <p className="notification">{noti}</p>}
         <button onClick={() => handleForgot(email)}>Send</button>
