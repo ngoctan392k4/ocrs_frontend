@@ -265,20 +265,6 @@ export default function EditClass() {
                 }
                 isClearable
                 placeholder="Select Instructor"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    backgroundColor: "#f5f7fa",
-                    borderColor: "#d9e8f5",
-                    "&:hover": { borderColor: "#8db3d4" },
-                    "&:focus-within": { borderColor: "#8db3d4" },
-                  }),
-                  option: (base, { isSelected }) => ({
-                    ...base,
-                    backgroundColor: isSelected ? "#8db3d4" : "white",
-                    color: isSelected ? "white" : "#3a5a7a",
-                  }),
-                }}
               />
             </div>
           </div>
