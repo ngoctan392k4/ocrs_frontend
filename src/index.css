@@ -1,3 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: #ecf1f7;
+}
+
 :root {
   /* Bộ màu thiên blue */
   --color-blue-900: #1e3957;
@@ -38,6 +51,48 @@
   --color-greengray-300: #9fb5ae;
 
   --color-red-500: #ef4444;
+
+  /* Bộ màu vàng-xanh lá (Olive Green) */
+  --color-olive-900: #5a7c3d;
+  --color-olive-700: #7a9c4d;
+  --color-olive-500: #b8c654;
+  --color-olive-300: #d9e49e;
+  --color-olive-100: #e8f0c8;
+
+  /* Bộ màu vàng nhạt (Pale Yellow) */
+  --color-pale-yellow-900: #9d9220;
+  --color-pale-yellow-700: #c4b835;
+  --color-pale-yellow-500: #f4e57c;
+  --color-pale-yellow-300: #f7eca9;
+  --color-pale-yellow-100: #faf6d8;
+
+  /* Bộ màu cam pastel (Pastel Orange) */
+  --color-orange-900: #a0684f;
+  --color-orange-700: #d09070;
+  --color-orange-500: #f5a878;
+  --color-orange-300: #f8bfa3;
+  --color-orange-100: #fde3d8;
+
+  /* Bộ màu xanh da trời nhạt (Mint Teal) */
+  --color-teal-900: #5a8a83;
+  --color-teal-700: #7aaa9f;
+  --color-teal-500: #abdcd7;
+  --color-teal-300: #c8e5e0;
+  --color-teal-100: #e3f1ef;
+
+  /* Bộ màu xanh dương pastel (Pastel Blue) */
+  --color-blue-pastel-900: #3a5a7a;
+  --color-blue-pastel-700: #5a7fa8;
+  --color-blue-pastel-500: #8db3d4;
+  --color-blue-pastel-300: #b3d1e8;
+  --color-blue-pastel-100: #d9e8f5;
+
+  /* Bộ màu đỏ pastel (Pastel Red) */
+  --color-red-pastel-900: #8b5a5a;
+  --color-red-pastel-700: #b8757f;
+  --color-red-pastel-500: #d89898;
+  --color-red-pastel-300: #e6b3b8;
+  --color-red-pastel-100: #f5d9dd;
 
   --font-sans: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
 }

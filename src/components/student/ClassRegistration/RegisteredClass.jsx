@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import Menu from "../../menu/Menu";
 import menu_admin from "../../../assets/dataMenu/MenuStudentData";
 import "../../../styles/student/ClassRegistration/RegisteredClass.css";
-import Chatbot from "../Chatbot/chatbot";
+import Chatbot from "../Chatbot/Chatbot";
+import mailBoxIcon from '../../../assets/icon/mailbox.svg';
 
 export default function RegisteredClass() {
   const [searched, setSearched] = useState("");
@@ -98,112 +99,98 @@ export default function RegisteredClass() {
     <div className="viewregistered-container">
       <Menu menus={menu_admin} />
       <div className="viewregistered-content">
-        <Chatbot/>
+        <Chatbot />
         <h1 className="viewregistered-title">View Registered Classes</h1>
 
-        <input
-          className="viewregisteredsearch-bar"
-          type="text"
-          placeholder="Search Class"
-          value={searched}
-          onChange={(e) => setSearched(e.target.value)}
-        />
-
-        <div className="viewregistered-list">
-          {!loading && visibleClasses.length === 0 && (
-            <div className="no-classes-message">
-              There are no registered classes for the current or latest semester!
-            </div>
-          )}
-
-          {sortedSemesters.map((semid) => (
-            <div key={semid} className="viewregistered-semester-group">
-              <h2 className="semester-title">
-                {semid === currentSem ? "Current Semester" : semid}
-              </h2>
-
-              {filteredBySearch(groupedBySemester[semid]).map((cls) => (
-                <div
-                  key={cls.clsid}
-                  className="viewregistered-item"
-                  onClick={() => toggleClass(cls.clsid)}
-                >
-                  <div className="viewregistered-header">
-                    <div className="viewregistered-name">
-                      {cls.classname} - {cls.classcode?.split("-")[1]}
-                    </div>
-
-                    {semid === latestSem && latestSem !== currentSem && (
-                      <button
-                        className="viewregistered-delete-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteClick(cls.clsid);
-                        }}
-                      >
-                        x
-                      </button>
-                    )}
-                  </div>
-
-                  {selectedClasses.includes(cls.clsid) && (
-                    <div className="viewregistered-detail">
-                      <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">
-                          Class Code:
-                        </span>
-                        <span className="viewregistered-info-text">
-                          {cls.classcode}
-                        </span>
-                      </div>
-                      <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">
-                          Instructor:
-                        </span>
-                        <span className="viewregistered-info-text">
-                          {cls.instructorid} - {cls.instructor_name}
-                        </span>
-                      </div>
-                      <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">Schedule:</span>
-                        <span className="viewregistered-info-text">{cls.schedule}</span>
-                      </div>
-                      <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">Location:</span>
-                        <span className="viewregistered-info-text">{cls.classlocation}</span>
-                      </div>
-                      <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">Back Up Course 1:</span>
-                        <span className="viewregistered-info-text">{cls.bucourseid_st}</span>
-                      </div>
-                      <div className="viewregistereddetail-row">
-                        <span className="viewregistered-info-label">Back Up Course 2:</span>
-                        <span className="viewregistered-info-text">{cls.bucourseid_nd}</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          ))}
+        <div className="filter-container">
+          <input
+            className="search-input"
+            type="text"
+            placeholder="Search by class code or name..."
+            value={searched}
+            onChange={(e) => setSearched(e.target.value)}
+          />
         </div>
 
+        {loading ? (
+          <div className="table-wrapper">
+            <div className="table-loading">
+              <div className="spinner"></div>
+              <p>Loading classes...</p>
+            </div>
+          </div>
+        ) : visibleClasses.length === 0 ? (
+          <div className="table-wrapper">
+            <div className="table-empty-state">
+              <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon" /></div>
+              <div className="table-empty-text">No registered classes</div>
+              <div className="table-empty-subtext">You have no registered classes yet</div>
+            </div>
+          </div>
+        ) : (
+          <>
+            {sortedSemesters.map((semid) => (
+              <div key={semid}>
+                <h2 className="semester-title">
+                  {semid === currentSem ? "Current Semester" : semid}
+                </h2>
+                <div className="table-wrapper">
+                  <table className="data-table">
+                    <thead>
+                      <tr>
+                        <th>Class Code</th>
+                        <th>Class Name</th>
+                        <th>Instructor</th>
+                        <th>Schedule</th>
+                        <th>Location</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredBySearch(groupedBySemester[semid]).map((cls) => (
+                        <tr key={cls.clsid}>
+                          <td className="table-cell-primary">{cls.classcode}</td>
+                          <td>{cls.classname}</td>
+                          <td className="table-cell-secondary">
+                            {cls.instructorid} - {cls.instructor_name}
+                          </td>
+                          <td className="table-cell-secondary">{cls.schedule || "-"}</td>
+                          <td className="table-cell-secondary">{cls.classlocation || "-"}</td>
+                          <td className="text-center">
+                            <button
+                              className="delete-btn"
+                              onClick={() => handleDeleteClick(cls.clsid)}
+                              title="Cancel registration"
+                            >
+                              ✕
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
+
         {showDialog && (
-          <div className="viewregistereddialog-backdrop">
-            <div className="viewregistereddialog-box">
-              <div className="viewregistereddialog-message">
+          <div className="dialog-backdrop">
+            <div className="dialog-box">
+              <div className="dialog-message">
                 Cancel Class{" "}
                 {registered.find((cls) => cls.clsid === deleteClassId)?.clsid}?
               </div>
-              <div className="viewregistereddialog-actions">
+              <div className="dialog-actions">
                 <button
-                  className="viewregistereddialog-btn no"
+                  className="dialog-btn cancel-btn"
                   onClick={handleCancel}
                 >
                   No
                 </button>
                 <button
-                  className="viewregistereddialog-btn yes"
+                  className="dialog-btn delete-confirm-btn"
                   onClick={handleConfirmDelete}
                 >
                   Yes

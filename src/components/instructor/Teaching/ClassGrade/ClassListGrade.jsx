@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Menu from "../../../menu/Menu";
 import menu_instructor from "../../../../assets/dataMenu/MenuInstructorData";
 import "../../../../styles/instructor/Teaching/ViewStudentList.css";
+import mailBoxIcon from '../../../../assets/icon/mailbox.svg'
 
 function ClassListGrade() {
   const { classID } = useParams();
@@ -147,9 +148,8 @@ function ClassListGrade() {
       <Menu menus={menu_instructor} />
 
       <div className="view-studentList-content">
-        <h1>
-          Grade List for {classID.split("-").slice(0, 2).join("-")} in{" "}
-          {classID.split("-").slice(2).join("-")}
+        <h1 className="page-title">
+          Grade List - {classID.split("-").slice(0, 2).join("-")} ({classID.split("-").slice(2).join("-")})
         </h1>
 
         {/* BUTTON GROUP */}
@@ -170,7 +170,7 @@ function ClassListGrade() {
 
             {isEditing && (
               <button onClick={handleSubmitGrades} className="submit-grade-button">
-                Enter Grade
+                Submit Grades
               </button>
             )}
           </div>
@@ -178,20 +178,20 @@ function ClassListGrade() {
 
         {!isCurrentSem && (
           <p className="disabled-semester-msg">
-            🔒 You can view grades but cannot edit because this class is not in the current semester.
+            You can view grades but cannot edit because this class is not in the current semester.
           </p>
         )}
 
         {students.length > 0 ? (
           <div className="table-wrapper">
-            <table className="student-table">
+            <table className="data-table">
               <thead>
                 <tr>
-                  <th>STT</th>
+                  <th style={{ width: '50px', textAlign: 'center' }}>#</th>
                   <th>Student ID</th>
                   <th>Student Name</th>
                   {GRADE_TYPES.map((type) => (
-                    <th key={type}>
+                    <th key={type} style={{ textAlign: 'center' }}>
                       {type.charAt(0).toUpperCase() + type.slice(1)}
                     </th>
                   ))}
@@ -201,8 +201,8 @@ function ClassListGrade() {
               <tbody>
                 {students.map((stu, index) => (
                   <tr key={stu.studentid}>
-                    <td>{String(index + 1).padStart(2, "0")}</td>
-                    <td>{stu.studentid}</td>
+                    <td className="text-center" style={{ fontWeight: 600 }}>{String(index + 1).padStart(2, "0")}</td>
+                    <td className="table-cell-primary">{stu.studentid}</td>
                     <td>{stu.name}</td>
 
                     {GRADE_TYPES.map((type) => {
@@ -215,12 +215,13 @@ function ClassListGrade() {
                         "";
 
                       return (
-                        <td key={type}>
+                        <td key={type} className="text-center">
                           {isEditing ? (
                             <input
                               type="number"
                               min={0}
                               max={10}
+                              className="grade-input"
                               value={
                                 editedScore === null ||
                                 editedScore === undefined
@@ -257,23 +258,29 @@ function ClassListGrade() {
             </table>
           </div>
         ) : (
-          <h3>No students found for this class.</h3>
+          <div className="table-wrapper">
+            <div className="table-empty-state">
+              <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon" /></div>
+              <div className="table-empty-text">No students found</div>
+              <div className="table-empty-subtext">No students enrolled in this class</div>
+            </div>
+          </div>
         )}
       </div>
 
       {showCancelDialog && (
-        <div className="viewstudylistcancel-dialog-backdrop">
-          <div className="viewstudylistcancel-dialog-box">
-            <div>You have unsaved changes. Cancel?</div>
-            <div className="viewstudylistcancel-dialog-actions">
+        <div className="dialog-backdrop">
+          <div className="dialog-box">
+            <div className="dialog-message">You have unsaved changes. Cancel?</div>
+            <div className="dialog-actions">
               <button
-                className="viewstudylistcancel-dialog-no"
+                className="dialog-btn cancel-btn"
                 onClick={() => setShowCancelDialog(false)}
               >
                 No
               </button>
               <button
-                className="cancel-dialog-yes"
+                className="dialog-btn delete-confirm-btn"
                 onClick={handleConfirmCancel}
               >
                 Yes

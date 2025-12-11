@@ -7,7 +7,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 
 import "../../../styles/student/Schedule/studySchedule.css";
-import Chatbot from "../Chatbot/chatbot";
+import Chatbot from "../Chatbot/Chatbot";
 
 const weekDayIndex = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
 

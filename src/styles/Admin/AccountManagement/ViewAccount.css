@@ -1,3 +1,6 @@
+/* Legacy ViewAccount Styles - Compatibility Layer */
+/* This file is deprecated in favor of TableView.css */
+
 .view-account-container {
   display: flex;
   min-height: 100vh;

@@ -21,6 +21,7 @@ export default function MenuItem({ item }) {
 
   const hasChildren = item && item.children && item.children.length > 0;
   const isLogoutItem = item.isLogout;
+  const isOpen = displayCurrentChildren[item.label];
 
   return (
     <li>
@@ -33,6 +34,7 @@ export default function MenuItem({ item }) {
           <div
             className={`menu-item ${hasChildren ? "has-children" : ""}`}
             onClick={handleClick}
+            title={item.label}
           >
             <p>{item.label}</p>
           </div>
@@ -41,7 +43,7 @@ export default function MenuItem({ item }) {
             <div
               className="child-list-container"
               style={{
-                maxHeight: displayCurrentChildren[item.label] ? "500px" : "0px",
+                maxHeight: isOpen ? "500px" : "0px",
               }}
             >
               <MenuList list={item.children} />

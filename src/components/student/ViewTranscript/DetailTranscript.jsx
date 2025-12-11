@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Menu from "../../menu/Menu";
 import menu_student from "../../../assets/dataMenu/MenuStudentData";
 import "../../../styles/student/ViewTranscript/DetailTranscript.css";
+import mailBoxIcon from '../../../assets/icon/mailbox.svg';
 
 export default function DetailTranscript() {
   const { classid } = useParams();
@@ -34,50 +35,63 @@ export default function DetailTranscript() {
   }, [classid]);
 
   return (
-    <div className="detailTranscript-container">
+    <div className="detail-transcript-container">
       <Menu menus={menu_student} />
 
-      <div className="detailTranscript-content">
-        <h1 className="detailTranscript-title">Detail Transcript</h1>
-        <h2 className="detailTranscript-subtitle">
-          {classes === null
-            ? "Loading..."
-            : `Class Name: ${classes.courseid} - ${classes.classname}`}
-        </h2>
-        {loading ? (
-          <div className="no-grades-message">Loading grades...</div>
-        ) : grades.length === 0 ? (
-          <div className="no-grades-message">
-            Grading criteria for this class has not been published yet.
-          </div>
-        ) : (
-          <div className="grades-table">
-            <div className="grades-header">
-              <div className="header-item">Type</div>
-              <div className="header-item">Score</div>
-              <div className="header-item">Max Score</div>
-              <div className="header-item">Percentage</div>
-              <div className="header-item">Max Percentage</div>
-            </div>
+      <div className="detail-transcript-content">
+        <h1 className="detail-transcript-title">Detail Transcript</h1>
 
-            {grades.map((g, index) => (
-              <div key={index} className="grades-row">
-                <div className="grade-cell">{g.type.toUpperCase()}</div>
-                <div className="grade-cell">{g.score !== null ? g.score : "-"}</div>
-                <div className="grade-cell">{g.max_score}</div>
-                <div className="grade-cell">
-                  {g.percent_score !== null ? g.percent_score + "%" : "-"}
-                </div>
-                <div className="grade-cell">{g.max_percent}%</div>
+        <div className="table-wrapper">
+          {loading ? (
+            <div className="table-loading">
+              <div className="spinner"></div>
+              <p>Loading grades...</p>
+            </div>
+          ) : grades.length === 0 ? (
+            <div className="table-empty-state">
+              <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon" /></div>
+              <div className="table-empty-text">No grades available</div>
+              <div className="table-empty-subtext">Grading criteria for this class has not been published yet</div>
+            </div>
+          ) : (
+            <>
+              <div className="transcript-info">
+                <span className="info-label">Class:</span>
+                <span className="info-value">{classes.courseid} - {classes.classname}</span>
               </div>
-            ))}
 
-            <div className="grades-total">
-              <div className="total-label">Total Percentage:</div>
-              <div className="total-value">{total}%</div>
-            </div>
-          </div>
-        )}
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Score</th>
+                    <th>Max Score</th>
+                    <th>Percentage</th>
+                    <th>Max Percentage</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {grades.map((g, index) => (
+                    <tr key={index}>
+                      <td className="table-cell-primary">{g.type.toUpperCase()}</td>
+                      <td className="table-cell-secondary">{g.score !== null ? g.score : "-"}</td>
+                      <td className="table-cell-secondary">{g.max_score}</td>
+                      <td className="table-cell-secondary">
+                        {g.percent_score !== null ? g.percent_score + "%" : "-"}
+                      </td>
+                      <td className="table-cell-secondary">{g.max_percent}%</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <div className="transcript-total">
+                <span className="total-label">Total Percentage:</span>
+                <span className="total-value">{total}%</span>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
