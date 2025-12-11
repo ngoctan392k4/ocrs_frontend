@@ -184,14 +184,14 @@ function AddAccount() {
       <Menu menus={menu_admin} />
 
       <div className="addAccount-content">
-        <h1 className="addAccount-title">Add New Account</h1>
+        <h1 className="page-title">Add New Account</h1>
 
-        <div className="attributes">
+        <div className="form-container">
           {/* Account role dropdown */}
-          <div className="attribute">
-            <span className="label">Account Role </span>
+          <div className="form-row">
+            <label className="form-label">Account Role</label>
             <select
-              className="role-select"
+              className="form-select"
               value={selectedRole}
               onChange={(e) => setSelectedRole(e.target.value)}
             >
@@ -204,21 +204,23 @@ function AddAccount() {
           </div>
 
           {/* Name of user */}
-          <div className="attribute">
-            <span>Full Name</span>
+          <div className="form-row">
+            <label className="form-label">Full Name</label>
             <input
               type="text"
               placeholder="Name"
+              className="form-input"
               onChange={(e) => setName(e.target.value)}
             />
           </div>
 
           {/* Email */}
-          <div className="attribute">
-            <span>Email Address</span>
+          <div className="form-row">
+            <label className="form-label">Email Address</label>
             <input
               type="mail"
               placeholder="Email"
+              className="form-input"
               onChange={(e) => {
                 setMail(e.target.value);
                 handleOnchangeMail(e.target.value);
@@ -227,14 +229,15 @@ function AddAccount() {
           </div>
 
           {/* Notify if email is not in correct format */}
-          {notiMail && <p className="notification">{notiMail}</p>}
+          {notiMail && <p className="form-error">{notiMail}</p>}
 
           {/* Phone number */}
-          <div className="attribute">
-            <span>Phone Number</span>
+          <div className="form-row">
+            <label className="form-label">Phone Number</label>
             <input
               type="phone"
               placeholder="Phone Number"
+              className="form-input"
               onChange={(e) => {
                 setPhone(e.target.value);
                 handleOnchangePhone(e.target.value);
@@ -243,27 +246,26 @@ function AddAccount() {
           </div>
 
           {/* Notify if phone is not in correct format */}
-          {notiPhone && <p className="notification">{notiPhone}</p>}
+          {notiPhone && <p className="form-error">{notiPhone}</p>}
 
           {/* DOB */}
-          <div className="attribute">
-            <span>Date of Birth</span>
+          <div className="form-row">
+            <label className="form-label">Date of Birth</label>
             <input
               type="date"
               value={dob}
               onChange={(e) => setDob(e.target.value)}
-              max={new Date().toISOString().split("T")[0]} // Ensure future date for dob
-              className="date-input"
+              max={new Date().toISOString().split("T")[0]}
+              className="form-input"
             />
           </div>
 
           {/* If student, fill in major */}
           {selectedRole === "Student" ? (
-            <div className="attribute-select">
-              <span>Major</span>
-
+            <div className="form-row">
+              <label className="form-label">Major</label>
               <Select
-                className="select-major-container"
+                className="form-select-container"
                 name="majorID"
                 value={majorOptions.find((op) => op.value === major) || null}
                 options={majorOptions}
@@ -276,60 +278,65 @@ function AddAccount() {
 
           {/* If instructor, fill in department */}
           {selectedRole === "Instructor" ? (
-            <div className="attribute">
-              <span>Department</span>
+            <div className="form-row">
+              <label className="form-label">Department</label>
               <input
                 type="text"
                 placeholder="Instructor's Department"
+                className="form-input"
                 onChange={(e) => setDepartment(e.target.value)}
               />
             </div>
           ) : null}
 
           {/* Notify if input is null */}
-          {noti && <p className="notification">{noti}</p>}
+          {noti && <p className="form-error">{noti}</p>}
         </div>
 
         {/* Button cancel and add */}
-        <div className="button-container">
-          <button onClick={handleCancel}>Cancel</button>
+        <div className="form-actions">
+          <button className="btn-cancel" onClick={handleCancel}>Cancel</button>
           <button
+            className="btn-primary"
             onClick={handleAdd}
             disabled={!isFormValid}
-            className={isFormValid ? "valid" : "invalid"}
           >
-            Add
+            Add Account
           </button>
         </div>
 
         {/* Popup after clicking add button */}
         {showPopup && (
-          <div className="popup-container">
-            <div className="popup-content">
-              <p>{popupNoti}</p>
-              <button onClick={handleClose}>Close</button>
+          <div className="dialog-backdrop">
+            <div className="dialog-box">
+              <p className="dialog-message">{popupNoti}</p>
+              <div className="dialog-actions">
+                <button className="btn-primary" onClick={handleClose}>Close</button>
+              </div>
             </div>
           </div>
         )}
 
         {/* If error */}
         {showPopupError && (
-          <div className="popup-container">
-            <div className="popup-content">
-              <p>{popupNotiError}</p>
-              <button onClick={handleCloseError}>Close</button>
+          <div className="dialog-backdrop">
+            <div className="dialog-box dialog-error">
+              <p className="dialog-message">{popupNotiError}</p>
+              <div className="dialog-actions">
+                <button className="btn-cancel" onClick={handleCloseError}>Close</button>
+              </div>
             </div>
           </div>
         )}
 
         {/* Popup after clicking cancel button */}
         {showPopupCancel && (
-          <div className="popup-container">
-            <div className="popup-content">
-              <p>{popupNotiCancel}</p>
-              <div>
-                <button onClick={handleNoCancel}>No</button>
-                <button onClick={handleYesCancel}>Yes</button>
+          <div className="dialog-backdrop">
+            <div className="dialog-box">
+              <p className="dialog-message">{popupNotiCancel}</p>
+              <div className="dialog-actions">
+                <button className="btn-cancel" onClick={handleNoCancel}>No</button>
+                <button className="btn-primary" onClick={handleYesCancel}>Yes</button>
               </div>
             </div>
           </div>

@@ -3,7 +3,9 @@ import Menu from "../../menu/Menu";
 import { useNavigate } from "react-router-dom";
 import menu_student from "../../../assets/dataMenu/MenuStudentData";
 import "../../../styles/Student/ViewAvailableCourse.css";
-import Chatbot from "../Chatbot/chatbot";
+import Chatbot from "../Chatbot/Chatbot";
+import mailBoxIcon from '../../../assets/icon/mailbox.svg'
+import star from '../../../assets/icon/star.svg'
 
 export default function ViewAvailableCourse() {
   const [semester, setSemester] = useState(null);
@@ -127,105 +129,88 @@ export default function ViewAvailableCourse() {
 
       <div className="available-course-content">
         <Chatbot/>
-        <div className="header">
-          <h1 className="available-course-title">
-            Available Courses for{" "}
-            {semester
-              ? `${semester.semester_name} - ${semester.school_year}`
-              : ""}
-          </h1>
+        <h1 className="available-course-title">
+          Available Courses {semester ? `- ${semester.semester_name} ${semester.school_year}` : ""}
+        </h1>
 
-          <button className={recommendProcess ? "invalid" : "valid"} disabled={recommendProcess} onClick={handleRecommend}>Recommend</button>
-        </div>
-
-        {/* SEARCH BAR */}
-        <div className="search-container">
-          <i className="bx bx-search search-icon"></i>
-          <input
-            type="text"
-            className="available-course-search"
-            placeholder="Search course by ID or name..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-
-        {recommendProcess ? (<div className="recommend-noti">Please wait a few seconds. The system is analyzing</div>) : ""}
-        {limitAPI ? (<div className="recommend-noti">The recommend system reached limit. Please try again later.</div>) : ""}
-
-        {loading ? (
-          <div>Loading courses...</div>
-        ) : error ? (
-          <div>{error}</div>
-        ) : !canView() ? (
-          // Show message khi chưa tới 20 ngày cho xem
-          <div>
-            There is no available course right now.
-            <br />
-            You can view courses from:{" "}
-            {semester &&
-              new Date(
-                new Date(semester.start_date).setDate(
-                  new Date(semester.start_date).getDate() - 20
-                )
-              ).toLocaleDateString()}
+        <div className="action-bar">
+          <div className="search-container">
+            <i className="bx bx-search search-icon"></i>
+            <input
+              type="text"
+              className="available-course-search"
+              placeholder="Search course by ID or name..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
-        ) : (
-          <div className="available-course-list">
-            {sortedCourses.length === 0 ? (
-              <div>No course found...</div>
-            ) : (
-              sortedCourses.map((course) => {
-                const isOpen = openCourses.includes(course.courseid);
+          <button
+            className={`recommend-btn ${recommendProcess ? "disabled" : ""}`}
+            disabled={recommendProcess}
+            onClick={handleRecommend}
+          >
+            {recommendProcess ? "Recommending..." : "Recommend"}
+          </button>
+        </div>
 
-                return (
-                  <div
-                    key={course.courseid}
-                    className="course-item"
-                    onClick={() => handleCourseClick(course)}
-                  >
-                    <div className="course-header">
-                      <div className={`course-name ${
-                      recommendCourse.includes(course.courseid)
-                        ? "recommended"
-                        : ""
-                    }`}>
-                        {course.courseid} - {course.coursename}
-                      </div>
+        {limitAPI && (
+          <div className="notify-warning">
+            The recommend system reached limit. Please try again later.
+          </div>
+        )}
 
-                      <span
-                        className="view-class-link"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleViewClass(course.courseid);
-                        }}
-                      >
-                        View Class
-                      </span>
-                    </div>
-
-                    {isOpen && (
-                      <div className="course-detail">
-                        <div className="detail-row">
-                          <span className="course-info-label">Course ID:</span>
-                          <span className="course-info-text">
-                            {course.courseid ?? "-"}
-                          </span>
-                        </div>
-
-                        <div className="detail-row">
-                          <span className="course-info-label">
-                            Course Name:
-                          </span>
-                          <span className="course-info-text">
-                            {course.coursename ?? "-"}
-                          </span>
-                        </div>
-
-                        <div className="detail-row">
-                          <span className="course-info-label">Credit:</span>
-                          <span className="course-info-text">
-                            {Object.entries(course.credit_details)
+        <div className="table-wrapper">
+          {loading ? (
+            <div className="table-loading">
+              <div className="spinner"></div>
+              <p>Loading courses...</p>
+            </div>
+          ) : error ? (
+            <div className="table-empty-state">
+              <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon" /></div>
+              <div className="table-empty-text">Error loading courses</div>
+              <div className="table-empty-subtext">{error}</div>
+            </div>
+          ) : !canView() ? (
+            <div className="table-empty-state">
+              <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon" /></div>
+              <div className="table-empty-text">Courses not yet available</div>
+              <div className="table-empty-subtext">
+                Available from: {semester && new Date(
+                  new Date(semester.start_date).setDate(
+                    new Date(semester.start_date).getDate() - 20
+                  )
+                ).toLocaleDateString()}
+              </div>
+            </div>
+          ) : sortedCourses.length === 0 ? (
+            <div className="table-empty-state">
+              <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon" /></div>
+              <div className="table-empty-text">No courses found</div>
+              <div className="table-empty-subtext">Try adjusting your search filters</div>
+            </div>
+          ) : (
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Course ID</th>
+                  <th>Course Name</th>
+                  <th>Credit</th>
+                  <th>Classes</th>
+                  <th>Description</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedCourses.map((course) => (
+                  <tr key={course.courseid} className={recommendCourse.includes(course.courseid) ? "recommended-row" : ""}>
+                    <td className="table-cell-primary">
+                      {recommendCourse.includes(course.courseid) && <span className="badge-recommended"><img src={star} alt="starIcon" /></span>}
+                      {course.courseid}
+                    </td>
+                    <td>{course.coursename}</td>
+                    <td className="table-cell-secondary">
+                      {Object.entries(course.credit_details)
                               .filter(([_, value]) => value > 0)
                               .map(([type, value]) => (
                                 <div key={type} className="credit-detail-row">
@@ -237,43 +222,27 @@ export default function ViewAvailableCourse() {
                                   </span>
                                 </div>
                               ))}
-                          </span>
-                        </div>
-
-                        <div className="detail-row">
-                          <span className="course-info-label">
-                            Prerequisite:
-                          </span>
-                          <span className="course-info-text">
-                            {course.prerequisite ?? "None"}
-                          </span>
-                        </div>
-
-                        <div className="detail-row">
-                          <span className="course-info-label">
-                            Class Available:
-                          </span>
-                          <span className="course-info-text">
-                            {course.number_of_class_available ?? "-"}
-                          </span>
-                        </div>
-
-                        <div className="detail-row">
-                          <span className="course-info-label">
-                            Description:
-                          </span>
-                          <span className="course-info-text">
-                            {course.description ?? "-"}
-                          </span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })
-            )}
-          </div>
-        )}
+                    </td>
+                    <td className="table-cell-secondary">{course.number_of_class_available || "-"}</td>
+                    <td className="table-cell-description">
+                      <span className="description-text" title={course.description}>
+                        {course.description ? course.description.substring(0, 40) + "..." : "-"}
+                      </span>
+                    </td>
+                    <td>
+                      <button
+                        className="view-class-btn"
+                        onClick={() => handleViewClass(course.courseid)}
+                      >
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
     </div>
   );

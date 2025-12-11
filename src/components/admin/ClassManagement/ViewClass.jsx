@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import Menu from "../../menu/Menu";
 import menu_admin from "../../../assets/dataMenu/MenuAdminData";
 import { useNavigate } from "react-router-dom";
-import "../../../styles/admin/ClassManagement/ViewClass.css";
+import "../../../styles/Common/TableView.css";
+import deleteIcon from '../../../assets/icon/delete.svg';
+import editIcon from '../../../assets/icon/edit.svg';
+import mailBoxIcon from '../../../assets/icon/mailbox.svg';
 
 export default function ViewClass() {
   const navigate = useNavigate();
@@ -13,6 +16,8 @@ export default function ViewClass() {
   const [loading, setLoading] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
   const [deleteClassId, setDeleteClassId] = useState(null);
+  const [selectedSemester, setSelectedSemester] = useState("all");
+  const [semesters, setSemesters] = useState([]);
 
   const parseDate = (d) => {
     if (!d) return null;
@@ -38,6 +43,10 @@ export default function ViewClass() {
 
       setClasses(data.classes || []);
 
+      // Extract unique semesters
+      const uniqueSemesters = [...new Set((data.classes || []).map(cls => cls.semid))].sort((a, b) => Number(b) - Number(a));
+      setSemesters(uniqueSemesters);
+
       const latest =
         data.latestSemester ||
         (data.semesterlat && data.semesterlat[0]) ||
@@ -59,10 +68,12 @@ export default function ViewClass() {
   // --- SEARCH ---
   const filteredClasses = classes.filter((cls) => {
     const keyword = searched.toLowerCase();
-    return (
+    const matchesSearch = (
       cls.clsid?.toLowerCase().includes(keyword) ||
       cls.classname?.toLowerCase().includes(keyword)
     );
+    const matchesSemester = selectedSemester === "all" || String(cls.semid) === selectedSemester;
+    return matchesSearch && matchesSemester;
   });
 
   // --- GROUP BY semid ---
@@ -138,135 +149,131 @@ export default function ViewClass() {
   };
 
   return (
-    <div className="viewclass-container">
+    <div className="table-view-container">
       <Menu menus={menu_admin} />
-      <div className="viewclass-content">
-        <h1 className="viewclass-title">View Class</h1>
-
-        <input
-          className="viewclasssearch-bar"
-          type="text"
-          placeholder="Search Class"
-          value={searched}
-          onChange={(e) => setSearched(e.target.value)}
-        />
-
-        <div className="viewclass-list">
-          {sortedSemesters.map((semid) => (
-            <div key={semid} className="viewclass-semester-group">
-              <h2 className="semester-title">{semid}</h2>
-
-              {groupedBySemester[semid].map((cls) => (
-                <div
-                  key={cls.clsid}
-                  className="viewclass-item"
-                  onClick={() => toggleClass(cls.clsid)}
-                >
-                  <div className="viewclass-header">
-                    <div className="viewclass-name">
-                      {cls.classname} - {cls.classcode?.split("-")[1]}
-                    </div>
-
-                    {/* DELETE BUTTON */}
-                    {canModifyClass(cls) && (
-                      <button
-                        className="delete-btn viewclass-delete-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteClick(cls.clsid);
-                        }}
-                      >
-                        x
-                      </button>
-                    )}
-                  </div>
-
-                  {selectedClasses.includes(cls.clsid) && (
-                    <div className="viewclass-detail">
-                      <div className="viewclassdetail-row">
-                        <span className="viewclass-info-label">Class Code: </span>
-                        <span className="viewclass-info-text">{cls.classcode}</span>
-                      </div>
-
-                      <div className="viewclassdetail-row">
-                        <span className="viewclass-info-label">Course ID: </span>
-                        <span className="viewclass-info-text">{cls.courseid}</span>
-                      </div>
-
-                      <div className="viewclassdetail-row">
-                        <span className="viewclass-info-label">Class Name: </span>
-                        <span className="viewclass-info-text">{cls.classname}</span>
-                      </div>
-
-                      <div className="viewclassdetail-row">
-                        <span className="viewclass-info-label">Instructor: </span>
-                        <span className="viewclass-info-text">
-                          {cls.instructorid} - {cls.instructor_name}
-                        </span>
-                      </div>
-
-                      <div className="viewclassdetail-row">
-                        <span className="viewclass-info-label">Semester: </span>
-                        <span className="viewclass-info-text">
-                          {cls.semester_name} - SY - {cls.school_year}
-                        </span>
-                      </div>
-
-                      <div className="viewclassdetail-row">
-                        <span className="viewclass-info-label">Schedule: </span>
-                        <span className="viewclass-info-text">{cls.schedule}</span>
-                      </div>
-
-                      <div className="viewclassdetail-row">
-                        <span className="viewclass-info-label">Class Location:</span>
-                        <span className="viewclass-info-text">
-                          {cls.classlocation || "null"}
-                        </span>
-                      </div>
-
-                      <div className="detail-row">
-                        <span className="viewclass-info-label">Capacity: </span>
-                        <span className="viewclass-info-text">{cls.capacity}</span>
-                      </div>
-
-                      {/* EDIT BUTTON */}
-                      {canModifyClass(cls) && (
-                        <div className="viewclass-action">
-                          <button
-                            className="viewclassedit-btn"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              navigate(
-                                `/ClassManagement/editClass/${cls.clsid}`
-                              );
-                            }}
-                          >
-                            Edit
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          ))}
+      <div className="table-view-content">
+        <div className="table-view-header">
+          <h1 className="table-view-title">Class Management</h1>
+          <p className="table-view-subtitle">Manage and view all system classes</p>
         </div>
+
+        <div className="table-search-filter">
+          <input
+            className="table-search-bar"
+            type="text"
+            placeholder="Search by Class ID or Name"
+            value={searched}
+            onChange={(e) => setSearched(e.target.value)}
+          />
+          <select
+            className="table-search-select"
+            value={selectedSemester}
+            onChange={(e) => setSelectedSemester(e.target.value)}
+          >
+            <option value="all">All Semesters</option>
+            {semesters.map((sem) => (
+              <option key={sem} value={sem}>
+                Semester {sem}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {loading ? (
+          <div className="table-wrapper">
+            <div className="table-loading">
+              <div className="spinner"></div>
+              <p>Loading classes...</p>
+            </div>
+          </div>
+        ) : filteredClasses.length === 0 ? (
+          <div className="table-wrapper">
+            <div className="table-empty-state">
+              <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon"/></div>
+              <div className="table-empty-text">No classes found</div>
+              <div className="table-empty-subtext">Try adjusting your search criteria</div>
+            </div>
+          </div>
+        ) : (
+          <div className="table-wrapper">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Class Code</th>
+                  <th>Class Name</th>
+                  <th>Course ID</th>
+                  <th>Instructor</th>
+                  <th>Semester</th>
+                  <th>Schedule</th>
+                  <th>Capacity</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredClasses.map((cls) => (
+                  <tr key={cls.clsid}>
+                    <td className="table-cell-primary">{cls.classcode}</td>
+                    <td>{cls.classname}</td>
+                    <td className="table-cell-secondary">{cls.courseid}</td>
+                    <td className="table-cell-secondary">{cls.instructor_name || "—"}</td>
+                    <td>
+                      <span style={{
+                        textTransform: 'capitalize',
+                        fontWeight: '500',
+                        color: 'var(--color-blue-pastel-700)'
+                      }}>
+                        {cls.semid}
+                      </span>
+                    </td>
+                    <td className="table-cell-secondary">{cls.schedule || "—"}</td>
+                    <td className="table-cell-secondary">{cls.capacity}</td>
+                    <td>
+                      <div className="table-cell-actions">
+                        {canModifyClass(cls) && (
+                          <>
+                            <button
+                              className="action-btn action-btn-edit"
+                              onClick={() => navigate(`/ClassManagement/editClass/${cls.clsid}`)}
+                              title="Edit class"
+                            >
+                              <img src={editIcon} alt="editIcon"/>
+                            </button>
+                            <button
+                              className="action-btn action-btn-delete"
+                              onClick={() => handleDeleteClick(cls.clsid)}
+                              title="Delete class"
+                            >
+                              <img src={deleteIcon} alt="deleteIcon"/>
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
 
         {/* DELETE DIALOG */}
         {showDialog && (
-          <div className="viewclassdialog-backdrop">
-            <div className="viewclassdialog-box">
-              <div className="viewclassdialog-message">
-                Delete Class{" "}
-                {classes.find((cls) => cls.clsid === deleteClassId)?.classcode}?
-              </div>
-              <div className="viewclassdialog-actions">
-                <button className="viewclassdialog-btn no" onClick={handleCancel}>
+          <div className="dialog-backdrop">
+            <div className="dialog-box">
+              <p className="dialog-message">
+                Delete class {classes.find((cls) => cls.clsid === deleteClassId)?.classcode}?
+              </p>
+              <div className="dialog-actions">
+                <button
+                  type="button"
+                  className="btn-cancel"
+                  onClick={handleCancel}
+                >
                   No
                 </button>
                 <button
-                  className="viewclassdialog-btn yes"
+                  type="button"
+                  className="btn-delete"
                   onClick={handleConfirmDelete}
                 >
                   Yes
@@ -276,10 +283,10 @@ export default function ViewClass() {
           </div>
         )}
 
-        {/* ADD BUTTON */}
         <button
-          className="viewclassadd-class-btn"
+          className="fab-button"
           onClick={() => navigate("/ClassManagement/addClass")}
+          title="Add new class"
         >
           +
         </button>

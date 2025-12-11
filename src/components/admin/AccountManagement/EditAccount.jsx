@@ -234,11 +234,11 @@ export default function EditAccount() {
       <Menu menus={menu_admin} />
 
       <div className="edit-account-content">
-        <h1 className="edit-account-title">
+        <h1 className="page-title">
           Editing Account ID: {accountid} - Role: {role}
         </h1>
 
-        <div className="edit-form">
+        <div className="form-container">
           {loading ? (
             <div>loading...</div>
           ) : error ? (
@@ -246,20 +246,22 @@ export default function EditAccount() {
           ) : (
             <div className="detail-rows-account">
               {/* Name input field */}
-              <div className="detail-row-account">
-                <span> Name </span>
+              <div className="form-row">
+                <label className="form-label">Name</label>
                 <input
                   type="text"
+                  className="form-input"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
 
               {/* Email input field */}
-              <div className="detail-row-account">
-                <span> Email: </span>
+              <div className="form-row">
+                <label className="form-label">Email</label>
                 <input
                   type="text"
+                  className="form-input"
                   value={mail}
                   onChange={(e) => {
                     setMail(e.target.value);
@@ -269,13 +271,13 @@ export default function EditAccount() {
               </div>
 
               {/* Notify if email is not in corrent format */}
-              {mailNoti && <p className="notification">{mailNoti}</p>}
+              {mailNoti && <p className="form-error">{mailNoti}</p>}
 
               {/* Status input field */}
-              <div className="detail-row-account">
-                <span> Status: </span>
+              <div className="form-row">
+                <label className="form-label">Status</label>
                 <select
-                  className="status-select"
+                  className="form-select"
                   value={selectedStatus}
                   onChange={(e) => setSelectedStatus(e.target.value)}
                 >
@@ -289,10 +291,11 @@ export default function EditAccount() {
 
               {/* If role is instructor then display department field */}
               {role === "instructor" && (
-                <div className="detail-row-account">
-                  <span> Department: </span>
+                <div className="form-row">
+                  <label className="form-label">Department</label>
                   <input
                     type="text"
+                    className="form-input"
                     value={department}
                     onChange={(e) => setDepartment(e.target.value)}
                   />
@@ -301,11 +304,10 @@ export default function EditAccount() {
 
               {/* If role is student then display major field */}
               {role === "student" && (
-                <div className="attribute-select">
-                  <span>Major</span>
-
+                <div className="form-row">
+                  <label className="form-label">Major</label>
                   <Select
-                    className="select-major-container"
+                    className="form-select-container"
                     name="majorID"
                     value={
                       majorOptions.find((op) => op.value === major) || null
@@ -318,10 +320,11 @@ export default function EditAccount() {
                 </div>
               )}
 
-              <div className="detail-row-account">
-                <span> Phone Number: </span>
+              <div className="form-row">
+                <label className="form-label">Phone Number</label>
                 <input
                   type="text"
+                  className="form-input"
                   value={phone}
                   onChange={(e) => {
                     setPhone(e.target.value);
@@ -330,38 +333,39 @@ export default function EditAccount() {
                 />
               </div>
 
-              {phoneNoti && <p className="notification">{phoneNoti}</p>}
+              {phoneNoti && <p className="form-error">{phoneNoti}</p>}
 
-              <div className="detail-row-account">
-                <span> Date of birth: </span>
+              <div className="form-row">
+                <label className="form-label">Date of Birth</label>
                 <input
                   type="date"
+                  className="form-input"
                   value={dob ? dob.split("T")[0] : ""}
                   onChange={(e) => setDob(e.target.value)}
                   max={new Date().toISOString().split("T")[0]}
                 />
               </div>
 
-              {dobNoti && <p className="notification">{dobNoti}</p>}
+              {dobNoti && <p className="form-error">{dobNoti}</p>}
 
               {/* Username input field */}
-              <div className="detail-row-account">
-                <span> Username: </span>
-                <span> {username} </span>
+              <div className="form-row form-row-readonly">
+                <label className="form-label">Username</label>
+                <div className="form-readonly-value">{username}</div>
               </div>
 
               {/* Buttons */}
-              <div className="button-container">
+              <div className="form-actions">
                 {/* Cancel button */}
-                <button onClick={handleCancel}>Cancel</button>
+                <button className="btn-cancel" onClick={handleCancel}>Cancel</button>
 
                 {/* Save Edit button */}
                 <button
+                  className="btn-primary"
                   onClick={handleSave}
                   disabled={!isFormValid}
-                  className={isFormValid ? "valid" : "invalid"}
                 >
-                  Save Edit
+                  Save Changes
                 </button>
               </div>
             </div>
@@ -369,22 +373,24 @@ export default function EditAccount() {
 
           {/* If error */}
           {showPopupError && (
-            <div className="popup-container">
-              <div className="popup-content">
-                <p>{popupNotiError}</p>
-                <button onClick={handleCloseError}>Close</button>
+            <div className="dialog-backdrop">
+              <div className="dialog-box dialog-error">
+                <p className="dialog-message">{popupNotiError}</p>
+                <div className="dialog-actions">
+                  <button className="btn-cancel" onClick={handleCloseError}>Close</button>
+                </div>
               </div>
             </div>
           )}
 
           {/* Popup after clicking cancel button */}
           {showPopupCancel && (
-            <div className="popup-container">
-              <div className="popup-content">
-                <p>{popupNotiCancel}</p>
-                <div>
-                  <button onClick={handleNoCancel}>No</button>
-                  <button onClick={handleYesCancel}>Yes</button>
+            <div className="dialog-backdrop">
+              <div className="dialog-box">
+                <p className="dialog-message">{popupNotiCancel}</p>
+                <div className="dialog-actions">
+                  <button className="btn-cancel" onClick={handleNoCancel}>No</button>
+                  <button className="btn-primary" onClick={handleYesCancel}>Yes</button>
                 </div>
               </div>
             </div>
@@ -392,11 +398,11 @@ export default function EditAccount() {
 
           {/* Popup after saving successfully */}
           {successDialog && (
-            <div className="popup-container">
-              <div className="popup-content">
-                <p>{successMessage}</p>
-                <div>
-                  <button onClick={handleAffirmativeSaveClose}>Yes</button>
+            <div className="dialog-backdrop">
+              <div className="dialog-box">
+                <p className="dialog-message">{successMessage}</p>
+                <div className="dialog-actions">
+                  <button className="btn-primary" onClick={handleAffirmativeSaveClose}>Close</button>
                 </div>
               </div>
             </div>

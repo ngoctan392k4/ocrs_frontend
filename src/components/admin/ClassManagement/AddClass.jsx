@@ -291,92 +291,106 @@ export default function AddClass() {
     <div className="addclass-container">
       <Menu menus={menu_admin} />
       <div className="addclass-content">
-        <h1 className="addclass-title">
+        <h1 className="page-title">
           Add Class{" "}
           {semester &&
             ` - ${semester.semester_name} - School Year ${semester.school_year}`}
         </h1>
 
-        <form className="addclass-form" onSubmit={handleSubmit}>
+        <form className="form-container" onSubmit={handleSubmit}>
           {/* COURSE */}
-          <div className="addclasslabel">Course:</div>
-          <Select
-            name="courseid"
-            options={courseOptions}
-            value={courseOptions.find((x) => x.value === formData.courseid)}
-            isClearable
-            placeholder="Select Course"
-            onChange={(x) =>
-              handleChange({
-                target: { name: "courseid", value: x?.value || "" },
-              })
-            }
-          />
-          {errors.courseid && <div className="addclasserror-message">{errors.courseid}</div>}
-
-          {/* CLASS CODE */}
-          <div className="addclasslabel">Class Code:</div>
-          <div className="addclasscode-row">
-            <span className="addclasscode-prefix">
-              {formData.courseid ? formData.courseid + "-" : ""}
-            </span>
-            <input
-              type="text"
-              name="classcodeSuffix"
-              value={formData.classcodeSuffix}
-              onChange={(e) => {
-                const suf = e.target.value.replace(/\s/g, "");
-                setFormData((p) => ({
-                  ...p,
-                  classcodeSuffix: suf,
-                  classcode: p.courseid ? `${p.courseid}-${suf}` : suf,
-                }));
-              }}
+          <div className="form-row">
+            <label className="form-label">Course</label>
+            <Select
+              name="courseid"
+              options={courseOptions}
+              value={courseOptions.find((x) => x.value === formData.courseid)}
+              isClearable
+              placeholder="Select Course"
+              className="form-select-container"
+              onChange={(x) =>
+                handleChange({
+                  target: { name: "courseid", value: x?.value || "" },
+                })
+              }
             />
           </div>
+          {errors.courseid && <div className="form-error">{errors.courseid}</div>}
+
+          {/* CLASS CODE */}
+          <div className="form-row">
+            <label className="form-label">Class Code</label>
+            <div className="addclasscode-row">
+              <span className="addclasscode-prefix">
+                {formData.courseid ? formData.courseid + "-" : ""}
+              </span>
+              <input
+                type="text"
+                className="form-input"
+                name="classcodeSuffix"
+                value={formData.classcodeSuffix}
+                onChange={(e) => {
+                  const suf = e.target.value.replace(/\s/g, "");
+                  setFormData((p) => ({
+                    ...p,
+                    classcodeSuffix: suf,
+                    classcode: p.courseid ? `${p.courseid}-${suf}` : suf,
+                  }));
+                }}
+              />
+            </div>
+          </div>
           {errors.classcode && (
-            <div className="addclasserror-message">{errors.classcode}</div>
+            <div className="form-error">{errors.classcode}</div>
           )}
 
           {/* CLASS NAME */}
-          <div className="addclasslabel">Class Name:</div>
-          <input className="addclassreadOnly" value={formData.classname} disabled />
+          <div className="form-row">
+            <label className="form-label">Class Name</label>
+            <input className="form-input form-readonly" value={formData.classname} disabled />
+          </div>
 
           {/* INSTRUCTOR */}
-          <div className="addclasslabel">Instructor:</div>
-          <Select
-            name="instructorid"
-            options={instructorOptions}
-            value={instructorOptions.find((x) => x.value === formData.instructorid)}
-            isClearable
-            placeholder="Select Instructor"
-            onChange={(x) =>
-              handleChange({
-                target: { name: "instructorid", value: x?.value || "" },
-              })
-            }
-          />
+          <div className="form-row">
+            <label className="form-label">Instructor</label>
+            <Select
+              name="instructorid"
+              options={instructorOptions}
+              value={instructorOptions.find((x) => x.value === formData.instructorid)}
+              isClearable
+              placeholder="Select Instructor"
+              className="form-select-container"
+              onChange={(x) =>
+                handleChange({
+                  target: { name: "instructorid", value: x?.value || "" },
+                })
+              }
+            />
+          </div>
           {errors.instructorid && (
-            <div className="addclasserror-message">{errors.instructorid}</div>
+            <div className="form-error">{errors.instructorid}</div>
           )}
 
           {/* CAPACITY */}
-          <div className="addclasslabel">Capacity:</div>
-          <input
-            type="number"
-            name="capacity"
-            min={10}
-            max={200}
-            value={formData.capacity}
-            onChange={handleChange}
-          />
+          <div className="form-row">
+            <label className="form-label">Capacity</label>
+            <input
+              type="number"
+              className="form-input"
+              name="capacity"
+              min={10}
+              max={200}
+              value={formData.capacity}
+              onChange={handleChange}
+            />
+          </div>
           {errors.capacity && (
-            <div className="addclasserror-message">{errors.capacity}</div>
+            <div className="form-error">{errors.capacity}</div>
           )}
 
           {/* SCHEDULE */}
-          <div className="addclasslabel">Schedule:</div>
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div className="form-row">
+            <label className="form-label">Schedule</label>
             <div className="addclassschedule-add-btn" onClick={addScheduleRow}>
               +
             </div>
@@ -386,102 +400,115 @@ export default function AddClass() {
             <div key={index} className="addclassschedule-box">
               <button
                 type="button"
-                className="addclass-delete-btn"
+                className="btn-delete"
                 onClick={() => removeSchedule(index)}
+                title="Remove schedule"
               >
-                Cancel Schedule
+                <img src={deleteIcon} alt="Remove" className="delete-icon" />
               </button>
 
-              <div className="addclassschedule-label">Days:</div>
-              <select
-                value={sch.day}
-                onChange={(e) => handleScheduleChange(index, "day", e.target.value)}
-              >
-                <option value="">Select</option>
-                {[
-                  "Monday",
-                  "Tuesday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday",
-                  "Saturday",
-                  "Sunday",
-                ].map((d) => (
-                  <option key={d} value={d}>
-                    {d}
-                  </option>
-                ))}
-              </select>
+              <div className="schedule-field">
+                <label className="addclassschedule-label">Days</label>
+                <select
+                  className="form-input"
+                  value={sch.day}
+                  onChange={(e) => handleScheduleChange(index, "day", e.target.value)}
+                >
+                  <option value="">Select</option>
+                  {[
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                    "Sunday",
+                  ].map((d) => (
+                    <option key={d} value={d}>
+                      {d}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-              <div className="addclassschedule-label">Location:</div>
-              <select
-                value={sch.location}
-                onChange={(e) =>
-                  handleScheduleChange(index, "location", e.target.value)
-                }
-              >
-                <option value="">Select</option>
-                {[...Array(8)].map((_, f) =>
-                  [...Array(10)].map((_, r) => {
-                    const val = `ROOM ${f + 1}${(r + 1)
-                      .toString()
-                      .padStart(2, "0")}`;
-                    return (
-                      <option value={val} key={val}>
-                        {val}
-                      </option>
-                    );
-                  })
-                )}
-              </select>
+              <div className="schedule-field">
+                <label className="addclassschedule-label">Location</label>
+                <select
+                  className="form-input"
+                  value={sch.location}
+                  onChange={(e) =>
+                    handleScheduleChange(index, "location", e.target.value)
+                  }
+                >
+                  <option value="">Select</option>
+                  {[...Array(8)].map((_, f) =>
+                    [...Array(10)].map((_, r) => {
+                      const val = `ROOM ${f + 1}${(r + 1)
+                        .toString()
+                        .padStart(2, "0")}`;
+                      return (
+                        <option value={val} key={val}>
+                          {val}
+                        </option>
+                      );
+                    })
+                  )}
+                </select>
+              </div>
 
-              <div className="addclassschedule-label">Start:</div>
-              <select
-                value={sch.start}
-                onChange={(e) => handleScheduleChange(index, "start", e.target.value)}
-              >
-                <option value="">Select</option>
-                {["07:00", "09:15", "13:00", "15:15", "17:30", "17:45"].map((t) => (
-                  <option value={t} key={t}>
-                    {t}
-                  </option>
-                ))}
-              </select>
+              <div className="schedule-field">
+                <label className="addclassschedule-label">Start</label>
+                <select
+                  className="form-input"
+                  value={sch.start}
+                  onChange={(e) => handleScheduleChange(index, "start", e.target.value)}
+                >
+                  <option value="">Select</option>
+                  {["07:00", "09:15", "13:00", "15:15", "17:30", "17:45"].map((t) => (
+                    <option value={t} key={t}>
+                      {t}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-              <div className="addclassschedule-label">End:</div>
-              <select
-                value={sch.end}
-                onChange={(e) => handleScheduleChange(index, "end", e.target.value)}
-              >
-                <option value="">Select</option>
-                {[
-                  "09:00",
-                  "10:15",
-                  "11:15",
-                  "15:00",
-                  "16:15",
-                  "17:15",
-                  "19:30",
-                  "21:00",
-                ].map((t) => (
-                  <option value={t} key={t}>
-                    {t}
-                  </option>
-                ))}
-              </select>
+              <div className="schedule-field">
+                <label className="addclassschedule-label">End</label>
+                <select
+                  className="form-input"
+                  value={sch.end}
+                  onChange={(e) => handleScheduleChange(index, "end", e.target.value)}
+                >
+                  <option value="">Select</option>
+                  {[
+                    "09:00",
+                    "10:15",
+                    "11:15",
+                    "15:00",
+                    "16:15",
+                    "17:15",
+                    "19:30",
+                    "21:00",
+                  ].map((t) => (
+                    <option value={t} key={t}>
+                      {t}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
               {scheduleErrors[index] && (
-                <div className="addclasserror-message">{scheduleErrors[index]}</div>
+                <div className="form-error">{scheduleErrors[index]}</div>
               )}
             </div>
           ))}
 
           {/* BUTTONS */}
-          <div className="addclass-buttons">
-            <button type="button" className="addclassbtn-cancel" onClick={handleCancel}>
+          <div className="form-actions">
+            <button type="button" className="btn-cancel" onClick={handleCancel}>
               Cancel
             </button>
-            <button type="submit" className="addclassbtn-save" disabled={loading}>
+            <button type="submit" className="btn-primary" disabled={loading}>
               {loading ? "Saving..." : "Add Class"}
             </button>
           </div>
@@ -490,20 +517,19 @@ export default function AddClass() {
 
       {/* CANCEL DIALOG */}
       {showCancelDialog && (
-        <div className="addclasscancel-dialog-backdrop">
-          <div className="addclasscancel-dialog-box">
-            <div>You have unsaved changes. Cancel?</div>
-            <div className="addclasscancel-dialog-actions">
+        <div className="dialog-backdrop">
+          <div className="dialog-box">
+            <p className="dialog-message">You have unsaved changes. Cancel?</p>
+            <div className="dialog-actions">
               <button
-                className="addclasscancel-dialog-no"
+                className="btn-cancel"
                 onClick={() => setShowCancelDialog(false)}
               >
                 No
               </button>
 
               <button
-              //clsn
-                className="addclasscancel-dialog-yes"
+                className="btn-primary"
                 onClick={handleConfirmCancel}
               >
                 Yes
