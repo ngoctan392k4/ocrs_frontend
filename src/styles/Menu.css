@@ -9,7 +9,8 @@ body {
   padding-top: 40px;
   background: linear-gradient(180deg, #f0f5fa 0%, #f0f5fa 50%, #e8f2f8 100%);
   background-attachment: fixed;
-  min-height: 92vh;
+  height: 100vh;
+  max-height: 100vh;
   margin: 0;
   border-right: 2px solid rgba(141, 179, 212, 0.2);
   box-shadow: 4px 0 12px rgba(0, 0, 0, 0.08), inset -1px 0 2px rgba(255, 255, 255, 0.4);
