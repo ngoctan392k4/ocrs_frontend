@@ -316,31 +316,6 @@ export default function EditAccount() {
                     isClearable
                     placeholder="Select Major"
                     onChange={(selected) => handleChangeMajor(selected)}
-                    styles={{
-                      control: (base) => ({
-                        ...base,
-                        borderRadius: '6px',
-                        border: '1px solid #d9e8f5',
-                        borderColor: '#d9e8f5',
-                        backgroundColor: 'white',
-                        padding: '2px 8px',
-                        fontSize: '14px',
-                        boxShadow: 'none',
-                        '&:hover': { borderColor: '#8db3d4' },
-                        '&:focus': { borderColor: '#8db3d4' }
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        backgroundColor: state.isSelected ? '#8db3d4' : state.isFocused ? '#f5f7fa' : 'white',
-                        color: state.isSelected ? 'white' : '#3a5a7a',
-                        cursor: 'pointer'
-                      }),
-                      menu: (base) => ({
-                        ...base,
-                        borderRadius: '6px',
-                        backgroundColor: 'white'
-                      })
-                    }}
                   />
                 </div>
               )}
