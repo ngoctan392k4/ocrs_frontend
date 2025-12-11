@@ -201,7 +201,7 @@ select.error {
   background: var(--color-white-300);
   transition: 0.2s;
 }
-
+/* btn */
 .editclasscancel-dialog-btn:hover{
   background: var(--color-white-100);
 }

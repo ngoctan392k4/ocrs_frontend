@@ -502,6 +502,7 @@ export default function AddClass() {
               </button>
 
               <button
+              //clsn
                 className="addclasscancel-dialog-yes"
                 onClick={handleConfirmCancel}
               >

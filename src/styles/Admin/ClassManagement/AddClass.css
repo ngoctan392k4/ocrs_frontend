@@ -281,7 +281,7 @@ input[type="text"] {
   background: var(--color-white-300);
   transition: 0.2s;
 }
-
+/* //btn */
 .addclasscancel-dialog-no:hover,
 .cancel-dialog-yes:hover {
   background: var(--color-white-100);

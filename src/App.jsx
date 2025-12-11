@@ -40,7 +40,7 @@ function App() {
 
   return (
     <Routes>
-      {/* Common Routes */}
+      {/* Common Routes*/}
       <Route path="/" element={<HomeLogin />} />
       <Route path="/forgotPassword" element={<ForgotPassword />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
