@@ -88,18 +88,18 @@ function ClassListGrade() {
     gradesByStudent[g.studentid][g.grade_type] = g.score;
   });
 
-  // Handle grade change
+  // Handle grade input change
   const handleGradeChange = (studentid, gradeType, value) => {
     setEditedGrades((prev) => ({
       ...prev,
       [studentid]: {
         ...(prev[studentid] || {}),
-        [gradeType]: value,
+        [gradeType]: value, // giữ nguyên value để "" được gửi đúng
       },
     }));
   };
 
-  // Submit
+  // Submit grade update
   const handleSubmitGrades = async () => {
     try {
       for (let studentid in editedGrades) {
@@ -110,14 +110,15 @@ function ClassListGrade() {
             "http://localhost:3001/api/instructor/classgrade/editgrade",
             {
               method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
+              headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 studentID: studentid,
                 classID,
                 gradeType,
-                newScore: Number(newScore),
+                newScore:
+                  newScore === "" || newScore === null
+                    ? null
+                    : Number(newScore),
               }),
             }
           );
@@ -134,6 +135,7 @@ function ClassListGrade() {
     }
   };
 
+  // Confirm cancel edit
   const handleConfirmCancel = () => {
     setIsEditing(false);
     setEditedGrades({});
@@ -150,7 +152,7 @@ function ClassListGrade() {
           {classID.split("-").slice(2).join("-")}
         </h1>
 
-        {/* REMOVE BUTTON COMPLETELY IF NOT CURRENT SEMESTER */}
+        {/* BUTTON GROUP */}
         {isCurrentSem && (
           <div className="grade-button-group">
             <button
@@ -167,14 +169,17 @@ function ClassListGrade() {
             </button>
 
             {isEditing && (
-              <button
-                onClick={handleSubmitGrades}
-                className="submit-grade-button"
-              >
+              <button onClick={handleSubmitGrades} className="submit-grade-button">
                 Enter Grade
               </button>
             )}
           </div>
+        )}
+
+        {!isCurrentSem && (
+          <p className="disabled-semester-msg">
+            🔒 You can view grades but cannot edit because this class is not in the current semester.
+          </p>
         )}
 
         {students.length > 0 ? (
@@ -185,7 +190,6 @@ function ClassListGrade() {
                   <th>STT</th>
                   <th>Student ID</th>
                   <th>Student Name</th>
-
                   {GRADE_TYPES.map((type) => (
                     <th key={type}>
                       {type.charAt(0).toUpperCase() + type.slice(1)}
@@ -221,7 +225,7 @@ function ClassListGrade() {
                                 editedScore === null ||
                                 editedScore === undefined
                                   ? ""
-                                  : editedScore.toString()
+                                  : editedScore
                               }
                               onKeyDown={(e) => {
                                 if (e.key === "-" || e.key === "+")
@@ -258,18 +262,16 @@ function ClassListGrade() {
       </div>
 
       {showCancelDialog && (
-        <div className="viewstudylistcancel-dialog-backdrop">
-          <div className="viewstudylistcancel-dialog-box">
+        <div className="addclasscancel-dialog-backdrop">
+          <div className="addclasscancel-dialog-box">
             <div>You have unsaved changes. Cancel?</div>
-
-            <div className="viewstudylistcancel-dialog-actions">
+            <div className="addclasscancel-dialog-actions">
               <button
-                className="viewstudylistcancel-dialog-no"
+                className="cancel-dialog-no"
                 onClick={() => setShowCancelDialog(false)}
               >
                 No
               </button>
-
               <button
                 className="cancel-dialog-yes"
                 onClick={handleConfirmCancel}
@@ -281,8 +283,7 @@ function ClassListGrade() {
         </div>
       )}
     </div>
-    
   );
 }
-//addex
+
 export default ClassListGrade;
