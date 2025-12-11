@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Menu from "../../../menu/Menu";
 import menu_instructor from "../../../../assets/dataMenu/MenuInstructorData";
 import "../../../../styles/instructor/Teaching/ViewStudentList.css";
+import mailBoxIcon from '../../../../assets/icon/mailbox.svg';
 
 function ViewStudentList() {
   const { classID } = useParams();
@@ -42,19 +43,18 @@ function ViewStudentList() {
     fetchInitial();
   }, [classID]);
 
-  
+
   return (
     <div className="view-studentList-container">
       <Menu menus={menu_instructor} />
       <div className="view-studentList-content">
-        <h1>
-          Student List class {classID.split("-").slice(0, 2).join("-")} in{" "}
-          {classID.split("-").slice(2).join("-")}
+        <h1 className="page-title">
+          Student List - {classID.split("-").slice(0, 2).join("-")} ({classID.split("-").slice(2).join("-")})
         </h1>
 
         {studentList.length > 0 ? (
           <div className="table-wrapper">
-            <table className="student-table">
+            <table className="data-table">
               <thead>
                 <tr>
                   <th>Student ID</th>
@@ -69,20 +69,26 @@ function ViewStudentList() {
               <tbody>
                 {studentList.map((student, index) => (
                   <tr key={index}>
-                    <td>{student.studentid}</td>
+                    <td className="table-cell-primary">{student.studentid}</td>
                     <td>{student.name}</td>
-                    <td>{student.dob.split("T").slice(0, 1)}</td>
-                    <td>{student.emailaddress}</td>
-                    <td>{student.phonenumber}</td>
-                    <td>{student.major}</td>
-                    <td>{student.enrolmentyear}</td>
+                    <td className="table-cell-secondary">{student.dob.split("T")[0]}</td>
+                    <td className="table-cell-secondary">{student.emailaddress}</td>
+                    <td className="table-cell-secondary">{student.phonenumber}</td>
+                    <td className="table-cell-secondary">{student.major}</td>
+                    <td className="text-center">{student.enrolmentyear}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         ) : (
-          <h3>There are no enrolled students in the class</h3>
+          <div className="table-wrapper">
+            <div className="table-empty-state">
+              <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon" /></div>
+              <div className="table-empty-text">No students enrolled</div>
+              <div className="table-empty-subtext">There are no enrolled students in this class</div>
+            </div>
+          </div>
         )}
       </div>
     </div>

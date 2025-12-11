@@ -3,7 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import Menu from "../../menu/Menu";
 import menu_student from "../../../assets/dataMenu/MenuStudentData";
 import "../../../styles/Student/ViewAvailableClass.css";
-import Chatbot from "../Chatbot/chatbot";
+import Chatbot from "../Chatbot/Chatbot";
+import mailBoxIcon from '../../../assets/icon/mailbox.svg'
 
 export default function ViewAvailableClass() {
     const { courseID } = useParams();
@@ -58,64 +59,51 @@ export default function ViewAvailableClass() {
                     Classes for {courseInfo?.courseID} - {courseInfo?.coursename}
                 </h1>
 
-                {loading ? (
-                    <div>Loading classes...</div>
-                ) : error ? (
-                    <div className="viewclass-message error">{error}</div>
-                ) : classes.length === 0 ? (
-                    <div className="viewclass-message no-class">
-                        <i className="fas fa-info-circle" style={{ marginRight: "8px" }}></i>
-                        No classes available for this course yet.
-                    </div>
-                ) : (
-                    <div className="viewclass-list">
-                        {classes.map((cls) => (
-                            <div
-                                key={cls.clsid}
-                                className="viewclass-item"
-                                onClick={() => toggleOpen(cls.clsid)}
-                            >
-                                <div className="viewclass-header">
-                                    <div className="viewclass-name">{cls.classcode}</div>
-                                </div>
-
-                                {opened.includes(cls.clsid) && (
-                                    <div className="viewclass-detail">
-                                        <div className="viewclassdetail-row">
-                                            <span className="viewclass-info-label">Class Code:</span>
-                                            <span className="viewclass-info-text">{cls.classcode}</span>
-                                        </div>
-
-                                        <div className="viewclassdetail-row">
-                                            <span className="viewclass-info-label">Class Name:</span>
-                                            <span className="viewclass-info-text">{cls.classname}</span>
-                                        </div>
-
-                                        <div className="viewclassdetail-row">
-                                            <span className="viewclass-info-label">Instructor:</span>
-                                            <span className="viewclass-info-text">{cls.instructor_info}</span>
-                                        </div>
-
-                                        <div className="viewclassdetail-row">
-                                            <span className="viewclass-info-label">Schedule:</span>
-                                            <span className="viewclass-info-text">{cls.schedule || "This class has no schedule yet!"}</span>
-                                        </div>
-
-                                        <div className="viewclassdetail-row">
-                                            <span className="viewclass-info-label">Location:</span>
-                                            <span className="viewclass-info-text">{cls.location || "This class has no location yet!"}</span>
-                                        </div>
-
-                                        <div className="viewclassdetail-row">
-                                            <span className="viewclass-info-label">Capacity:</span>
-                                            <span className="viewclass-info-text">{cls.capacity || "-"}</span>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                )}
+                <div className="table-wrapper">
+                    {loading ? (
+                        <div className="table-loading">
+                            <div className="spinner"></div>
+                            <p>Loading classes...</p>
+                        </div>
+                    ) : error ? (
+                        <div className="table-empty-state">
+                            <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon" /></div>
+                            <div className="table-empty-text">Error loading classes</div>
+                            <div className="table-empty-subtext">{error}</div>
+                        </div>
+                    ) : classes.length === 0 ? (
+                        <div className="table-empty-state">
+                            <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon" /></div>
+                            <div className="table-empty-text">No classes available</div>
+                            <div className="table-empty-subtext">No classes available for this course yet</div>
+                        </div>
+                    ) : (
+                        <table className="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Class Code</th>
+                                    <th>Class Name</th>
+                                    <th>Instructor</th>
+                                    <th>Schedule</th>
+                                    <th>Location</th>
+                                    <th>Capacity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {classes.map((cls) => (
+                                    <tr key={cls.clsid}>
+                                        <td className="table-cell-primary">{cls.classcode}</td>
+                                        <td>{cls.classname}</td>
+                                        <td className="table-cell-secondary">{cls.instructor_info}</td>
+                                        <td className="table-cell-secondary">{cls.schedule || "-"}</td>
+                                        <td className="table-cell-secondary">{cls.location || "-"}</td>
+                                        <td className="table-cell-secondary text-center">{cls.capacity || "-"}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+                </div>
             </div>
         </div>
     );

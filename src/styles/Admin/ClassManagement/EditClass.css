@@ -1,207 +1,297 @@
-.editclass-container {
+.addclass-container {
   display: flex;
   min-height: 100vh;
 }
 
-.editclass-content {
+.addclass-content {
   flex-grow: 1;
-  padding: 30px;
+  padding: 40px;
   margin-left: 260px;
-  line-height: 1.6;
-  color: var(--color-blue-900);
-  animation: fadeIn 0.4s ease;
+  width: calc(100% - 260px);
+  box-sizing: border-box;
+  color: #3a5a7a;
 }
 
-.editclass-title {
+.page-title {
   font-size: 28px;
   font-weight: 700;
-  margin-bottom: 10px;
-  color: var(--color-blue-900);
+  margin-bottom: 30px;
+  color: #3a5a7a;
+  border-bottom: 2px solid #d9e8f5;
+  padding-bottom: 15px;
 }
 
-.editclass-form {
-  display: grid;
-  grid-template-columns: 150px auto;
-  row-gap: 20px;
+/* FORM CONTAINER */
+.form-container {
+  background-color: white;
+  border-radius: 12px;
+  border: 1px solid #d9e8f5;
+  padding: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 100%;
 }
 
-.editclass-form .editclasslabel {
+.form-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.form-label {
+  width: 140px;
+  flex-shrink: 0;
   font-weight: 600;
+  color: #3a5a7a;
+  font-size: 14px;
+  padding-top: 8px;
 }
 
-.editclass-form input,
-.editclass-form select {
-  width: 1013px;
-  height: 17px;
-  padding: 10px 10px;
-  border: 1.3px solid var(--color-gray-300);
-  border-radius: 4px; 
-  font-size: 16px;
-  font-family: Segoe UI;
-  background: var(--color-white-000);
+.form-input,
+.form-select {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #d9e8f5;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #3a5a7a;
+  background-color: #f5f7fa;
+  transition: all 0.2s ease;
 }
 
-.editclassinput-wide {
-  width: 260px;
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: #8db3d4;
+  background-color: white;
+  box-shadow: 0 0 0 2px rgba(141, 179, 212, 0.1);
 }
 
-.editclassreadOnly:disabled {
-  background-color: var(--color-gray-300);
-  color: var(--color-gray-700); 
-  cursor: not-allowed; 
-  width: 1013px;   
+.form-input::placeholder {
+  color: #999;
 }
 
-.editclassschedule-add-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 2px solid var(--color-black);
-  font-size: 22px;
+.form-readonly {
+  background-color: #f5f7fa;
+  color: #999;
+  cursor: not-allowed;
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #d9e8f5;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.form-readonly:disabled {
+  background-color: #f5f7fa;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* FORM SELECT CONTAINER (React-Select) */
+.form-select-container {
+  flex: 1;
+}
+
+/* ERROR MESSAGE */
+.form-error {
+  margin-left: 160px;
+  margin-top: -20px;
+  margin-bottom: 16px;
+  color: #d32f2f;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* SCHEDULE STYLES */
+.addclassschedule-add-btn {
+  width: 36px;
+  height: 36px;
+  background-color: #8db3d4;
+  border: none;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  font-size: 20px;
+  color: white;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
-.editclassschedule-box select {
-  width: 260px;  
-  border-radius: 8px;
-  padding: 7px 10px;
-  border: 1px solid var(--color-white-500);
-  background: var(--color-white-000);
-  height: 40px;                 
-  display: flex;
-  align-items: center;
+.addclassschedule-add-btn:hover {
+  background-color: #5a7fa8;
+  transform: translateY(-1px);
 }
 
-.editclassschedule-box {
-  grid-column: span 2;
-  margin-top: 10px;
-  background: var(--color-white-300);
-  padding: 16px;
-  border-radius: 14px;
-
+.addclassschedule-box {
+  background-color: #f5f7fa;
+  border: 1px solid #d9e8f5;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 16px;
+  margin-left: 160px;
   display: grid;
-  grid-template-columns: 50px 400px 50px 200px;
-  align-items: center;
-  row-gap: 16px;
-  column-gap: 18px;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
-.editclassschedule-label {
+.addclassschedule-box button {
+  grid-column: 1 / -1;
+  margin-bottom: 4px;
+  padding: 6px 10px;
+  font-size: 12px;
+  height: auto;
+}
+
+/* Schedule field containers - 2 columns */
+.schedule-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.addclassschedule-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #3a5a7a;
+  margin: 0;
+  display: block;
+}
+
+.schedule-field .form-input,
+.schedule-field select {
+  width: 100%;
+  margin: 0;
+  padding: 6px 8px;
+  font-size: 12px;
+  height: 28px;
+  border: 1px solid #d9e8f5;
+  border-radius: 6px;
+  background-color: white;
+  color: #3a5a7a;
+}
+
+.schedule-field select:focus,
+.schedule-field .form-input:focus {
+  outline: none;
+  border-color: #8db3d4;
+  background-color: white;
+  box-shadow: 0 0 0 2px rgba(141, 179, 212, 0.1);
+}
+
+.addclassschedule-box .form-error {
+  grid-column: 1 / -1;
+  margin-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* FORM ACTIONS */
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 40px;
+  justify-content: flex-end;
+}
+
+/* BUTTON STYLES */
+.btn-primary,
+.btn-cancel,
+.btn-delete {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
   font-size: 14px;
   font-weight: 600;
-  display: flex;
-  align-items: center;
-}
-
-.editclassschedule-remove {
-  font-size: 20px;
-  color: var(--color-red-500);
-  text-align: center;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.editclass-buttons {
-  grid-column: span 2;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap: 15px;
-  align-items: center;
-  margin-top: 25px;
+.btn-primary {
+  background-color: #8db3d4;
+  color: white;
 }
 
-.editclassbtn-save,
-.editclassbtn-cancel {
-  width: 120px;
-  height: 35px;
-  border-radius: 14px;
-  border: 2px;
-  cursor: pointer;
-  grid-column: 1 / -1; 
-  justify-self: end;  
-  margin-top: 10px;
-  font-size: 16px;
-  background: var(--color-blue-500);
-  color: var(--color-white-000);
+.btn-primary:hover:not(:disabled) {
+  background-color: #5a7fa8;
+  transform: translateY(-1px);
 }
 
-.editclass-delete-btn {
-  width: 130px;
-  border: none;
-  border-radius: 10px;
-  background: var(--color-blue-500);
-  color: var(--color-white-000);
-  font-size: 15px;
-  cursor: pointer;
-
-  grid-column: 1 / -1; 
-  justify-self: start;  
-  margin-bottom: 10px; 
+.btn-primary:disabled {
+  background-color: #c0d9e8;
+  color: #999;
+  cursor: not-allowed;
 }
 
-input.error,
-select.error {
-  border-color: var(--color-red);       
-  background-color: var(--color-gray-100); 
+.btn-cancel {
+  background-color: #f5f7fa;
+  color: #3a5a7a;
+  border: 1px solid #d9e8f5;
 }
 
-.editclasserror-message {
-  color: var(--color-red);
+.btn-cancel:hover {
+  background-color: #e8eef7;
+  border-color: #8db3d4;
+  transform: translateY(-1px);
+}
+
+.btn-delete {
+  background-color: #d32f2f;
+  color: white;
+  padding: 6px 10px;
   font-size: 12px;
-  margin-top: 5px;
-  grid-column: 2 / span 1;
 }
 
-.editclasscancel-dialog-backdrop {
+.btn-delete:hover {
+  background-color: #b71c1c;
+  transform: translateY(-1px);
+}
+
+/* DIALOG STYLES */
+.dialog-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.15);
   display: flex;
   justify-content: center;
   align-items: center;
-  backdrop-filter: blur(1px);
+  backdrop-filter: blur(3px);
   z-index: 999;
 }
 
-.editclasscancel-dialog-box {
-  width: 380px;
-  height: 120px;
-  background: var(--color-white-000);
-  padding: 35px 25px;
-  border-radius: 18px;
+.dialog-box {
+  background-color: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
   text-align: center;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-  font-family: var(--font-sans);
-}
-.editclasscancel-dialog-box div {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 35px;
-  color: var(--color-gray-700);
 }
 
-.editclasscancel-dialog-actions {
+.dialog-message {
+  font-size: 16px;
+  color: #3a5a7a;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.dialog-actions {
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
+  gap: 12px;
+  justify-content: flex-end;
 }
 
-.editclasscancel-dialog-btn {
-  flex: 1;
-  padding: 10px 0;
-  font-size: 18px;
-  font-weight: 700;
-  border-radius: 14px;
-
-  border: none;
-  cursor: pointer;
-  background: var(--color-white-300);
-  transition: 0.2s;
+.dialog-actions .btn-cancel,
+.dialog-actions .btn-primary {
+  padding: 8px 16px;
 }
-/* btn */
-.editclasscancel-dialog-btn:hover{
-  background: var(--color-white-100);
+
+.dialog-actions .btn-cancel {
+  flex: 0 0 auto;
+}
+
+.dialog-actions .btn-primary {
+  flex: 0 0 auto;
 }

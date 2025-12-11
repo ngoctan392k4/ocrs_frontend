@@ -2,9 +2,12 @@ import React from "react";
 import Menu from "../../menu/Menu";
 import menu_admin from "../../../assets/dataMenu/MenuAdminData";
 import { useNavigate } from "react-router-dom";
-import "../../../styles/Admin/AccountManagement/ViewAccount.css";
+import "../../../styles/Common/TableView.css";
 import { useEffect, useState } from "react";
 import DeleteAccount from "./DeleteAccount";
+import deleteIcon from '../../../assets/icon/delete.svg';
+import editIcon from '../../../assets/icon/edit.svg';
+import mailBoxIcon from '../../../assets/icon/mailbox.svg';
 
 export default function ViewAccount() {
   const navigate = useNavigate();
@@ -113,22 +116,25 @@ export default function ViewAccount() {
   };
 
   return (
-    <div className="view-account-container">
+    <div className="table-view-container">
       <Menu menus={menu_admin} />
 
-      <div className="view-account-content">
-        <h1 className="view-account-title">View Account</h1>
+      <div className="table-view-content">
+        <div className="table-view-header">
+          <h1 className="table-view-title">Account Management</h1>
+          <p className="table-view-subtitle">Manage and view all system accounts</p>
+        </div>
 
-        <div className="search-container">
+        <div className="table-search-filter">
           <input
-            className="account-search-bar"
+            className="table-search-bar"
             type="text"
             placeholder={`Search by ${searchMode}`}
             value={searched}
             onChange={(e) => setSearched(e.target.value)}
           />
           <select
-            className="account-search-mode-select"
+            className="table-search-select"
             value={searchMode}
             onChange={(e) => setSearchMode(e.target.value)}
           >
@@ -137,117 +143,91 @@ export default function ViewAccount() {
           </select>
         </div>
 
-        <div className="account-list">
-          {loading ? (
-            <div>loading...</div>
-          ) : error ? (
-            <div>{error}</div>
-          ) : (
-            searchAccount.map((account, index) => (
-              <div
-                key={account.accountid}
-                className="account-item"
-                onClick={() => toggleAccount(account.accountid)}
-              >
-                <div className="account-header">
-                  <div className="account-sequential">
-                    {account.full_name} - Role: {account.role}
-                  </div>
-                </div>
-                {selectedAccounts.includes(account.accountid) && (
-                  <div className="account-detail">
-                    <div className="detail-row-account">
-                      <span className="account-info-label">Account ID: </span>
-                      <span className="account-info-text">
-                        {account.accountid}
+        {loading ? (
+          <div className="table-wrapper">
+            <div className="table-loading">
+              <div className="spinner"></div>
+              <p>Loading accounts...</p>
+            </div>
+          </div>
+        ) : error ? (
+          <div className="table-error">
+            <strong>Error:</strong> {error}
+          </div>
+        ) : searchAccount.length === 0 ? (
+          <div className="table-wrapper">
+            <div className="table-empty-state">
+              <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon"/></div>
+              <div className="table-empty-text">No accounts found</div>
+              <div className="table-empty-subtext">Try adjusting your search criteria</div>
+            </div>
+          </div>
+        ) : (
+          <div className="table-wrapper">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Account ID</th>
+                  <th>Full Name</th>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Phone</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {searchAccount.map((account) => (
+                  <tr key={account.accountid}>
+                    <td className="table-cell-primary">{account.accountid}</td>
+                    <td>{account.full_name}</td>
+                    <td className="table-cell-secondary">{account.username}</td>
+                    <td className="table-cell-secondary">{account.email || "—"}</td>
+                    <td>
+                      <span style={{
+                        textTransform: 'capitalize',
+                        fontWeight: '500',
+                        color: 'var(--color-blue-600)'
+                      }}>
+                        {account.role}
                       </span>
-                    </div>
-                    <div className="detail-row-account">
-                      <span className="account-info-label">Name: </span>
-                      <span className="account-info-text">
-                        {account.full_name}
-                      </span>
-                    </div>
-                    <div className="detail-row-account">
-                      <span className="account-info-label">Email: </span>
-                      <span className="account-info-text">
-                        {account.email || "null"}
-                      </span>
-                    </div>
-                    <div className="detail-row-account">
-                      <span className="account-info-label">Phone Number: </span>
-                      <span className="account-info-text">
-                        {account.phone_number || "null"}
-                      </span>
-                    </div>
-                    <div className="detail-row-account">
-                      <span className="account-info-label">Date of birth:</span>
-                      <span className="account-info-text">
-                        {account.dob || "null"}
-                      </span>
-                    </div>
-                    <div className="detail-row-account">
-                      <span className="account-info-label">Status: </span>
-                      <span className="account-info-text">
+                    </td>
+                    <td>
+                      <span className={`table-cell-status ${account.status?.toLowerCase()}`}>
                         {account.status}
                       </span>
-                    </div>
-                    <div className="detail-row-account">
-                      <span className="account-info-label">Role: </span>
-                      <span className="account-info-text">{account.role}</span>
-                    </div>
-                    {/* Personalize additional row for Instructor and Students */}
-                    {account.role === "instructor" && (
-                      <div className="detail-row-account">
-                        <span className="account-info-label">Department: </span>
-                        <span className="account-info-text">
-                          {account.department}
-                        </span>
+                    </td>
+                    <td className="table-cell-secondary">{account.phone_number || "—"}</td>
+                    <td>
+                      <div className="table-cell-actions">
+                        <button
+                          className="action-btn action-btn-edit"
+                          onClick={() => handleEdit(account.accountid)}
+                          title="Edit account"
+                        >
+                          <img src={editIcon} alt="deleteIcon"/>
+                        </button>
+                        <button
+                          className="action-btn action-btn-delete"
+                          onClick={() => handleDeleteClick(account.accountid)}
+                          title="Delete account"
+                        >
+                          <img src={deleteIcon} alt="deleteIcon"/>
+                        </button>
                       </div>
-                    )}
-                    {account.role === "student" && (
-                      <div className="detail-row-account">
-                        <span className="account-info-label">Major: </span>
-                        <span className="account-info-text">
-                          {account.major}
-                        </span>
-                      </div>
-                    )}
-                    <div className="detail-row-account">
-                      <span className="account-info-label">Username: </span>
-                      <span className="account-info-text">
-                        {account.username}
-                      </span>
-                    </div>
-                    <div className="account-action">
-                      <button
-                        className="edit-btn account-edit-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleEdit(account.accountid);
-                        }}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="delete-btn account-delete-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteClick(account.accountid);
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))
-          )}
-        </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
         <button
-          className="add-account-btn"
+          className="fab-button"
           onClick={() => navigate("/accountManagement/addAccount")}
+          title="Add new account"
         >
           +
         </button>

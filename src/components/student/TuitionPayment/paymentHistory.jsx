@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "../../../styles/student/TuitionPayment/paymentHistory.css";
 import Menu from "../../menu/Menu";
 import menu_student from "../../../assets/dataMenu/MenuStudentData";
-import Chatbot from "../Chatbot/chatbot";
+import Chatbot from "../Chatbot/Chatbot";
+import mailBoxIcon from '../../../assets/icon/mailbox.svg';
 
 export default function PaymentHistory() {
   const [loading, setLoading] = useState(true);
@@ -49,61 +50,51 @@ export default function PaymentHistory() {
 
       <div className="history-content">
         <Chatbot/>
-        <div className="history-header">Payment History</div>
+        <h1 className="history-title">Payment History</h1>
 
-        {loading ? (
-          <div>Loading...</div>
-        ) : (
-          <table className="history-table">
-            <thead>
-              <tr>
-                <th>Order Code</th>
-                <th>Semester</th>
-                <th>Payment Date</th>
-                <th>Amount (VND)</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {history.length > 0 ? (
-                history.map((item, index) => (
+        <div className="table-wrapper">
+          {loading ? (
+            <div className="table-loading">
+              <div className="spinner"></div>
+              <p>Loading payments...</p>
+            </div>
+          ) : history.length === 0 ? (
+            <div className="table-empty-state">
+              <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon" /></div>
+              <div className="table-empty-text">No payment history found</div>
+              <div className="table-empty-subtext">You have no payment records yet</div>
+            </div>
+          ) : (
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Order Code</th>
+                  <th>Semester</th>
+                  <th>Payment Date</th>
+                  <th>Amount (VND)</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {history.map((item, index) => (
                   <tr key={index}>
-                    <td>#{item.order_code || "N/A"}</td>
+                    <td className="table-cell-primary">#{item.order_code || "N/A"}</td>
                     <td>{item.semester}</td>
-                    <td>{formatDate(item.payment_date)}</td>
-                    <td
-                      style={{
-                        fontWeight: "bold",
-                        color: "var(--color-blue-900)",
-                      }}
-                    >
+                    <td className="table-cell-secondary">{formatDate(item.payment_date)}</td>
+                    <td className="table-cell-secondary" style={{ fontWeight: "600" }}>
                       {formatCurrency(item.total_amount)}
                     </td>
                     <td>
-                      <div className="status-cell">
-                        <span
-                          className={
-                            item.status === "Paid"
-                              ? "status-paid"
-                              : "status-unpaid"
-                          }
-                        >
-                          {item.status}
-                        </span>
-                      </div>
+                      <span className={`table-cell-status ${item.status?.toLowerCase()}`}>
+                        {item.status}
+                      </span>
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="5" style={{ textAlign: "center" }}>
-                    No payment history found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        )}
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
     </div>
   );

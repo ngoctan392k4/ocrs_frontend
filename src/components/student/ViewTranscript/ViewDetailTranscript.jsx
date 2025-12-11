@@ -3,9 +3,9 @@ import Menu from "../../menu/Menu";
 import menu_student from "../../../assets/dataMenu/MenuStudentData";
 import "../../../styles/student/ViewTranscript/ViewDetailTranscript.css";
 import { useNavigate } from "react-router-dom";
+import mailBoxIcon from '../../../assets/icon/mailbox.svg';
 
 export default function ViewDetailTranscript() {
-  const [selectedClasses, setSelectedClasses] = useState([]);
   const [classes, setClasses] = useState([]);
   const [allSem, setAllSem] = useState([]);
   const [sem, setSem] = useState(null);
@@ -29,7 +29,6 @@ export default function ViewDetailTranscript() {
         setSem(firstSem);
         fetchClasses(firstSem.semid);
       } else {
-        // No semesters exist
         setClasses([]);
         setLoading(false);
       }
@@ -55,28 +54,23 @@ export default function ViewDetailTranscript() {
       setLoading(false);
     }
   }
+
   useEffect(() => {
     fetchSemesters();
   }, []);
 
-  const toggleClass = (id) => {
-    setSelectedClasses((prev) =>
-      prev.includes(id) ? prev.filter((clsid) => clsid !== id) : [...prev, id]
-    );
-  };
-
   return (
-    <div className="detailTranscript-container">
+    <div className="transcript-container">
       <Menu menus={menu_student} />
 
-      <div className="detailTranscript-content">
-        <h1 className="detailTranscript-title">Detail Transcript</h1>
+      <div className="transcript-content">
+        <h1 className="transcript-title">Detail Transcript</h1>
 
         {allSem.length > 0 && (
-          <div className="sem-year-filter">
-            <span className="semester-label">Semester:</span>
+          <div className="filter-container">
+            <label className="filter-label">Semester:</label>
             <select
-              className="semester-dropdown"
+              className="filter-select"
               value={sem?.semid || ""}
               onChange={(e) => {
                 const selectedSem = allSem.find(
@@ -95,52 +89,48 @@ export default function ViewDetailTranscript() {
           </div>
         )}
 
-        <div className="detailTranscript-list">
+        <div className="table-wrapper">
           {loading ? (
-            <div className="no-classes-message">Loading...</div>
+            <div className="table-loading">
+              <div className="spinner"></div>
+              <p>Loading classes...</p>
+            </div>
           ) : classes.length === 0 ? (
-            <div className="no-classes-message">No transcript data found.</div>
+            <div className="table-empty-state">
+              <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon" /></div>
+              <div className="table-empty-text">No transcript data found</div>
+              <div className="table-empty-subtext">No classes available for this semester</div>
+            </div>
           ) : (
-            classes.map((cls) => (
-              <div
-                key={cls.classid}
-                className="detailTranscript-item"
-                onClick={() => toggleClass(cls.classid)}
-              >
-                <div className="detailTranscript-header">
-                  <div className="detailTranscript-name">{cls.classname}</div>
-
-                  <button
-                    className="detailTranscript-button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(`/detailTranscript/ViewGrade/${cls.classid}`);
-                    }}
-                  >
-                    View Grade
-                  </button>
-                </div>
-
-                {selectedClasses.includes(cls.classid) && (
-                  <div className="detailTranscript-detail">
-                    <div className="detailTranscript-row">
-                      <span className="detailTranscript-label">Class Code:</span>
-                      <span className="detailTranscript-text">{cls.classcode}</span>
-                    </div>
-
-                    <div className="detailTranscript-row">
-                      <span className="detailTranscript-label">Course Code:</span>
-                      <span className="detailTranscript-text">{cls.courseid}</span>
-                    </div>
-
-                    <div className="detailTranscript-row">
-                      <span className="detailTranscript-label">Instructor:</span>
-                      <span className="detailTranscript-text">{cls.instructor_name}</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Class Code</th>
+                  <th>Class Name</th>
+                  <th>Course ID</th>
+                  <th>Instructor</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {classes.map((cls) => (
+                  <tr key={cls.classid}>
+                    <td className="table-cell-primary">{cls.classcode}</td>
+                    <td>{cls.classname}</td>
+                    <td className="table-cell-secondary">{cls.courseid}</td>
+                    <td className="table-cell-secondary">{cls.instructor_name}</td>
+                    <td>
+                      <button
+                        className="view-btn"
+                        onClick={() => navigate(`/detailTranscript/ViewGrade/${cls.classid}`)}
+                      >
+                        View Grade
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
         </div>
       </div>
