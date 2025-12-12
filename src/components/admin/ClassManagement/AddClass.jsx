@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Menu from "../../menu/Menu";
 import menu_admin from "../../../assets/dataMenu/MenuAdminData";
 import "../../../styles/admin/ClassManagement/AddClass.css";
+import deleteIcon from '../../../assets/icon/delete.svg';
 
 export default function AddClass() {
   const navigate = useNavigate();

@@ -6,6 +6,10 @@ export const menu_admin = [
       {
         label: "Homepage",
         to: "/homepageAdmin",
+      },
+      {
+        label: "Dashboard",
+        to: "/dashboard",
       }
     ]
   },
@@ -52,10 +56,6 @@ export const menu_admin = [
         to: "/paymentTracking"
       },
     ],
-  },
-  {
-    label: "Log out",
-    isLogout: true
   }
 
 ];

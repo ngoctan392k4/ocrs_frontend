@@ -95,10 +95,15 @@ body {
   --color-red-pastel-100: #f5d9dd;
 
   --font-sans: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --header-height: 96px;
 }
 
 #root {
   margin: 0 auto;
   padding: 0;
   background-color: #ecf1f7;
+}
+
+.page-content {
+  padding-top: var(--header-height);
 }

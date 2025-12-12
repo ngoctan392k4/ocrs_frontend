@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60" role="img" aria-labelledby="campusTitle">
+  <title id="campusTitle">Campus silhouette</title>
+  <g fill="none" stroke="#ffffff" stroke-width="1.6" opacity="0.9">
+    <path d="M4 44 L20 28 L36 44 L52 28 L68 44 L84 32 L100 44 L116 30 L132 44 L148 34 L164 44 L196 26"/>
+  </g>
+</svg>

@@ -2,12 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import "../../../styles/student/Chatbot/Chatbot.css"; // File CSS ở dưới
 import ReactMarkdown from "react-markdown";
 import robot from '../../../assets/icon/robot.png'
+import hatEdu from '../../../assets/icon/instruc.svg'
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([
     {
       sender: "bot",
-      text: "Hi! I'm your academic assistant. What can I ask you about?",
+      text: "Hi! I'm your academic assistant",
     },
     {
       sender: "bot",
@@ -48,14 +49,14 @@ const Chatbot = () => {
           sender: "bot",
           text: "The system is too busy. Please try again later.",
         };
-        
+
         setMessages((prev) => [...prev, botMsg]);
       } else if (data.msg){
         const botMsg = {
           sender: "bot",
           text: "The chat system is overloaded. Please try again.",
         };
-        
+
         setMessages((prev) => [...prev, botMsg]);
       }else {
         const botMsg = { sender: "bot", text: data.reply };
@@ -83,7 +84,7 @@ const Chatbot = () => {
       {/* Chat Container */}
       <div className={`chat-container ${isOpen ? "active" : ""}`}>
         <div className="chat-header">
-          <h3>Education Assistant 🎓</h3>
+          <h3>Education Assistant <img src={hatEdu} alt="" style={{width: "20px"}} /></h3>
         </div>
 
         <div className="chat-box">
