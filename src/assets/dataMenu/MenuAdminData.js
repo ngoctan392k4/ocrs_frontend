@@ -52,10 +52,6 @@ export const menu_admin = [
         to: "/paymentTracking"
       },
     ],
-  },
-  {
-    label: "Log out",
-    isLogout: true
   }
 
 ];

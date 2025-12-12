@@ -11,6 +11,11 @@
   color: var(--color-blue-900);
 }
 
+/* ensure this page area clears the fixed header (extra safe) */
+.overallTranscript-content {
+  padding-top: calc(30px + var(--header-height));
+}
+
 /* TITLE */
 .otr-title {
   font-size: 28px;

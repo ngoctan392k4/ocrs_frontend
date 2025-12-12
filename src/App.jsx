@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import HomeAdmin from "./components/admin/Home/Home";
 import HomeInstructor from "./components/instructor/Home/Home";
 import HomeStudent from "./components/student/Home/Home";
@@ -35,328 +35,341 @@ import PaymentHistory from "./components/student/TuitionPayment/paymentHistory";
 import ViewDetailTranscript from "./components/student/ViewTranscript/ViewDetailTranscript";
 import DetailTranscript from "./components/student/ViewTranscript/DetailTranscript";
 import OverallTranscript from "./components/student/ViewTranscript/OverallTranscript";
+import Header from "./components/common/Header";
 
-function App() {
-  const [count, setCount] = useState(0);
+function AppContent() {
+  const location = useLocation();
+  const isLoginPage =
+    location.pathname === "/" ||
+    location.pathname === "/forgotPassword" ||
+    location.pathname === "/resetPassword";
 
   return (
-    <Routes>
-      {/* Common Routes*/}
-      <Route path="/" element={<HomeLogin />} />
-      <Route path="/forgotPassword" element={<ForgotPassword />} />
-      <Route path="/resetPassword" element={<ResetPassword />} />
+    <>
+      {!isLoginPage && <Header />}
+      <div className={isLoginPage ? "" : "page-content"}>
+        <Routes>
+          {/* Common Routes*/}
+          <Route path="/" element={<HomeLogin />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/resetPassword" element={<ResetPassword />} />
 
-      {/* Admin Routes */}
-      <Route
-        path="/homepageAdmin"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["admin"]}>
-              <HomeAdmin />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          {/* Admin Routes */}
+          <Route
+            path="/homepageAdmin"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["admin"]}>
+                  <HomeAdmin />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/accountManagement"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["admin"]}>
-              <ViewAccount />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/accountManagement"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["admin"]}>
+                  <ViewAccount />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/accountManagement/addAccount"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["admin"]}>
-              <AddAccount />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/accountManagement/addAccount"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["admin"]}>
+                  <AddAccount />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/accountManagement/edit/:accountid"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["admin"]}>
-              <EditAccount />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/accountManagement/edit/:accountid"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["admin"]}>
+                  <EditAccount />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/courseManagement"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["admin"]}>
-              <ViewCourse />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/courseManagement"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["admin"]}>
+                  <ViewCourse />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/courseManagement/addCourse"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["admin"]}>
-              <AddCourse />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/courseManagement/addCourse"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["admin"]}>
+                  <AddCourse />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/courseManagement/editCourse/:courseid"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["admin"]}>
-              <EditCourse />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/courseManagement/editCourse/:courseid"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["admin"]}>
+                  <EditCourse />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/ClassManagement/editClass/:clsid"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["admin"]}>
-              <EditClass />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/ClassManagement/editClass/:clsid"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["admin"]}>
+                  <EditClass />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/classManagement"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["admin"]}>
-              <ViewClass />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/classManagement"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["admin"]}>
+                  <ViewClass />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/classManagement/addClass"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["admin"]}>
-              <AddClass />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/classManagement/addClass"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["admin"]}>
+                  <AddClass />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/openCourse"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["admin"]}>
-              <OpenCourse />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/openCourse"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["admin"]}>
+                  <OpenCourse />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      {/* Student Routes */}
-      <Route
-        path="/homepageStudent"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["student"]}>
-              <HomeStudent />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          {/* Student Routes */}
+          <Route
+            path="/homepageStudent"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["student"]}>
+                  <HomeStudent />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/register"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["student"]}>
-              <ClassRegistration />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
-      <Route
-        path="/availableCourse"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["student"]}>
-              <ViewAvailableCourse />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
-      <Route
-        path="/availableCourse/availableClass/:courseID"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["student"]}>
-              <ViewAvailableClass />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/register"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["student"]}>
+                  <ClassRegistration />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
+          <Route
+            path="/availableCourse"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["student"]}>
+                  <ViewAvailableCourse />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
+          <Route
+            path="/availableCourse/availableClass/:courseID"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["student"]}>
+                  <ViewAvailableClass />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/registeredClass"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["student"]}>
-              <ViewRegistered />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/registeredClass"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["student"]}>
+                  <ViewRegistered />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="studySchedule"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["student"]}>
-              <StudySchedule />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="studySchedule"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["student"]}>
+                  <StudySchedule />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/payFee"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["student"]}>
-              <TuitionPayment />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/payFee"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["student"]}>
+                  <TuitionPayment />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/PaymentHistory"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["student"]}>
-              <PaymentHistory />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/PaymentHistory"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["student"]}>
+                  <PaymentHistory />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/detailedTranscript"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["student"]}>
-              <ViewDetailTranscript />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/detailedTranscript"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["student"]}>
+                  <ViewDetailTranscript />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="detailTranscript/ViewGrade/:classid"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["student"]}>
-              <DetailTranscript />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="detailTranscript/ViewGrade/:classid"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["student"]}>
+                  <DetailTranscript />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/overallTranscript"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["student"]}>
-              <OverallTranscript />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/overallTranscript"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["student"]}>
+                  <OverallTranscript />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      {/* Instructor Routes */}
-      <Route
-        path="/homepageInstructor"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["instructor"]}>
-              <HomeInstructor />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          {/* Instructor Routes */}
+          <Route
+            path="/homepageInstructor"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["instructor"]}>
+                  <HomeInstructor />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/myClasses"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["instructor"]}>
-              <ViewAssignedClass />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/myClasses"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["instructor"]}>
+                  <ViewAssignedClass />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="/myClasses/studentList/:classID"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["instructor"]}>
-              <ViewStudentList />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="/myClasses/studentList/:classID"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["instructor"]}>
+                  <ViewStudentList />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="gradeManagement"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["instructor"]}>
-              <ClassGrade />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="gradeManagement"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["instructor"]}>
+                  <ClassGrade />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="gradeManagement/gradeclassList/:classID"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["instructor"]}>
-              <GradeClassList />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
+          <Route
+            path="gradeManagement/gradeclassList/:classID"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["instructor"]}>
+                  <GradeClassList />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
 
-      <Route
-        path="teachingSchedule"
-        element={
-          <EnsureLoggedToRoutes>
-            <RoleBasedAuthorization allowRole={["instructor"]}>
-              <TeachingSchedule />
-            </RoleBasedAuthorization>
-          </EnsureLoggedToRoutes>
-        }
-      />
-
-    </Routes>
+          <Route
+            path="teachingSchedule"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["instructor"]}>
+                  <TeachingSchedule />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
+        </Routes>
+      </div>
+    </>
   );
+}
+
+function App() {
+  return <AppContent />;
 }
 
 export default App;

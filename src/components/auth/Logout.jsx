@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from './AuthSession'
 import '../../styles/Menu.css'
 
-export default function LogoutButton() {
+export default function LogoutButton({ className }) {
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -27,9 +27,11 @@ export default function LogoutButton() {
     }
   };
 
+  const btnClass = className ? className : "logout-btn menuitem";
+
   return (
     <button
-      className="logout-btn"
+      className={btnClass}
       onClick={handleLogout}
     >
       Logout

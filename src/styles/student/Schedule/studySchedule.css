@@ -109,11 +109,11 @@
 }
 
 .fc .fc-prev-button::before {
-  content: "‹" !important;
+  content: "" !important;
 }
 
 .fc .fc-next-button::before {
-  content: "›" !important;
+  content: "" !important;
 }
 
 /* --- CALENDAR GRID --- */
