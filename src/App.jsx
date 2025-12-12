@@ -34,6 +34,7 @@ import TuitionPayment from "./components/student/TuitionPayment/payTuition";
 import PaymentHistory from "./components/student/TuitionPayment/paymentHistory";
 import ViewDetailTranscript from "./components/student/ViewTranscript/ViewDetailTranscript";
 import DetailTranscript from "./components/student/ViewTranscript/DetailTranscript";
+import OverallTranscript from "./components/student/ViewTranscript/OverallTranscript";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -271,6 +272,17 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["student"]}>
               <DetailTranscript />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+
+      <Route
+        path="/overallTranscript"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["student"]}>
+              <OverallTranscript />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }
