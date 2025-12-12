@@ -58,7 +58,7 @@ function App() {
           </EnsureLoggedToRoutes>
         }
       />
-      
+
       <Route
         path="/dashboard"
         element={
