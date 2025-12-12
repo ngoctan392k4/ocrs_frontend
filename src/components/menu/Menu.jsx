@@ -1,14 +1,15 @@
-import React from 'react'
-import MenuList from './MenuList'
-import '../../styles/Menu.css';
+import React, { useContext, useState, useRef, useEffect } from "react";
+import MenuList from "./MenuList";
+import UserInfoCard from "./UserInfoCard";
+import "../../styles/Menu.css";
 
-const MenuStudent = ({menus = []}) => {
+const MenuStudent = ({ menus = [] }) => {
   return (
-    <div className='tree-view-container'>
-
-        <MenuList list={menus}/>
+    <div className="tree-view-container">
+      <UserInfoCard />
+      <MenuList list={menus} />
     </div>
-  )
-}
+  );
+};
 
-export default MenuStudent
+export default MenuStudent;
