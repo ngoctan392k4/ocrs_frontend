@@ -277,6 +277,12 @@
   transition: all 0.2s ease;
 }
 
+.btn-delete img {
+  width: 20px;
+  padding: 0;
+  margin: 0;
+}
+
 .btn-primary {
   background-color: #8db3d4;
   color: white;
