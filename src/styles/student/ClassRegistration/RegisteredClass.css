@@ -31,17 +31,18 @@
 .search-input {
   padding: 12px 18px;
   border-radius: 8px;
-  border: 1px solid #d9e8f5;
+  border: 1px solid #8db3d4;
   font-size: 14px;
-  color: #3a5a7a;
-  background-color: #f5f7fa;
+  color: #000000 !important;
+  background-color: #ffffff !important;
   transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #8db3d4;
-  background-color: white;
+  border-color: #5dade2;
+  background-color: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(93, 173, 226, 0.1);
 }
 
 .search-input::placeholder {
