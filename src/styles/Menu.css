@@ -4,15 +4,15 @@ body {
 
 .tree-view-container {
   position: fixed;
-  top: 0;
+  top: 70px;
   left: 0;
   width: 250px;
   padding: 0;
-  padding-top: 40px;
+  padding-top: 20px;
   background: linear-gradient(180deg, #f0f5fa 0%, #f0f5fa 50%, #e8f2f8 100%);
   background-attachment: fixed;
-  height: 100vh;
-  max-height: 100vh;
+  height: calc(100vh - 80px);
+  max-height: calc(100vh - 80px);
   margin: 0;
   border-right: 2px solid rgba(141, 179, 212, 0.2);
   box-shadow: 4px 0 12px rgba(0, 0, 0, 0.08), inset -1px 0 2px rgba(255, 255, 255, 0.4);

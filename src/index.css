@@ -95,7 +95,6 @@ body {
   --color-red-pastel-100: #f5d9dd;
 
   --font-sans: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
-  /* Height for the fixed header used across layout (increased per user request) */
   --header-height: 96px;
 }
 
@@ -105,7 +104,6 @@ body {
   background-color: #ecf1f7;
 }
 
-/* ensure main app content clears the fixed header */
 .page-content {
   padding-top: var(--header-height);
 }
