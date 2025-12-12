@@ -32,10 +32,6 @@ export const menu_instructor = [
         to: "/gradeManagement"
       },
     ],
-  },
-  {
-    label: "Log out",
-    isLogout: true
   }
 ];
 
