@@ -289,8 +289,9 @@ export default function ViewAvailableClass() {
             const alreadySelected = classes.some((cls) =>
               selectedClasses.includes(cls.clsid)
             );
-
-            if (alreadySelected) {
+            if (recommendedClasses.length === 0){
+              setErrorMsg("Select a class to start")
+            }else if (alreadySelected) {
               setErrorMsg("You have selected a class in this course");
             } else {
               advisor();
