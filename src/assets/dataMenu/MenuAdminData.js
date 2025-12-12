@@ -6,6 +6,10 @@ export const menu_admin = [
       {
         label: "Homepage",
         to: "/homepageAdmin",
+      },
+      {
+        label: "Dashboard",
+        to: "/dashboard",
       }
     ]
   },
