@@ -138,7 +138,7 @@ function ClassRegistration() {
 
 
   // Perform when confirm registering a class
-  const handleConfirmClass = async (classID, semID) => {
+  const handleConfirmClass = async (classCode, semID) => {
     try {
       const response = await fetch(
         `http://localhost:3001/api/student/classRegiter/confirmClass`,
@@ -148,7 +148,7 @@ function ClassRegistration() {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify({ classID, semID }),
+          body: JSON.stringify({ classCode, semID }),
         }
       );
       const data = await response.json();

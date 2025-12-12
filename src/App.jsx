@@ -36,6 +36,8 @@ import ViewDetailTranscript from "./components/student/ViewTranscript/ViewDetail
 import DetailTranscript from "./components/student/ViewTranscript/DetailTranscript";
 import OverallTranscript from "./components/student/ViewTranscript/OverallTranscript";
 
+import Dashboard from "./components/admin/Dashboard/Dashboard";
+
 function App() {
   const [count, setCount] = useState(0);
 
@@ -53,6 +55,17 @@ function App() {
           <EnsureLoggedToRoutes>
             <RoleBasedAuthorization allowRole={["admin"]}>
               <HomeAdmin />
+            </RoleBasedAuthorization>
+          </EnsureLoggedToRoutes>
+        }
+      />
+      
+      <Route
+        path="/dashboard"
+        element={
+          <EnsureLoggedToRoutes>
+            <RoleBasedAuthorization allowRole={["admin"]}>
+              <Dashboard />
             </RoleBasedAuthorization>
           </EnsureLoggedToRoutes>
         }

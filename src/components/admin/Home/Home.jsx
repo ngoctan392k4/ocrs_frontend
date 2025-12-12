@@ -19,6 +19,9 @@ export default function Home() {
 
         <ul className="home-list">
           <li>
+            📌 Go to <strong>Dashboard</strong> to view the current system performance.
+          </li>
+          <li>
             📌 Go to <strong>Course Management</strong> to view, add, edit and open courses.
           </li>
           <li>
