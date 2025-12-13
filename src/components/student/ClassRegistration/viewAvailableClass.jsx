@@ -301,7 +301,6 @@ export default function ViewAvailableClass() {
         >
           {advisorLoading ? (
             <>
-              <div className="spinner"></div>
               <span className="btn-text">Loading...</span>
             </>
           ) : (
