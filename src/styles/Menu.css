@@ -9,7 +9,7 @@ body {
   width: 250px;
   padding: 0;
   padding-top: 20px;
-  background: linear-gradient(180deg, #f0f5fa 0%, #f0f5fa 50%, #e8f2f8 100%);
+  background: #e0f0fa;
   background-attachment: fixed;
   height: calc(100vh - 80px);
   max-height: calc(100vh - 80px);
@@ -54,7 +54,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 12px 14px;
-  background-color: var(--color-blue-pastel-500);
+
   border: none;
   box-shadow: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -84,7 +84,7 @@ body {
 }
 
 .menu-item:hover::before {
-  background-color: #5a7fa8;
+  background-color: #fff;
 }
 
 .menu-item p {
@@ -116,7 +116,7 @@ body {
 }
 
 .menu-item.has-children:hover {
-  background-color: var(--color-blue-pastel-700);
+  background-color: #8db3d4;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.08);
 }
 
