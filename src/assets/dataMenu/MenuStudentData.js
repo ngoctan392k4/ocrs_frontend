@@ -64,10 +64,6 @@ export const menu_student = [
         to: "/paymentHistory"
       },
     ],
-  },
-  {
-    label: "Log out",
-    isLogout: true
   }
 
 ];

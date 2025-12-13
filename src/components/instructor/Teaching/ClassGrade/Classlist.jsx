@@ -3,12 +3,13 @@ import Menu from "../../../menu/Menu";
 import menu_instructor from "../../../../assets/dataMenu/MenuInstructorData";
 import { useNavigate } from "react-router-dom";
 import "../../../../styles/instructor/Teaching/ViewAssignedClass.css";
+import mailBoxIcon from '../../../../assets/icon/mailbox.svg';
 
 function Classlist() {
   const navigate = useNavigate();
 
-  const [semester, setSemester] = useState(null); 
-  const [semList, setSemList] = useState([]);    
+  const [semester, setSemester] = useState(null);
+  const [semList, setSemList] = useState([]);
   const [selectedSem, setSelectedSem] = useState(""); // DEFAULT EMPTY
 
   const [searched, setSearched] = useState("");
@@ -87,114 +88,94 @@ function Classlist() {
       <Menu menus={menu_instructor} />
 
       <div className="view-assignedClass-content">
-        <h1>Grade Management</h1>
-
-        {/* SEARCH BAR */}
-        <input
-          className="view-assignedClasssearch-bar"
-          type="text"
-          placeholder="Search Class"
-          value={searched}
-          onChange={(e) => setSearched(e.target.value)}
-        />
+        <h1 className="page-title">Grade Management</h1>
 
         {/* SEMESTER FILTER */}
-        <div className="semester-filter">
-          <label>Select Semester:</label>
-          <select
-            value={selectedSem}
-            onChange={(e) => setSelectedSem(e.target.value)}
-          >
-            <option value="">-- Select Semester --</option>
-            {semList.map((s) => (
-              <option value={s.semid} key={s.semid}>
-                {s.semid}
-              </option>
-            ))}
-          </select>
+        <div className="filter-container">
+          <div className="filter-wrapper">
+            <label className="filter-label">Select Semester:</label>
+            <select
+              className="filter-select"
+              value={selectedSem}
+              onChange={(e) => setSelectedSem(e.target.value)}
+            >
+              <option value="">-- Select Semester --</option>
+              {semList.map((s) => (
+                <option value={s.semid} key={s.semid}>
+                  {s.semid}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <input
+            className="search-input"
+            type="text"
+            placeholder="Search by class code or name..."
+            value={searched}
+            onChange={(e) => setSearched(e.target.value)}
+          />
         </div>
 
         {/* REQUIRE SELECT SEMESTER */}
         {!selectedSem && (
-          <div className="no-classes-message">
-            Please select the semester to manage the grade
+          <div className="table-wrapper">
+            <div className="table-empty-state">
+              <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon" /></div>
+              <div className="table-empty-text">Please select a semester</div>
+              <div className="table-empty-subtext">Select semester above to manage grades</div>
+            </div>
           </div>
         )}
 
         {/* CLASS LIST */}
         {selectedSem && (
-          <div className="view-assignedClass-list">
-            {filteredClasses.length === 0 && (
-              <div className="no-classes-message">
-                No assigned classes for this semester
+          <>
+            {filteredClasses.length === 0 ? (
+              <div className="table-wrapper">
+                <div className="table-empty-state">
+                  <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon" /></div>
+                  <div className="table-empty-text">No assigned classes</div>
+                  <div className="table-empty-subtext">No assigned classes for this semester</div>
+                </div>
+              </div>
+            ) : (
+              <div className="table-wrapper">
+                <table className="data-table">
+                  <thead>
+                    <tr>
+                      <th>Class Code</th>
+                      <th>Class Name</th>
+                      <th>Schedule</th>
+                      <th>Location</th>
+                      <th>Students</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredClasses.map((cls) => (
+                      <tr key={cls.clsid}>
+                        <td className="table-cell-primary">{cls.classcode}</td>
+                        <td>{cls.classname}</td>
+                        <td className="table-cell-secondary">{cls.schedule || "-"}</td>
+                        <td className="table-cell-secondary">{cls.classlocation || "-"}</td>
+                        <td className="text-center">{cls.num || "-"}</td>
+                        <td className="text-center">
+                          <button
+                            className="view-btn"
+                            onClick={() => handleViewClassGrade(cls.clsid)}
+                            title="View and manage grades"
+                          >
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
-
-            {filteredClasses.map((cls) => (
-              <div
-                key={cls.clsid}
-                className="view-assignedClass-item"
-                onClick={() => toggleClass(cls.clsid)}
-              >
-                <div className="view-assignedClass-header">
-                  <div className="view-assignedClass-name">
-                    {cls.classname} - {cls.classcode?.split("-")[1]}
-                  </div>
-
-                  {/* ENTER GRADE ALWAYS ENABLED */}
-                  <span
-                    className="view-studentList-link"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleViewClassGrade(cls.clsid);
-                    }}
-                  >
-                    View Grade
-                  </span>
-                </div>
-
-                {selectedClasses.includes(cls.clsid) && (
-                  <div className="view-assignedClass-detail">
-                    <div className="view-assignedClassdetail-row">
-                      <span className="view-assignedClass-info-label">
-                        Class Code:
-                      </span>
-                      <span className="view-assignedClass-info-text">
-                        {cls.classcode}
-                      </span>
-                    </div>
-
-                    <div className="view-assignedClassdetail-row">
-                      <span className="view-assignedClass-info-label">
-                        Schedule:
-                      </span>
-                      <span className="view-assignedClass-info-text">
-                        {cls.schedule}
-                      </span>
-                    </div>
-
-                    <div className="view-assignedClassdetail-row">
-                      <span className="view-assignedClass-info-label">
-                        Location:
-                      </span>
-                      <span className="view-assignedClass-info-text">
-                        {cls.classlocation}
-                      </span>
-                    </div>
-
-                    <div className="view-assignedClassdetail-row">
-                      <span className="view-assignedClass-info-label">
-                        Number of Enrollments:
-                      </span>
-                      <span className="view-assignedClass-info-text">
-                        {cls.num}
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+          </>
         )}
       </div>
     </div>

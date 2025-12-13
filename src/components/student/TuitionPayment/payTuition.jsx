@@ -3,7 +3,8 @@ import "../../../styles/student/TuitionPayment/TuitionPayment.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Menu from "../../menu/Menu";
 import menu_student from "../../../assets/dataMenu/MenuStudentData";
-import Chatbot from "../Chatbot/chatbot";
+import Chatbot from "../Chatbot/Chatbot";
+import mailBoxIcon from '../../../assets/icon/mailbox.svg';
 
 export default function TuitionPayment() {
   const navigate = useNavigate();
@@ -200,73 +201,68 @@ export default function TuitionPayment() {
       <Menu menus={menu_student} />
       <div className="tuition-payment-content">
         <Chatbot/>
-        <div className="payment-header">Pay Tuition Fee</div>
+        <h1 className="tuition-title">Pay Tuition Fee</h1>
 
-        <div className="payment-header">List of registered courses</div>
-
-        {loading ? (
-          <div>Loading...</div>
-        ) : (
-          <table className="tuition-table">
-            <thead>
-              <tr>
-                <th>Course ID</th>
-                <th>Course Name</th>
-                <th>Credit</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {courses.length > 0 ? (
-                courses.map((course, index) => (
-                  <tr key={index}>
-                    <td>{course.courseid}</td>
-                    <td>{course.coursename}</td>
-                    <td>{course.credit}</td>
-                    <td>
-                      <div className="status-cell">
-                        <span
-                          className={
-                            course.payment_status === "Unpaid"
-                              ? "status-unpaid"
-                              : "status-paid"
-                          }
-                        >
+        <div className="table-wrapper">
+          {loading ? (
+            <div className="table-loading">
+              <div className="spinner"></div>
+              <p>Loading courses...</p>
+            </div>
+          ) : courses.length === 0 ? (
+            <div className="table-empty-state">
+              <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon" /></div>
+              <div className="table-empty-text">No courses found</div>
+              <div className="table-empty-subtext">You have no registered courses</div>
+            </div>
+          ) : (
+            <>
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Course ID</th>
+                    <th>Course Name</th>
+                    <th>Credit</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {courses.map((course, index) => (
+                    <tr key={index}>
+                      <td className="table-cell-primary">{course.courseid}</td>
+                      <td>{course.coursename}</td>
+                      <td className="table-cell-secondary">{course.credit}</td>
+                      <td>
+                        <span className={`table-cell-status ${course.payment_status?.toLowerCase()}`}>
                           {course.payment_status}
                         </span>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="6" style={{ textAlign: "center" }}>
-                    No courses found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
 
-        <div className="payment-footer">
-          <div className="total-cost">
-            Total cost: {formatCurrency(totalCost)} vnd
-          </div>
-          <button
-            className="pay-btn"
-            onClick={openConfirmPay}
-            disabled={totalCost === 0 || loading || restrictionPopup.show}
-            style={{
-              opacity: totalCost === 0 || restrictionPopup.show ? 0.5 : 1,
-              cursor:
-                totalCost === 0 || restrictionPopup.show
-                  ? "not-allowed"
-                  : "pointer",
-            }}
-          >
-            Pay
-          </button>
+              <div className="payment-footer">
+                <div className="total-cost">
+                  Total cost: <strong>{formatCurrency(totalCost)} VND</strong>
+                </div>
+                <button
+                  className="pay-btn"
+                  onClick={openConfirmPay}
+                  disabled={totalCost === 0 || loading || restrictionPopup.show}
+                  style={{
+                    opacity: totalCost === 0 || restrictionPopup.show ? 0.5 : 1,
+                    cursor:
+                      totalCost === 0 || restrictionPopup.show
+                        ? "not-allowed"
+                        : "pointer",
+                  }}
+                >
+                  Pay Now
+                </button>
+              </div>
+            </>
+          )}
         </div>
 
         {showPopupError && (

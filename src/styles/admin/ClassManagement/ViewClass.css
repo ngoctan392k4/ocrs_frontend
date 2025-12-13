@@ -145,67 +145,84 @@
   opacity: 0.85;
 }
 
-/* Backdrop mờ */
-.viewclassdialog-backdrop {
+/* DELETE DIALOG - Blue Pastel Style */
+.dialog-backdrop {
   position: fixed;
   inset: 0;
-  background: var(--color-black)(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.15);
   display: flex;
   justify-content: center;
   align-items: center;
+  backdrop-filter: blur(3px);
   z-index: 999;
-  backdrop-filter: blur(1px);
 }
 
-/* Hộp dialog giống prototype */
-.viewclassdialog-box {
-  width: 380px;
-  background: var(--color-white-000);
-  padding: 35px 25px;
-  border-radius: 18px; /* bo góc lớn */
+.dialog-box {
+  background-color: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
   text-align: center;
-  box-shadow: 0 6px 18px var(--color-black)(0, 0, 0, 0.25);
-  font-family: var(--font-sans);
+  border-left: 4px solid #d32f2f;
 }
 
-/* Tiêu đề câu hỏi */
-.viewclassdialog-message {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 35px;
-  color: var(--color-gray-700);
+.dialog-message {
+  font-size: 16px;
+  color: #3a5a7a;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+  font-weight: 500;
 }
 
-/* Khung nút dưới */
-.viewclassdialog-actions {
+.dialog-actions {
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
+  gap: 12px;
+  justify-content: flex-end;
 }
 
-/* Nút YES / NO giống Figma */
-.viewclassdialog-btn {
+.dialog-actions .btn-cancel,
+.dialog-actions .btn-delete {
+  padding: 8px 16px;
+}
+
+.dialog-actions .btn-delete {
   flex: 1;
-  padding: 10px 0;
-  font-size: 18px;
-  font-weight: 700;
-  border-radius: 14px;
-  border: none;
+}
+
+.btn-cancel {
+  background-color: #f5f7fa;
+  color: #3a5a7a;
+  border: 1px solid #d9e8f5;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  background: var(--color-white-300); /* xám nhạt giống prototype */
-  transition: 0.2s;
+  transition: all 0.2s ease;
 }
 
-.viewclassdialog-btn:hover {
-  background: var(--color-white-100);
+.btn-cancel:hover {
+  background-color: #e8eef7;
+  border-color: #8db3d4;
+  transform: translateY(-1px);
 }
 
-.viewclassdialog-btn.no:hover {
-  background: var(--color-white-200);
+.btn-delete {
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.viewclassdialog-btn.yes:hover {
-  background: var(--color-white-500);
+.btn-delete:hover {
+  background-color: #b71c1c;
+  transform: translateY(-1px);
 }
 
 .viewclass-item {
@@ -222,7 +239,7 @@
   border-radius: 15px;
   justify-content: space-between;
   align-items: center;
-  background: var(--color-greengray-300); 
+  background: var(--color-greengray-300);
 }
 
 

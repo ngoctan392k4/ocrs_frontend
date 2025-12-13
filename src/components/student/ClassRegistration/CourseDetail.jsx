@@ -11,15 +11,7 @@ const renderCourseDetail = (course) => {
     }));
 
   return (
-    <div
-      className="course-detail"
-      style={{
-        marginTop: "10px",
-        padding: "10px",
-        border: "1px solid #ddd",
-        borderRadius: "5px",
-      }}
-    >
+    <div className="course-detail">
       <div className="detail-row">
         <span className="course-info-label">Course ID: </span>
         <span className="course-info-text">{course.courseid}</span>

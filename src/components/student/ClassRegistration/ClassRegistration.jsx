@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Menu from "../../menu/Menu";
 import menu_student from "../../../assets/dataMenu/MenuStudentData";
 import renderCourseDetail from "./CourseDetail";
-import Chatbot from "../Chatbot/chatbot";
+import Chatbot from "../Chatbot/Chatbot";
 
 function ClassRegistration() {
   const [semester, setSemester] = useState(null);
@@ -138,7 +138,7 @@ function ClassRegistration() {
 
 
   // Perform when confirm registering a class
-  const handleConfirmClass = async (classID, semID) => {
+  const handleConfirmClass = async (classCode, semID) => {
     try {
       const response = await fetch(
         `http://localhost:3001/api/student/classRegiter/confirmClass`,
@@ -148,7 +148,7 @@ function ClassRegistration() {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify({ classID, semID }),
+          body: JSON.stringify({ classCode, semID }),
         }
       );
       const data = await response.json();
@@ -293,8 +293,8 @@ function ClassRegistration() {
     <div className="classReigstration-container">
       <Menu menus={menu_student} />
       <div className="classReigstration-content">
-        <Chatbot/>
-        <h1>
+        <Chatbot />
+        <h1 className="page-title">
           Class Registration for
           {semester && ` ${semester.semester_name} - ${semester.school_year}`}
         </h1>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title">
+  <title id="title">XYZ University logo</title>
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.04"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="18" fill="#244469" />
+  <circle cx="60" cy="44" r="22" fill="#4a8cd6" />
+  <path d="M30 86 C45 70, 75 70, 90 86 L90 96 L30 96 Z" fill="#3a6ea8" />
+  <rect x="0" y="0" width="120" height="120" rx="18" fill="url(#g)" />
+  <text x="60" y="62" font-family="Inter, Arial, sans-serif" font-size="24" fill="white" font-weight="700" text-anchor="middle">XYZ</text>
+</svg>
