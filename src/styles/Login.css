@@ -1,0 +1,209 @@
+:root{
+  --blue-900: #0b3d66;
+  --blue-800: #0f4f7a;
+  --blue-700: #15628f;
+  --blue-600: #2a8fb6;
+  --blue-400: #6fc0e6;
+  --white: #ffffff;
+}
+
+.login-page{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  /* background image from public/assets and blue overlay */
+  background-image: linear-gradient(180deg, rgba(5,45,80,0.65), rgba(10,60,100,0.55)), url('/assets/anhtruong.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: var(--font-sans, Arial, sans-serif);
+  padding: 40px 20px;
+}
+
+.login-card{
+  width: 1000px;
+  height: 400px;
+  max-width: calc(100% - 40px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: rgba(255,255,255,0.02);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(4,30,60,0.45);
+}
+
+.login-visual{
+  position: relative;
+  padding: 40px 30px;
+  background: linear-gradient(180deg, rgba(12,56,90,0.22), rgba(12,56,90,0.14));
+  color: var(--white);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.login-logo{
+  width:250px;
+  height:auto;
+  margin: 0 0 12px 0;
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,0.35));
+}
+
+.login-visual .wave{
+  position:absolute;
+  right:-40px;
+  bottom:-20px;
+  width:280px;
+  height:220px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), rgba(255,255,255,0) 40%), linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
+  border-radius: 140px 140px 60px 60px;
+  transform: rotate(-10deg);
+  filter: blur(6px);
+}
+
+
+.login-welcome{
+  font-size:22px;
+  margin:8px 0 -40px 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.login-xyz{
+  font-size:30px;
+  margin:-80px 0 8px 0;
+  letter-spacing: 2px;
+  font-weight:700;
+}
+.login-sub{
+  margin:0 0 16px 0;
+  opacity:0.9;
+}
+
+.login-form{
+  padding:40px 36px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+.form-title{
+  margin:0 0 12px 0;
+  color:var(--white);
+  opacity:0.95;
+  font-size:18px;
+}
+
+.input-label{
+  display:flex;
+  flex-direction:column;
+  margin-bottom:14px;
+  color:var(--white);
+  width:100%;
+  max-width:360px;
+}
+
+.input-label span{
+  font-size:13px;
+  opacity:0.9;
+  margin-bottom:6px;
+}
+
+.input-label input{
+  padding:12px 14px;
+  border-radius:8px;
+  border: none;
+  outline:none;
+  background: rgba(255,255,255,0.06);
+  color: var(--white);
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.35);
+  width:100%;
+  box-sizing:border-box;
+}
+
+.input-label input::placeholder{
+  color: rgba(255,255,255,0.6);
+}
+
+.form-actions{
+  margin-top:10px;
+}
+
+.btn-login{
+  width:100%;
+  margin-top: -20px;
+  max-width:360px;
+  padding:12px 14px;
+  border-radius:10px;
+  background: linear-gradient(90deg, var(--blue-600), var(--blue-400));
+  border: none;
+  color: var(--white);
+  font-weight:700;
+  cursor:pointer;
+  box-shadow: 0 8px 20px rgba(18,93,146,0.32);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.btn-login:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(18,93,146,0.36);
+}
+
+.login-credit{
+  margin-top:18px;
+  color: rgba(255,255,255,0.7);
+  text-align:center;
+}
+
+.forgot-link{
+  margin-top:10px;
+  text-align:center;
+  width:100%;
+  max-width:360px;
+}
+
+.forgot-link a{
+  color: var(--blue-400);
+  font-weight:700;
+  text-decoration: underline;
+}
+
+/* notification used by forms */
+.notification{
+  color: #ffdede;
+  background: rgba(255,0,0,0.08);
+  padding:8px 12px;
+  border-radius:8px;
+  border:1px solid rgba(255,0,0,0.12);
+  max-width:360px;
+}
+
+/* popup for forgot password confirmation */
+.popup-container{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: rgba(0,0,0,0.4);
+  z-index:2000;
+}
+
+.popup-content{
+  background: #fff;
+  color: #222;
+  padding:20px 24px;
+  border-radius:10px;
+  max-width:520px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+@media(max-width:900px){
+  .login-card{grid-template-columns: 1fr;}
+  .login-visual{padding:28px;}
+  .login-form{padding:28px;}
+}
