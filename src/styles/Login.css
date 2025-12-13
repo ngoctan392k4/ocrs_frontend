@@ -27,16 +27,21 @@
   max-width: calc(100% - 40px);
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background: rgba(255,255,255,0.02);
+  background: #ffffff; /* match homepage card */
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 20px 50px rgba(4,30,60,0.45);
+  box-shadow: 0 6px 18px rgba(35, 79, 121, 0.06);
+  border: 1px solid #e6f0f8;
+  color: #415a6a;
 }
 
 .login-visual{
   position: relative;
   padding: 40px 30px;
-  background: linear-gradient(180deg, rgba(12,56,90,0.22), rgba(12,56,90,0.14));
+  /* hero-like dark panel similar to homepage */
+  background-image: linear-gradient(180deg, rgba(14,21,30,0.64), rgba(14,21,30,0.64)), var(--home-hero-bg, url('/assets/anhtruong.jpg'));
+  background-size: cover;
+  background-position: center calc(50% - 70px);
   color: var(--white);
   display:flex;
   flex-direction:column;
@@ -69,6 +74,7 @@
   margin:8px 0 -40px 0;
   letter-spacing: 1px;
   text-transform: uppercase;
+  color: rgba(255,255,255,0.95);
 }
 
 .login-xyz{
@@ -76,6 +82,7 @@
   margin:-80px 0 8px 0;
   letter-spacing: 2px;
   font-weight:700;
+  color: rgba(255,255,255,0.95);
 }
 .login-sub{
   margin:0 0 16px 0;
@@ -84,7 +91,7 @@
 
 .login-form{
   padding:40px 36px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  background: transparent;
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -93,7 +100,7 @@
 
 .form-title{
   margin:0 0 12px 0;
-  color:var(--white);
+  color: #274a63;
   opacity:0.95;
   font-size:18px;
 }
@@ -102,7 +109,7 @@
   display:flex;
   flex-direction:column;
   margin-bottom:14px;
-  color:var(--white);
+  color:#274a63;
   width:100%;
   max-width:360px;
 }
@@ -116,17 +123,17 @@
 .input-label input{
   padding:12px 14px;
   border-radius:8px;
-  border: none;
+  border: 1px solid #e8eef6;
   outline:none;
-  background: rgba(255,255,255,0.06);
-  color: var(--white);
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.35);
+  background: #fff;
+  color: #274a63;
+  box-shadow: inset 0 2px 6px rgba(16,40,60,0.03);
   width:100%;
   box-sizing:border-box;
 }
 
 .input-label input::placeholder{
-  color: rgba(255,255,255,0.6);
+  color: rgba(39,74,99,0.45);
 }
 
 .form-actions{
