@@ -37,6 +37,7 @@ import DetailTranscript from "./components/student/ViewTranscript/DetailTranscri
 import OverallTranscript from "./components/student/ViewTranscript/OverallTranscript";
 import Header from "./components/common/Header";
 import Dashboard from "./components/admin/Dashboard/Dashboard";
+import TrackPayments from "./components/admin/PaymentTracking/PaymentTracking";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -184,6 +185,17 @@ function App() {
               <EnsureLoggedToRoutes>
                 <RoleBasedAuthorization allowRole={["admin"]}>
                   <OpenCourse />
+                </RoleBasedAuthorization>
+              </EnsureLoggedToRoutes>
+            }
+          />
+
+          <Route
+            path="/paymentTracking"
+            element={
+              <EnsureLoggedToRoutes>
+                <RoleBasedAuthorization allowRole={["admin"]}>
+                  <TrackPayments />
                 </RoleBasedAuthorization>
               </EnsureLoggedToRoutes>
             }
