@@ -19,6 +19,7 @@ export default function ViewCourse() {
   const [error, setError] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
   const [deleteCourseId, setDeleteCourseId] = useState(null);
+  const [deleteError, setDeleteError] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(null);
 
   async function fetchCourses() {
@@ -65,28 +66,36 @@ export default function ViewCourse() {
   const handleDeleteClick = (id) => {
     setDeleteCourseId(id);
     setShowDialog(true);
+    setDeleteError(null);
   };
   const handleConfirmDelete = async () => {
     if (!deleteCourseId) return;
+    setDeleteError(null);
     try {
       const response = await fetch(
         `http://localhost:3001/api/admin/CourseManagement/${deleteCourseId}`,
         { method: "DELETE" }
       );
+      const data = await response.json();
       if (response.ok) {
         setCourses(prev => prev.filter(c => c.courseid !== deleteCourseId));
         setSelectedCourses(prev => prev.filter(id => id !== deleteCourseId));
+        setShowDialog(false);
+        setDeleteCourseId(null);
+        setDeleteError(null);
+      }
+      else {
+        setDeleteError(data.error || data.message || "Failed to delete course");
       }
     } catch (err) {
       console.error(err);
-    } finally {
-      setShowDialog(false);
-      setDeleteCourseId(null);
+      setDeleteError("Network error. Please try again.");
     }
   };
   const handleCancelDelete = () => {
     setShowDialog(false);
     setDeleteCourseId(null);
+    setDeleteError(null);
   };
 
   return (
@@ -123,7 +132,7 @@ export default function ViewCourse() {
         ) : searchCourse.length === 0 ? (
           <div className="table-wrapper">
             <div className="table-empty-state">
-              <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon"/></div>
+              <div className="table-empty-icon"><img src={mailBoxIcon} alt="mailBoxIcon" /></div>
               <div className="table-empty-text">No courses found</div>
               <div className="table-empty-subtext">Try adjusting your search criteria</div>
             </div>
@@ -168,14 +177,14 @@ export default function ViewCourse() {
                           onClick={() => navigate(`/courseManagement/editCourse/${course.courseid}`)}
                           title="Edit course"
                         >
-                          <img src={editIcon} alt="editIcon"/>
+                          <img src={editIcon} alt="editIcon" />
                         </button>
                         <button
                           className="action-btn action-btn-delete"
                           onClick={() => handleDeleteClick(course.courseid)}
                           title="Delete course"
                         >
-                          <img src={deleteIcon} alt="deleteIcon"/>
+                          <img src={deleteIcon} alt="deleteIcon" />
                         </button>
                       </div>
                     </td>
@@ -196,6 +205,7 @@ export default function ViewCourse() {
       {showDialog && (
         <DeleteCourse
           courseId={deleteCourseId}
+          error={deleteError}
           onConfirm={handleConfirmDelete}
           onCancel={handleCancelDelete}
         />
