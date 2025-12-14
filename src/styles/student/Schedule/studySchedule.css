@@ -17,15 +17,20 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 20px;
 }
 
 .schedule-title {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
   margin-bottom: 20px;
   color: #3a5a7a;
-  padding-bottom: 12px;
-  border-bottom: 2px solid #d9e8f5;
+  padding-bottom: 0;
+  border-bottom: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
 }
 
 /* --- FULLCALENDAR STYLING --- */
@@ -260,8 +265,8 @@
 
 /* --- UPDATE BUTTON --- */
 .update-btn {
-  margin-top: 20px;
-  padding: 10px 25px;
+  margin-top: 16px;
+  padding: 10px 24px;
   font-size: 14px;
   font-weight: 600;
   background-color: #8db3d4;
@@ -269,13 +274,17 @@
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  align-self: flex-end;
 }
 
 .update-btn:hover {
   background-color: #5a7fa8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(141, 179, 212, 0.3);
 }
 
 .update-btn:active {
   transform: scale(0.98);
+}
 }

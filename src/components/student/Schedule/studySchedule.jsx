@@ -144,7 +144,10 @@ export default function StudySchedule() {
         <Chatbot/>
         <div className="schedule-box">
           <div className="schedule-title">
-            Study Schedule - {semester?.semid}
+            <span>Study Schedule - {semester?.semid}</span>
+            <button className="update-btn" onClick={loadStudySchedule}>
+              Update!
+            </button>
           </div>
 
           <FullCalendar
@@ -174,9 +177,6 @@ export default function StudySchedule() {
             }}
           />
 
-          <button className="update-btn" onClick={loadStudySchedule}>
-            Update!
-          </button>
         </div>
       </div>
     </div>

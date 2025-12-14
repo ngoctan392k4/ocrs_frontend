@@ -7,20 +7,17 @@
   flex-grow: 1;
   padding: 30px;
   margin-left: 260px;
-  animation: fadeIn 0.4s ease;
+  line-height: 1.6;
+  font-family: var(--font-sans);
   color: var(--color-blue-900);
-}
-
-/* ensure this page area clears the fixed header (extra safe) */
-.overallTranscript-content {
-  padding-top: calc(30px + var(--header-height));
 }
 
 /* TITLE */
 .otr-title {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
+  color: var(--color-blue-900);
 }
 
 /* STUDENT BOX */
@@ -55,40 +52,66 @@
 .otr-semester-title {
   font-weight: 600;
   font-size: 16px;
-  margin-bottom: 10px;
-  margin-top: 20px;
+  margin-bottom: 12px;
+  margin-top: 28px;
+  color: var(--color-blue-900);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 /* TABLE */
 .otr-table-area {
   border: 1px solid var(--color-gray-300);
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
-  margin-top: 10px;
+  margin-top: 12px;
+  background-color: var(--color-white-000);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .otr-table-header,
 .otr-table-row {
   display: grid;
   grid-template-columns: 0.7fr 0.7fr 1.2fr 0.6fr 0.7fr 0.5fr 0.8fr 0.7fr;
-  padding: 10px 12px;
-  border-bottom: 1px solid #ddd;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-gray-200);
   font-size: 14px;
 }
 
-/* Header background */
+/* Header background - gradient xanh pastel */
 .otr-table-header {
-  background: var(--color-blue-100);
-  font-weight: 700;
+  background: linear-gradient(90deg, var(--color-blue-pastel-500) 0%, #c0d9e8 100%);
+  font-weight: 600;
+  color: var(--color-blue-pastel-900);
+  letter-spacing: 0.3px;
+  user-select: none;
+}
+
+.otr-table-header > div:first-child {
+  border-radius: 12px 0 0 0;
+}
+
+.otr-table-header > div:last-child {
+  border-radius: 0 12px 0 0;
 }
 
 /* Row hover */
+.otr-table-row {
+  background-color: var(--color-white-000);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .otr-table-row:nth-child(even) {
-  background: #fafafa;
+  background: var(--color-white-000);
 }
 
 .otr-table-row:hover {
-  background: var(--color-blue-50);
+  background-color: var(--color-blue-pastel-100);
+  box-shadow: inset 0 0 0 1px rgba(141, 179, 212, 0.2);
+}
+
+.otr-table-row:last-child {
+  border-bottom: none;
 }
 
 .otr-empty {
@@ -110,16 +133,30 @@
 
 /* SUMMARY */
 .otr-summary {
-  margin-top: 40px;
-  width: 100%; /* trùng chiều ngang với bảng chính */
+  margin-top: 48px;
+  width: 100%;
 }
 
-/* Table summary */
+.otr-summary h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--color-blue-900);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Table summary - format table */
 .otr-summary-table {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* cột chữ rộng hơn cột số */
+  grid-template-columns: 2fr 1fr;
   border-collapse: collapse;
   font-size: 14px;
+  background-color: var(--color-white-000);
+  border: 1px solid var(--color-gray-300);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 12px;
 }
 
 /* Row */
@@ -130,30 +167,36 @@
 /* Cột chữ */
 .left-col {
   text-align: left;
-  padding: 10px 12px;
-  border-right: 1px solid #a9a9a9; /* gạch giữa chữ và số */
+  padding: 14px 16px;
+  border-right: 2.5px solid var(--color-gray-200);
+  background-color: var(--color-white-000);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
+  color: var(--color-gray-700);
 }
 
 /* Cột số */
 .right-col {
   text-align: right;
-  padding: 10px 12px;
-  font-weight: 700;
+  padding: 14px 16px;
+  background-color: var(--color-white-000);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+  color: var(--color-blue-pastel-900);
+}
+
+/* Hover effect for summary rows */
+.otr-summary-row:hover .left-col,
+.otr-summary-row:hover .right-col {
+  background-color: var(--color-blue-pastel-100);
 }
 
 /* Separator giữa các hàng */
 .separator {
   grid-column: 1 / 3;
-  border-bottom: 1px solid #a9a9a9;
-  margin: 0 0;
-}
-
-/* Không background */
-.otr-summary-table,
-.otr-summary-row,
-.left-col,
-.right-col {
-  background: none;
+  border-bottom: 1px solid var(--color-gray-200);
+  margin: 0;
+  background-color: transparent;
 }
 
 

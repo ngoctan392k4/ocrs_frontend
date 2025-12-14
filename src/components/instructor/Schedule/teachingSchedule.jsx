@@ -141,7 +141,10 @@ export default function TeachingSchedule() {
       <div className="schedule-content">
         <div className="schedule-box">
           <div className="schedule-title">
-            Teaching Schedule - {semester?.semid}
+            <span>Teaching Schedule - {semester?.semid}</span>
+            <button className="update-btn" onClick={loadTeachingSchedule}>
+              Update!
+            </button>
           </div>
 
           <FullCalendar
@@ -171,9 +174,6 @@ export default function TeachingSchedule() {
             }}
           />
 
-          <button className="update-btn" onClick={loadTeachingSchedule}>
-            Update!
-          </button>
         </div>
       </div>
     </div>

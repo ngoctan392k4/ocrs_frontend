@@ -5,25 +5,36 @@
 
 .schedule-content {
   flex-grow: 1;
-  padding: 30px;
+  padding: 40px;
   margin-left: 260px;
   line-height: 1.6;
   color: var(--color-blue-900);
-  animation: fadeIn 0.4s ease;
+}
+
+.schedule-box {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 20px;
 }
 
 .schedule-title {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   color: var(--color-blue-900);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
 }
 
 .fc {
   font-family: Arial, sans-serif;
   background: var(--color-white-000);
   border-radius: 15px;
-  
+
 }
 
 .fc .fc-toolbar.fc-header-toolbar{
@@ -57,14 +68,25 @@
 }
 
 .update-btn {
-  margin-top: 20px;
-  padding: 10px 25px;
+  margin-top: 16px;
+  padding: 10px 24px;
   font-size: 15px;
   background-color: var(--color-blue-500);
   color: var(--color-white-000);
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.update-btn:hover {
+  background-color: var(--color-blue-600);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(58, 110, 168, 0.3);
+}
+
+.update-btn:active {
+  transform: scale(0.98);
 }
 
 .fc-header-toolbar {
