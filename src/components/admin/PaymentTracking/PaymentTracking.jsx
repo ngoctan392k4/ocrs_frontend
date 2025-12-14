@@ -56,7 +56,7 @@ export default function TrackPayments() {
 
     if (filters.studentId) {
       result = result.filter(
-        (p) => p.studentid.toLowerCase() === filters.studentId.toLowerCase()
+        (p) => p.studentid.toLowerCase().includes(filters.studentId.toLowerCase())
       );
     }
 
