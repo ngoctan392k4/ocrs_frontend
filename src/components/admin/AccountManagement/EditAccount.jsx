@@ -402,7 +402,7 @@ export default function EditAccount() {
               <div className="dialog-box">
                 <p className="dialog-message">{successMessage}</p>
                 <div className="dialog-actions">
-                  <button className="btn-primary" onClick={handleAffirmativeSaveClose}>Close</button>
+                  <button className="btn-success" onClick={handleAffirmativeSaveClose}>Close</button>
                 </div>
               </div>
             </div>
