@@ -216,6 +216,31 @@
   border: 1.5px solid #b3d1e8;
 }
 
+.btn-success {
+  flex: 1;
+  max-width: 150px;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-success:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.dialog-actions .btn-success {
+  flex: none;
+  margin: 0 auto;
+}
+
 /* Animation */
 @keyframes fadeIn {
   from {

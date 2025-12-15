@@ -285,7 +285,7 @@ export default function OpenCourse() {
                 <div className="dialog-message">{successMessage}</div>
                 <div className="dialog-actions">
                   <button
-                    className="dialog-btn yes"
+                    className="btn-success"
                     onClick={() => setSuccessDialog(false)}
                   >
                     OK

@@ -69,6 +69,7 @@ export default function Login() {
               name="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              onKeyPress={(e) => e.key === "Enter" && handleLogin(username, password)}
               placeholder="Username"
             />
           </label>
@@ -81,6 +82,7 @@ export default function Login() {
                 type={openEye ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyPress={(e) => e.key === "Enter" && handleLogin(username, password)}
                 placeholder="Password"
               />
               <span

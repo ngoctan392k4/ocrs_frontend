@@ -311,7 +311,7 @@ function AddAccount() {
             <div className="dialog-box">
               <p className="dialog-message">{popupNoti}</p>
               <div className="dialog-actions">
-                <button className="btn-primary" onClick={handleClose}>Close</button>
+                <button className="btn-success" onClick={handleClose}>Close</button>
               </div>
             </div>
           </div>
