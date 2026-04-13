@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import logo from "../../assets/logo/logotruong.png";
 import campus from "../../assets/logo/campus.svg";
-import "../../styles/common/Header.css";
+import "../../styles/Common/header.css";
 import LogoutButton from "../auth/Logout";
 import { AuthContext } from "../auth/AuthSession";
 
