@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Menu from "../../menu/Menu";
 import { useNavigate } from "react-router-dom";
 import menu_student from "../../../assets/dataMenu/MenuStudentData";
-import "../../../styles/student/ViewAvailableCourse.css";
+import "../../../styles/student/viewAvailableCourse.css";
 import Chatbot from "../Chatbot/Chatbot";
 import mailBoxIcon from '../../../assets/icon/mailbox.svg'
 import star from '../../../assets/icon/star.svg'
