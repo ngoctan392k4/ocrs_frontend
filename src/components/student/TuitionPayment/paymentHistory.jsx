@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../../styles/student/TuitionPayment/paymentHistory.css";
+import "../../../styles/student/TuitionPayment/PaymentHistory.css";
 import Menu from "../../menu/Menu";
 import menu_student from "../../../assets/dataMenu/MenuStudentData";
 import Chatbot from "../Chatbot/Chatbot";
