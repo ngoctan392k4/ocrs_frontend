@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Menu from "../../menu/Menu";
 import menu_admin from "../../../assets/dataMenu/MenuAdminData";
-import "../../../styles/admin/AccountManagement/AddAccount.css";
+import "../../../styles/Admin/AccountManagement/AddAccount.css";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Menu from "../../menu/Menu";
-import menu_admin from "../../../assets/dataMenu/MenuStudentData";
+import menu_student from "../../../assets/dataMenu/MenuStudentData";
 import "../../../styles/student/ClassRegistration/RegisteredClass.css";
 import Chatbot from "../Chatbot/Chatbot";
 import mailBoxIcon from '../../../assets/icon/mailbox.svg';

@@ -5,7 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import Menu from "../../menu/Menu";
 import menu_admin from "../../../assets/dataMenu/MenuAdminData";
-import "../../../styles/admin/ClassManagement/EditClass.css";
+import "../../../styles/Admin/ClassManagement/EditClass.css";
 
 export default function EditClass() {
   const { clsid } = useParams();

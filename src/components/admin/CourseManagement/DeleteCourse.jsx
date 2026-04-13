@@ -1,5 +1,5 @@
 import React from "react";
-import "../../../styles/admin/CourseManagement/DeleteCourse.css";
+import "../../../styles/Admin/CourseManagement/DeleteCourse.css";
 
 export default function DeleteCourse({ courseId, error, onCancel, onConfirm }) {
     const handleBackdropClick = (e) => {

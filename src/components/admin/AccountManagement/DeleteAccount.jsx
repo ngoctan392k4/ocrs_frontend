@@ -1,5 +1,5 @@
 import React from "react";
-import "../../../styles/admin/AccountManagement/DeleteAccount.css";
+import "../../../styles/Admin/AccountManagement/DeleteAccount.css";
 
 export default function DeleteAccount({ accountId, onNo, onYes, content }) {
   return (
